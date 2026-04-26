@@ -11,45 +11,74 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 #gc{position:absolute;top:0;left:0;width:100%;height:100%;image-rendering:pixelated;display:block}
 #mc{image-rendering:pixelated}
 
-/* ── HUD ── */
-#hud{position:absolute;top:0;left:0;right:0;height:34px;background:rgba(8,18,6,.92);border-bottom:2px solid #1e5810;display:flex;align-items:center;z-index:10;pointer-events:none}
-.hs{display:flex;align-items:center;gap:5px;padding:0 12px;border-right:1px solid #1e5810;height:100%}
-.hs:last-child{border:none;margin-left:auto}
-.hl{font:bold 9px/1 'Courier New',mono;color:#58c028;letter-spacing:.5px}
-.hv{font:bold 10px/1 'Courier New',mono;color:#f5c518}
-.xb{width:76px;height:5px;background:#0a180a;border:1px solid #1e5810}
-.xf{height:100%;background:#48b020;transition:width .4s}
-.hb{font:bold 8px/1 'Courier New',mono;background:#0a1808;color:#58c028;border:1px solid #2a6a10;padding:4px 8px;cursor:pointer;pointer-events:all}
-.hb:hover{background:#162a10}
+/* ── REDESIGNED HUD (CAPSULE BARS) ── */
+#hud{position:absolute;top:15px;right:15px;display:flex;flex-direction:row;gap:15px;z-index:100;pointer-events:none}
+.stat-pill{position:relative;background:rgba(150,150,150,.85);border:none;border-radius:24px;height:48px;min-width:220px;display:flex;align-items:center;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,.2)}
+.stat-pill .progress-fill{position:absolute;left:0;top:0;bottom:0;z-index:1;border:none;transition:width .4s ease}
+.stat-pill.xp .progress-fill{background:#00bfff}
+.stat-pill.coin .progress-fill{background:#ffd700;width:75%} 
+.stat-pill img{position:relative;z-index:3;width:34px;height:34px;margin-left:10px;image-rendering:pixelated}
+.stat-pill .value{position:relative;z-index:3;flex-grow:1;text-align:center;font:bold 15px 'Courier New',mono;color:#000;padding-right:44px;letter-spacing:1px}
+
+/* ── SIDE MENU ── */
+#menu{position:absolute;top:15px;left:15px;display:flex;flex-direction:column;gap:15px;z-index:100}
+.menu-btn{width:56px;height:56px;background:#fff9e6;border-radius:15px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 8px rgba(0,0,0,.2);transition:transform .2s, background .2s;border:2px solid #5a3e1b}
+.menu-btn:hover{transform:scale(1.08);background:#fff2cc}
+.menu-btn:active{transform:scale(0.95)}
+.menu-btn img{width:36px;height:36px;image-rendering:auto}
+.menu-btn .text-icon{font:bold 24px 'Courier New',mono;color:#5a3e1b}
 
 /* ── OVERLAYS ── */
-.ov{position:absolute;inset:0;background:rgba(4,10,3,.96);z-index:40;display:flex;align-items:center;justify-content:center;flex-direction:column}
-.ov.h{display:none}
+.ov{position:absolute;inset:0;background:rgba(4,10,3,.96);z-index:60;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.ov.h, .h{display:none !important}
 
 /* start screen */
-#ss .logo{font:900 28px/1 'Courier New',mono;color:#48b020;letter-spacing:5px;text-shadow:3px 3px 0 #1a4e0a,5px 5px 0 #0a2006;margin-bottom:4px}
-#ss .sub{font:bold 8px/1 'Courier New',mono;color:#286010;letter-spacing:2px;margin-bottom:18px}
-.sf{background:#060e06;border:2px solid #2a6a10;padding:16px 20px;width:360px}
-.sf label{display:block;font:bold 8px/1 'Courier New',mono;color:#48b020;margin-bottom:5px;letter-spacing:1px}
-.sf input{width:100%;background:#030803;border:2px solid #1a4010;color:#e8ffe8;font:bold 13px/1 'Courier New',mono;padding:5px 10px;outline:none;text-align:center;margin-bottom:12px}
-.sf input:focus{border-color:#f5c518}
-.cg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
-.co{background:#030803;border:2px solid #142810;padding:5px 2px;cursor:pointer;text-align:center}
-.co:hover,.co.s{border-color:#f5c518;background:#0a1608}
-.co canvas{display:block;margin:0 auto;width:52px;height:64px}
-.co .cn{font:bold 7px/1 'Courier New',mono;color:#48b020;margin-top:3px}
-.bg{width:100%;font:bold 10px/1 'Courier New',mono;letter-spacing:2px;background:#2a6a10;color:#e8ffe8;border:2px solid #48b020;padding:9px;cursor:pointer}
-.bg:hover{background:#48b020}
+#ss{background:#f6f3e9;color:#5a3e1b;}
+.ss-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;padding:20px;box-sizing:border-box;}
+.ss-logo-text{font:900 32px/1 'Courier New',mono;color:#5a3e1b;letter-spacing:4px;margin-bottom:30px;}
+.ss-row{display:flex;align-items:center;justify-content:center;gap:40px;margin-bottom:30px;}
+.ss-col{display:flex;flex-direction:column;align-items:center;gap:15px;}
+.ss-sub-en{font:bold 16px/1 'Courier New',mono;color:#5a3e1b;letter-spacing:1px;text-align:center;}
+.ss-sub-ur{font:bold 20px/1 sans-serif;color:#5a3e1b;text-align:center;}
+.ss-play{width:90px;height:40px;border:3px solid #5a3e1b;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:transparent;transition:transform 0.1s;padding:0;outline:none;}
+.ss-play:hover{background:rgba(90,62,27,0.1);}
+.ss-play:active{transform:scale(0.95);}
+.ss-play-icon{width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:16px solid #5a3e1b;position:relative;left:4px;}
+.ss-right img{width:160px;height:auto;}
 
-/* proximity */
-#prx{position:absolute;z-index:20;opacity:0;transition:opacity .12s;pointer-events:none}
-#prx.on{opacity:1;pointer-events:all}
-.pb{background:rgba(6,14,4,.96);border:2px solid #f5c518;padding:9px 13px;min-width:168px}
-.pt{font:bold 9px/1.5 'Courier New',mono;color:#f5c518;margin-bottom:3px}
-.pd{font:9px/1.5 'Courier New',mono;color:#68d038;margin-bottom:6px}
-.pn{font:bold 8px/1 'Courier New',mono;display:block;width:100%;background:#2a6a10;color:#e8ffe8;border:1px solid #48b020;padding:5px;cursor:pointer}
-.pn:hover{background:#48b020}
-.pr{font:8px/1 'Courier New',mono;color:#f5c518;margin-top:4px}
+/* lang screen */
+#lang{background:#f6f3e9;color:#5a3e1b;}
+.ls-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;padding:20px;box-sizing:border-box;}
+.ls-header{display:flex;align-items:center;gap:10px;margin-bottom:40px;}
+.ls-logo{width:50px;height:auto;}
+.ls-title{font:900 28px/1 'Courier New',mono;color:#5a3e1b;display:flex;align-items:center;}
+.ls-title span{font:bold 32px/1 sans-serif;margin-left:5px;}
+.ls-options{display:flex;flex-direction:column;gap:20px;margin-bottom:50px;align-items:center;}
+.ls-opt{display:flex;align-items:center;cursor:pointer;gap:15px;width:160px;}
+.ls-indicator{font:bold 20px/1 'Courier New',mono;color:#5a3e1b;width:20px;}
+.ls-text{font:bold 22px/1 'Courier New',mono;color:#5a3e1b;width:100px;text-align:center;}
+.ls-continue{width:160px;height:36px;border:2px solid #5a3e1b;border-radius:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:transparent;transition:transform 0.1s;padding:0;outline:none;font:bold 16px/1 'Courier New',mono;color:#5a3e1b;position:relative;}
+.ls-continue:hover{background:rgba(90,62,27,0.08);}
+.ls-continue:active{transform:scale(0.95);}
+.ls-continue::before,.ls-continue::after{content:'';position:absolute;top:4px;bottom:4px;width:6px;background:#5a3e1b;}
+.ls-continue::before{left:-2px;border-radius:2px;}
+.ls-continue::after{right:-2px;border-radius:2px;}
+
+
+/* mdo overlay */
+#mdo{background:rgba(26,26,26,.8);z-index:120;cursor:pointer;}
+.mdo-card{background:#fdf4da;border:4px dashed #3d2314;border-radius:16px;padding:35px 40px;width:420px;max-width:90%;position:relative;cursor:default;color:#3d2314;box-sizing:border-box;}
+.mdo-close{position:absolute;top:12px;right:12px;width:32px;height:32px;border:4px solid #3d2314;border-radius:50%;display:flex;align-items:center;justify-content:center;font:bold 16px/1 sans-serif;cursor:pointer;color:#3d2314;background:#fdf4da;}
+.mdo-title{font:900 24px/1 'Courier New',mono;text-align:center;margin-bottom:20px;letter-spacing:1px;}
+.mdo-desc{font:bold 16px/1.4 'Courier New',mono;text-align:center;margin-bottom:25px;}
+.mdo-unlock-lbl{font:bold 16px/1 'Courier New',mono;margin-bottom:12px;}
+.mdo-unlock-item{display:flex;align-items:center;gap:12px;font:bold 16px/1 'Courier New',mono;margin-bottom:10px;}
+.mdo-icon{width:26px;height:26px;}
+.mdo-emoji{font-size:24px;display:inline-block;width:26px;text-align:center;}
+.mdo-start-wrap{text-align:center;margin-top:25px;}
+.mdo-start{width:120px;height:40px;background:#3d2314;color:#fdf4da;border:none;border-radius:20px;font:bold 18px/1 'Courier New',mono;cursor:pointer;transition:transform 0.1s;}
+.mdo-start:hover{background:#5a3e1b;}
+.mdo-start:active{transform:scale(0.95);}
 
 /* mission panel */
 #mo{z-index:50}
@@ -109,64 +138,113 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 @keyframes nI{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
 @keyframes nO{to{opacity:0}}
 #ctrl{display:none}
-#mm{position:absolute;bottom:6px;left:6px;border:2px solid #1a4010;z-index:10;background:#030803}
+#mm{position:absolute;bottom:15px;left:15px;border:3px solid #5a3e1b;z-index:10;background:#000;border-radius:8px;overflow:hidden}
 
-/* ── VIRTUAL D-PAD ── */
-#dpad{position:fixed;bottom:20px;right:20px;z-index:30;display:grid;grid-template-columns:52px 52px 52px;grid-template-rows:52px 52px 52px;gap:4px;pointer-events:all;user-select:none;-webkit-user-select:none}
-.dp{width:52px;height:52px;background:rgba(8,20,6,.88);border:2px solid #2a6a10;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#68d038;-webkit-tap-highlight-color:transparent;touch-action:none;-webkit-touch-callout:none}
-.dp:active{background:rgba(30,80,10,.9);border-color:#48b020;transform:scale(.93)}
-.dp.empty{background:transparent;border:none;pointer-events:none}
-#dpad-start{position:fixed;bottom:20px;left:20px;z-index:30}
-.dp-act{width:56px;height:56px;background:rgba(8,20,6,.88);border:2px solid #f5c518;border-radius:50%;display:flex;align-items:center;justify-content:center;font:bold 9px 'Courier New',mono;color:#f5c518;cursor:pointer;text-align:center;-webkit-tap-highlight-color:transparent;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
-.dp-act:active{background:rgba(60,50,0,.9);transform:scale(.93)}
+/* ── VIRTUAL JOYSTICK ── */
+#joystick{position:fixed;bottom:40px;right:40px;width:120px;height:120px;background:rgba(200,200,200,.3);border-radius:50%;z-index:50;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;backdrop-filter:blur(2px)}
+#stick{position:absolute;top:30px;left:30px;width:60px;height:60px;background:rgba(220,220,220,0.8);border-radius:50%;pointer-events:none;transition:transform 0.1s ease-out;}
+#joystick.active #stick{transition:none;}
+
 </style>
 </head>
 <body>
 <div id="wrap">
   <canvas id="gc" width="800" height="560"></canvas>
-  <div id="hud">
-    <div class="hs"><span class="hl">PLAYER</span><span class="hv" id="hn">—</span></div>
-    <div class="hs"><span class="hl">Rs</span><span class="hv" id="hc">0</span></div>
-    <div class="hs"><span class="hv" id="hr" style="color:#68d038;font-size:9px">ECO ROOKIE</span><div class="xb"><div class="xf" id="hx" style="width:0%"></div></div></div>
-    <div class="hs"><button class="hb" onclick="showLB()">SCORES</button></div>
+  <div id="menu" class="h">
+    <div class="menu-btn" title="Backpack" onclick="notify('INVENTORY COMING SOON!')"><img src="backpack.svg" alt="Backpack"></div>
+    <div class="menu-btn" title="Leaderboard" onclick="showLB()"><img src="world.svg" alt="World"></div>
+    <div class="menu-btn" title="Missions" onclick="notify('EXPLORE TO FIND MISSIONS!')"><img src="group.svg" alt="Group"></div>
+    <div class="menu-btn" title="Language" onclick="notify('LANGUAGE SETTINGS COMING SOON!')"><span class="text-icon">ار</span></div>
+  </div>
+
+  <div id="hud" class="h">
+    <div class="stat-pill xp">
+      <div class="progress-fill" id="hx" style="width:0%"></div>
+      <img src="star.svg" alt="star">
+      <div class="value" id="hr">Level 1</div>
+    </div>
+    <div class="stat-pill coin">
+      <div class="progress-fill" id="hc-fill" style="width:0%"></div>
+      <img src="coin.svg" alt="coin">
+      <div class="value" id="hc">0</div>
+    </div>
+    <div id="hn" style="display:none"></div>
   </div>
   <div id="ctrl">WASD · MOVE &nbsp; E · MISSION</div>
-  <div id="mm"><canvas id="mc" width="100" height="74"></canvas></div>
+  <div id="mm" class="h"><canvas id="mc" width="100" height="74"></canvas></div>
   <div id="ntf"></div>
-  <div id="prx"><div class="pb"><div class="pt" id="pt"></div><div class="pd" id="pd"></div><button class="pn" onclick="startM()">[E] START MISSION</button><div class="pr" id="pw"></div></div></div>
-
-  <div class="ov" id="ss">
-    <div class="logo">ENVIROMON</div>
-    <div class="sub">SAVE THE PLANET · ONE MISSION AT A TIME</div>
-    <div class="sf">
-      <label>ENTER YOUR NAME</label>
-      <input id="ni" maxlength="12" placeholder="Explorer..." autocomplete="off">
-      <label>CHOOSE YOUR HERO</label>
-      <div class="cg" id="cg"></div>
-      <button class="bg" onclick="begin()">► PLAY</button>
+  <!-- Mission Detail Overlay -->
+  <div class="ov h" id="mdo" onclick="closeMDO()">
+    <div class="mdo-card" onclick="event.stopPropagation()">
+      <div class="mdo-close" onclick="closeMDO()">✖</div>
+      <div class="mdo-title" id="mdo-title">Mission Title</div>
+      <div class="mdo-desc" id="mdo-desc">Mission Description</div>
+      
+      <div class="mdo-unlock-lbl">Unlock</div>
+      <div class="mdo-unlock-item">
+        <img src="coin.svg" class="mdo-icon" alt="coin"> 
+        <span id="mdo-coins"></span>
+      </div>
+      <div class="mdo-unlock-item" id="mdo-badge-item">
+        <span class="mdo-emoji">♻️</span>
+        <span id="mdo-badge">Badge</span>
+      </div>
+      <div class="mdo-unlock-item" style="margin-bottom:15px">
+        <img src="badge.svg" class="mdo-icon" alt="badge">
+        <span id="mdo-xp"></span> Level
+      </div>
+      
+      <div class="mdo-start-wrap">
+        <button class="mdo-start" onclick="startMFromMDO()">Start</button>
+      </div>
     </div>
   </div>
+
+  <div class="ov" id="ss">
+    <div class="ss-wrap">
+      <div class="ss-logo-text">Enviromon</div>
+      <div class="ss-row">
+        <div class="ss-col">
+          <div class="ss-sub-en">For a better Pakistan</div>
+          <div class="ss-sub-ur" dir="rtl">ایک بہتر پاکستان کے لئے</div>
+          <button class="ss-play" onclick="begin()">
+            <div class="ss-play-icon"></div>
+          </button>
+        </div>
+        <div class="ss-right">
+          <img src="logo.svg" alt="Enviromon Logo">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ov h" id="lang">
+    <div class="ls-wrap">
+      <div class="ls-header">
+        <img src="logo.svg" alt="logo" class="ls-logo">
+        <div class="ls-title">Language<span style="font-family:sans-serif">/زبان</span></div>
+      </div>
+      <div class="ls-options">
+        <div class="ls-opt" onclick="setLang('en')">
+          <div class="ls-indicator" id="li-en">►</div>
+          <div class="ls-text">English</div>
+        </div>
+        <div class="ls-opt" onclick="setLang('ur')">
+          <div class="ls-indicator" id="li-ur" style="visibility:hidden">►</div>
+          <div class="ls-text" style="font-family:sans-serif;font-size:26px">اردو</div>
+        </div>
+      </div>
+      <button class="ls-continue" onclick="proceed()"><span id="lc-tx">Continue</span></button>
+    </div>
+  </div>
+
   <div class="ov h" id="mo"><div class="mp" id="mp"></div></div>
   <div class="ov h" id="lo"><div class="lb"><div class="lt">★ ECO HEROES ★</div><div id="ll"></div><div style="text-align:center;margin-top:10px"><button class="bc2" onclick="hideLB()">◄ BACK</button></div></div></div>
 
-  <!-- Virtual D-Pad (bottom-right) -->
-  <div id="dpad">
-    <div class="dp empty"></div>
-    <div class="dp" id="dp-up"    ontouchstart="dpPress('ArrowUp')"    ontouchend="dpRelease('ArrowUp')"    onmousedown="dpPress('ArrowUp')"    onmouseup="dpRelease('ArrowUp')"    oncontextmenu="return false"><svg width="20" height="20" viewBox="0 0 20 20"><polygon points="10,2 18,17 2,17" fill="#68d038"/></svg></div>
-    <div class="dp empty"></div>
-    <div class="dp" id="dp-left"  ontouchstart="dpPress('ArrowLeft')"  ontouchend="dpRelease('ArrowLeft')"  onmousedown="dpPress('ArrowLeft')"  onmouseup="dpRelease('ArrowLeft')"  oncontextmenu="return false"><svg width="20" height="20" viewBox="0 0 20 20"><polygon points="2,10 17,2 17,18" fill="#68d038"/></svg></div>
-    <div class="dp empty"></div>
-    <div class="dp" id="dp-right" ontouchstart="dpPress('ArrowRight')" ontouchend="dpRelease('ArrowRight')" onmousedown="dpPress('ArrowRight')" onmouseup="dpRelease('ArrowRight')" oncontextmenu="return false"><svg width="20" height="20" viewBox="0 0 20 20"><polygon points="18,10 3,2 3,18" fill="#68d038"/></svg></div>
-    <div class="dp empty"></div>
-    <div class="dp" id="dp-down"  ontouchstart="dpPress('ArrowDown')"  ontouchend="dpRelease('ArrowDown')"  onmousedown="dpPress('ArrowDown')"  onmouseup="dpRelease('ArrowDown')"  oncontextmenu="return false"><svg width="20" height="20" viewBox="0 0 20 20"><polygon points="10,18 2,3 18,3" fill="#68d038"/></svg></div>
-    <div class="dp empty"></div>
+  <!-- Virtual Joystick (bottom-left) -->
+  <div id="joystick" class="h">
+    <div id="stick"></div>
   </div>
-
-  <!-- Mission action button (bottom-left) -->
-  <div id="dpad-start">
-    <div class="dp-act" ontouchstart="startM()" onclick="startM()">START<br>MISSION</div>
-  </div>
-
 </div>
 
 <script>
@@ -174,7 +252,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 /* ══════════════════════════════════════════════
    WORLD DIMENSIONS
 ══════════════════════════════════════════════ */
-const WW=1600, WH=1200, VW=800, VH=526, HH=34;
+const WW=1600, WH=1200, VW=800, VH=560, HH=0;
 const GC=document.getElementById('gc'), G=GC.getContext('2d'); G.imageSmoothingEnabled=false;
 const MC=document.getElementById('mc'), MG=MC.getContext('2d'); MG.imageSmoothingEnabled=false;
 
@@ -191,6 +269,7 @@ const WC=document.createElement('canvas'); WC.width=WW; WC.height=WH;
 const wc=WC.getContext('2d'); wc.imageSmoothingEnabled=false;
 const MM_BG_C=document.createElement('canvas'); MM_BG_C.width=100; MM_BG_C.height=74;
 const mm_wc=MM_BG_C.getContext('2d'); mm_wc.imageSmoothingEnabled=false;
+
 
 let mapImgLoaded = false, bearImgLoaded = false, dolphinImgLoaded = false, bulldozerImgLoaded = false;
 
@@ -217,10 +296,10 @@ function tryDrawBackground() {
 function buildWorld(){
   if (mapImgLoaded && bearImgLoaded && dolphinImgLoaded && bulldozerImgLoaded) {
     wc.drawImage(mapImg, 0, 0, WW, WH);
-    polarBear(920, 160);
-    dolphin(310, 270, -.25);
-    // Bulldozer next to the forest mission label (bottom-left area)
-    wc.drawImage(bulldozerImg, 300, 1010, 110, 80);
+    polarBear(180, 200);           // mountains — top-left
+    dolphin(630, 325, 0.08);       // river stream — centred in blue channel
+    // Bulldozer in the forest — top-center (right of mountains)
+    wc.drawImage(bulldozerImg, 620, 260, 70, 50);
     mm_wc.drawImage(WC, 0, 0, WW, WH, 0, 0, 100, 74);
     // Force SVG rasterization so the browser doesn't re-render vectors every frame
     const imgDt = wc.getImageData(0, 0, WW, WH);
@@ -387,9 +466,6 @@ function buildWorld(){
 
   /* ── MISSION ZONE LANDMARKS ── */
   // === POLAR BEAR on ice ===
-  iceFloe(130,80,50,30);
-  iceFloe(255,62,42,24);
-  iceFloe(185,110,36,20);
   polarBear(168,118);
 
   // === DOLPHINS in lake ===
@@ -490,14 +566,14 @@ function iceFloe(x,y,rx,ry){
 }
 
 function polarBear(x,y){
-  wc.drawImage(bearImg, x-30, y-45, 80, 80);
+  wc.drawImage(bearImg, x+45, y-15, 60, 60);
 }
 
 function dolphin(x,y,rot){
   wc.save();
   wc.translate(x, y);
   if (rot) wc.rotate(rot);
-  wc.drawImage(dolphinImg, 40, 135, 80, 50);
+  wc.drawImage(dolphinImg, -10, 400, 80, 50);
   wc.restore();
 }
 
@@ -678,30 +754,13 @@ function drawSpr(ctx,grid,pal,ox,oy,S,flip){
   ctx.restore();
 }
 
-/* ══════════════════════════════════════════════
-   CHARACTER SELECTOR
-══════════════════════════════════════════════ */
 let selC=0;
-(function(){
-  const g=document.getElementById('cg');
-  ['ALI','SARA','ZAIN','HIRA'].forEach((n,i)=>{
-    const d=document.createElement('div'); d.className='co'+(i===0?' s':'');
-    d.onclick=()=>{selC=i;document.querySelectorAll('.co').forEach(x=>x.classList.remove('s'));d.classList.add('s');};
-    const cv=document.createElement('canvas'); cv.width=26; cv.height=32;
-    const cx2=cv.getContext('2d'); cx2.imageSmoothingEnabled=false;
-    drawSpr(cx2,SP_F0,PAL[i],0,0,2,false);
-    d.appendChild(cv);
-    const sp=document.createElement('div'); sp.className='cn'; sp.textContent=n;
-    d.appendChild(sp); g.appendChild(d);
-  });
-})();
-
 /* ══════════════════════════════════════════════
    MISSIONS
 ══════════════════════════════════════════════ */
 const MISSIONS=[
   {id:'polarbear',title:'POLAR BEAR RESCUE',desc:'Melting ice!\nAnswer to save it.',
-   icon:'❄️',tx:800,ty:130,tw:240,th:60,type:'quiz',coins:60,xp:120,color:'#90c8f0',
+   icon:'❄️',tx:220,ty:175,tw:80,th:80,type:'quiz',coins:60,xp:120,color:'#90c8f0',
    animal:'Polar Bear',qs:[
     {q:'What mainly causes polar ice to melt?',opts:['Climate change','More rain','Wind','Earthquakes'],a:0,f:'Rising CO2 from burning fuels warms the planet and melts polar ice.'},
     {q:'What do polar bears mainly eat?',opts:['Fish','Seals','Penguins','Berries'],a:1,f:'Polar bears wait at breathing holes in sea ice to catch seals.'},
@@ -709,7 +768,7 @@ const MISSIONS=[
     {q:'Arctic sea ice lost since 1979?',opts:['10%','20%','Over 40%','5%'],a:2,f:'The Arctic has lost over 40% of summer sea ice — a crisis for wildlife.'},
   ]},
   {id:'dolphin',title:'DOLPHIN RESCUE',desc:'Tangled in plastic!\nAnswer to free it.',
-   icon:'🐬',tx:357,ty:385,tw:140,th:50,type:'quiz',coins:50,xp:100,color:'#60b0e0',
+   icon:'🐬',tx:585,ty:720,tw:80,th:50,type:'quiz',coins:50,xp:100,color:'#60b0e0',
    animal:'Dolphin',qs:[
     {q:'Plastic bottles entering ocean per minute?',opts:['100','1,000','1 million+','10'],a:2,f:'Over 1 million plastic bottles bought every minute — many end in the ocean.'},
     {q:'What to do with old plastic bags?',opts:['Burn them','Reuse or recycle','Bury them','Leave outside'],a:1,f:'Reusing and recycling plastic keeps it out of our oceans.'},
@@ -717,11 +776,11 @@ const MISSIONS=[
     {q:'Biggest threat to dolphins today?',opts:['Sharks','Ocean noise','Plastic pollution','Jellyfish'],a:2,f:'Plastic entangles and poisons hundreds of thousands of marine animals every year.'},
   ]},
   {id:'landfill',title:'CLEAN THE LANDFILL',desc:'Sort the waste\ninto correct bins!',
-   icon:'🗑️',tx:230,ty:790,tw:140,th:80,type:'sorting',coins:70,xp:140,color:'#b09050'},
+   icon:'🗑️',tx:1300,ty:1050,tw:180,th:200,type:'sorting',coins:70,xp:140,color:'#b09050'},
   {id:'factory',title:'FIX THE FACTORY LEAK',desc:'Connect pipes to\nseal the toxic leak!',
-   icon:'⚙️',tx:1340,ty:500,tw:140,th:100,type:'pipes',coins:80,xp:160,color:'#a0a888'},
+   icon:'⚙️',tx:1270,ty:705,tw:160,th:150,type:'pipes',coins:80,xp:160,color:'#a0a888'},
   {id:'forest',title:'SAVE THE FOREST',desc:'Deforestation crisis!\nLearn why forests matter.',
-   icon:'🌲',tx:340,ty:1100,tw:140,th:60,type:'quiz',coins:55,xp:110,color:'#40b050',
+   icon:'🌲',tx:620,ty:250,tw:60,th:44,type:'quiz',coins:55,xp:110,color:'#40b050',
    animal:'Forest',qs:[
     {q:'Forests cover what % of Earth\'s land?',opts:['10%','31%','60%','5%'],a:1,f:'Forests cover 31% of Earth\'s land — but we lose 15 billion trees per year!'},
     {q:'Trees cut down every year?',opts:['1 million','50 million','15 billion+','100,000'],a:2,f:'Humans cut approximately 15 billion trees per year — a massive crisis.'},
@@ -729,7 +788,7 @@ const MISSIONS=[
     {q:'What absorbs CO2 from the atmosphere?',opts:['Cars','Trees & plants','Buildings','Clouds'],a:1,f:'Trees and plants are nature\'s best tool for absorbing harmful CO2.'},
   ]},
   {id:'coral',title:'SAVE THE CORAL REEF',desc:'Coral reefs dying!\nLearn to protect them.',
-   icon:'🪸',tx:1350,ty:1000,tw:140,th:60,type:'quiz',coins:65,xp:130,color:'#e09070',
+   icon:'🪸',tx:1200,ty:180,tw:200,th:200,type:'quiz',coins:65,xp:130,color:'#e09070',
    animal:'Coral Reef',qs:[
     {q:'What causes coral bleaching?',opts:['Cold water','Warmer ocean temps','More fish','High tides'],a:1,f:'Warmer seas stress corals — they expel the algae that feed them.'},
     {q:'Reefs support what % of ocean species?',opts:['5%','10%','25%+','1%'],a:2,f:'Reefs cover <1% of the ocean floor yet support 25%+ of marine species!'},
@@ -745,7 +804,7 @@ let LB=[{name:'HAMZA',coins:280,rank:'GREEN GUARDIAN'},{name:'AMNA',coins:210,ra
 /* ══════════════════════════════════════════════
    GAME STATE
 ══════════════════════════════════════════════ */
-let P={x:690,y:500,w:32,h:32,speed:2.5,dir:'down',fr:0,ft:0,moving:false,
+let P={x:678,y:565,w:32,h:32,speed:2.5,dir:'down',fr:0,ft:0,moving:false,
        name:'PLAYER',coins:0,xp:0,rank:'ECO ROOKIE',done:[]};
 let cam={x:0,y:0};
 let curM=null, mActive=false, running=false;
@@ -753,9 +812,39 @@ const K={};
 window.addEventListener('keydown',e=>{K[e.key]=true;if(e.key==='e'||e.key==='E')tryStart();if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();});
 window.addEventListener('keyup',e=>K[e.key]=false);
 
-// Virtual d-pad touch controls
-function dpPress(key){K[key]=true;}
-function dpRelease(key){K[key]=false;}
+// Virtual Joystick touch controls
+let joyActive = false, joyDX = 0, joyDY = 0;
+let joyRect = null;
+window.addEventListener('DOMContentLoaded', () => {
+  const joyEl = document.getElementById('joystick');
+  const stickEl = document.getElementById('stick');
+  function handleJoy(e) {
+    if(!joyActive) return;
+    e.preventDefault();
+    const cx = e.touches ? e.touches[0].clientX : e.clientX;
+    const cy = e.touches ? e.touches[0].clientY : e.clientY;
+    let dx = cx - (joyRect.left + joyRect.width/2);
+    let dy = cy - (joyRect.top + joyRect.height/2);
+    const maxR = joyRect.width/2;
+    const dist = Math.hypot(dx, dy);
+    if(dist > maxR) { dx = (dx/dist)*maxR; dy = (dy/dist)*maxR; }
+    joyDX = dx / maxR; joyDY = dy / maxR;
+    stickEl.style.transform = `translate(${dx}px, ${dy}px)`;
+  }
+  joyEl.addEventListener('pointerdown', (e) => {
+    joyActive = true; joyRect = joyEl.getBoundingClientRect();
+    joyEl.classList.add('active'); handleJoy(e);
+  });
+  window.addEventListener('pointermove', handleJoy, {passive:false});
+  window.addEventListener('pointerup', () => {
+    joyActive = false; joyDX = 0; joyDY = 0;
+    joyEl.classList.remove('active'); stickEl.style.transform = `translate(0px, 0px)`;
+  });
+  window.addEventListener('pointercancel', () => {
+    joyActive = false; joyDX = 0; joyDY = 0;
+    joyEl.classList.remove('active'); stickEl.style.transform = `translate(0px, 0px)`;
+  });
+});
 
 // Scale canvas to fill screen while preserving game aspect ratio
 function resizeCanvas(){
@@ -772,16 +861,41 @@ resizeCanvas();
 /* ══════════════════════════════════════════════
    START
 ══════════════════════════════════════════════ */
+let P_lang = 'en';
+
 function begin(){
-  const n=(document.getElementById('ni').value.trim()||'EXPLORER').toUpperCase().slice(0,12);
-  P.name=n; document.getElementById('hn').textContent=n;
   document.getElementById('ss').classList.add('h');
-  running=true; updHUD(); notify('WELCOME '+n+'!\nEXPLORE THE WORLD!');
+  document.getElementById('lang').classList.remove('h');
+}
+
+function setLang(l) {
+  P_lang = l;
+  document.getElementById('li-en').style.visibility = l==='en' ? 'visible' : 'hidden';
+  document.getElementById('li-ur').style.visibility = l==='ur' ? 'visible' : 'hidden';
+  document.getElementById('lc-tx').textContent = l==='en' ? 'Continue' : 'آگے بڑھیں';
+  document.getElementById('lc-tx').style.fontFamily = l==='en' ? "'Courier New',mono" : "sans-serif";
+  document.getElementById('lc-tx').style.fontSize = l==='en' ? "16px" : "20px";
+}
+
+function proceed() {
+  const n='EXPLORER';
+  P.name=n; document.getElementById('hn').textContent=n;
+  document.getElementById('lang').classList.add('h');
+  document.getElementById('hud').classList.remove('h');
+  document.getElementById('menu').classList.remove('h');
+  document.getElementById('mm').classList.remove('h');
+  document.getElementById('joystick').classList.remove('h');
+  running=true; updHUD(); notify(P_lang==='en' ? 'WELCOME '+n+'!\nEXPLORE THE WORLD!' : 'خوش آمدید '+n+'!\nدنیا کو دریافت کریں!');
   requestAnimationFrame(loop);
 }
 function updHUD(){
   document.getElementById('hc').textContent=P.coins;
-  const rk=getRank(P.xp); P.rank=rk.n; document.getElementById('hr').textContent=rk.n;
+  const maxCoins = 380; // Total available in all missions
+  document.getElementById('hc-fill').style.width=Math.min(100,(P.coins/maxCoins)*100)+'%';
+  
+  const lvl=Math.floor(P.xp/100)+1;
+  const rk=getRank(P.xp); P.rank=rk.n; 
+  document.getElementById('hr').textContent='Level '+(lvl);
   const nx=RANKS.find(r=>r.xp>P.xp),prv=rk.xp,nxp=nx?nx.xp:prv+600;
   document.getElementById('hx').style.width=Math.min(100,((P.xp-prv)/(nxp-prv))*100)+'%';
 }
@@ -795,50 +909,110 @@ function notify(txt){
 ══════════════════════════════════════════════ */
 function loop(){
   if(!running)return;
-  moveP(); updateCam(); checkProx(); render();
+  moveP(); updateCam(); render();
   requestAnimationFrame(loop);
 }
 function moveP(){
   if(mActive)return;
   let dx=0,dy=0;
-  if(K['w']||K['W']||K['ArrowUp']){dy=-P.speed;P.dir='up';}
-  if(K['s']||K['S']||K['ArrowDown']){dy=P.speed;P.dir='down';}
-  if(K['a']||K['A']||K['ArrowLeft']){dx=-P.speed;P.dir='left';}
-  if(K['d']||K['D']||K['ArrowRight']){dx=P.speed;P.dir='right';}
+  if(joyActive) {
+    dx = joyDX * P.speed;
+    dy = joyDY * P.speed;
+    if(Math.abs(dx)>0.1 || Math.abs(dy)>0.1) {
+      if(Math.abs(dx) > Math.abs(dy)) P.dir = dx>0 ? 'right' : 'left';
+      else P.dir = dy>0 ? 'down' : 'up';
+    }
+  } else {
+    if(K['w']||K['W']||K['ArrowUp']){dy=-P.speed;P.dir='up';}
+    if(K['s']||K['S']||K['ArrowDown']){dy=P.speed;P.dir='down';}
+    if(K['a']||K['A']||K['ArrowLeft']){dx=-P.speed;P.dir='left';}
+    if(K['d']||K['D']||K['ArrowRight']){dx=P.speed;P.dir='right';}
+    if(dx&&dy){dx*=.707;dy*=.707;}
+  }
   P.moving=dx!==0||dy!==0;
-  if(dx&&dy){dx*=.707;dy*=.707;}
   P.x=Math.max(0,Math.min(WW-P.w,P.x+dx));
   P.y=Math.max(0,Math.min(WH-P.h,P.y+dy));
   P.ft++;if(P.ft>13){P.ft=0;P.fr^=1;}
 }
 function updateCam(){
-  cam.x=Math.max(0,Math.min(WW-VW,P.x-VW/2+P.w/2));
-  cam.y=Math.max(0,Math.min(WH-VH,P.y-VH/2+P.h/2));
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const scale = Math.max(vw/VW, vh/VH);
+  const visW = vw / scale;
+  const visH = vh / scale;
+  
+  const minCamX = -(VW/2 - visW/2);
+  const maxCamX = WW - (VW/2 + visW/2);
+  const minCamY = -(VH/2 - visH/2);
+  const maxCamY = WH - (VH/2 + visH/2);
+  
+  cam.x = Math.max(minCamX, Math.min(maxCamX, P.x - VW/2 + P.w/2));
+  cam.y = Math.max(minCamY, Math.min(maxCamY, P.y - VH/2 + P.h/2));
 }
-function checkProx(){
-  if(mActive)return;
-  const px=P.x+P.w/2,py=P.y+P.h/2;
-  let near=null,bd=Infinity;
-  for(const m of MISSIONS){
-    if(P.done.includes(m.id))continue;
-    const mx=m.tx+m.tw/2,my=m.ty+m.th/2;
-    const thresh=Math.max(m.tw,m.th)*.6+50;
-    const d=Math.hypot(px-mx,py-my);
-    if(d<thresh&&d<bd){near=m;bd=d;}
+
+/* ══════════════════════════════════════════════
+   MISSION CLICK HANDLER
+══════════════════════════════════════════════ */
+GC.addEventListener('click', e => {
+  if (mActive || !document.getElementById('mdo').classList.contains('h')) return;
+  const rect = GC.getBoundingClientRect();
+  const clickX = (e.clientX - rect.left) / (rect.width/VW) + cam.x;
+  const clickY = (e.clientY - rect.top) / (rect.height/VH) + cam.y;
+
+  for(const m of MISSIONS) {
+    if(P.done.includes(m.id)) continue;
+    const px = m.tx + m.tw/2;
+    const py = m.ty;
+    if(Math.hypot(clickX - px, clickY - py) < 50) {
+      showMDO(m);
+      break;
+    }
   }
-  const el=document.getElementById('prx');
-  if(near){
-    curM=near;
-    document.getElementById('pt').textContent=near.title;
-    document.getElementById('pd').textContent=near.desc.replace(/\n/g,' ');
-    document.getElementById('pw').textContent='+'+near.coins+' Rs  +'+near.xp+' XP';
-    const sx=near.tx+near.tw/2-cam.x, sy=near.ty-cam.y+HH-72;
-    el.style.left=Math.max(4,Math.min(VW-180,sx-80))+'px';
-    el.style.top=Math.max(4,sy)+'px';
-    el.classList.add('on');
-  } else {curM=null;el.classList.remove('on');}
+});
+
+function showMDO(m) {
+  curM = m;
+  document.getElementById('mdo-title').textContent = m.title;
+  document.getElementById('mdo-desc').textContent = m.desc.replace(/\n/g,' ');
+  document.getElementById('mdo-coins').textContent = '+'+m.coins;
+  const br = '#3d2314';
+  const sv = (p) => `<div style="display:flex;align-items:center;justify-content:center;width:26px;height:26px"><svg width="24" height="24" viewBox="0 0 16 16"><path fill="${br}" d="${p}"/></svg></div>`;
+  let bIcon = sv('M7 1h2v4h2v4h-2v6H7v-6H5V5h2V1z'), bText = 'Eco Hero';
+  if(m.id==='landfill'){
+    bIcon=sv('M6 2h4v2h2v2h-2v2H6V6H4V4h2V2zm-3 8h2v-2h2v4H3v-2zm10 0h-2v4H9v-2h4v-2z'); bText='Recycling Master';
+  } else if(m.id==='factory'){
+    bIcon=sv('M6 1h4v2h2v2h2v4h-2v4h-2v2H6v-2H4V9H2V5h2V3h2V1z'); bText='Savior';
+  } else if(m.id==='forest'){
+    bIcon=sv('M7 1h2v4h2v4h-2v6H7v-6H5V5h2V1z'); bText='Tree Lover';
+  } else if(m.id==='polarbear'){
+    bIcon=sv('M3 3h2v2H3V3zm4 0h2v2H7V3zm3 2h2v2h-2V5zm-8 0h2v2H2V5zm2 5h6v3H4v-3z'); bText='Ice Guardian';
+  } else if(m.id==='dolphin'){
+    bIcon=sv('M7 2h2v2h2v2h2v2h-2v3H3V9h2V6h2V4z'); bText='Ocean Friend';
+  } else if(m.id==='coral'){
+    bIcon=sv('M6 2h4v2h2v6H4V4h2V2z'); bText='Reef Protector';
+  }
+  
+  document.getElementById('mdo-badge-item').innerHTML = `${bIcon} <span id="mdo-badge" style="margin-left:10px">${bText}</span>`;
+  document.getElementById('mdo-xp').textContent = '+'+Math.floor(m.xp/100);
+  document.getElementById('mdo').classList.remove('h');
+  document.getElementById('menu').classList.add('h');
+  document.getElementById('hud').classList.add('h');
 }
-function tryStart(){if(curM&&!mActive)startM();}
+
+function closeMDO() {
+  document.getElementById('mdo').classList.add('h');
+  document.getElementById('menu').classList.remove('h');
+  document.getElementById('hud').classList.remove('h');
+  curM = null;
+}
+
+function startMFromMDO() {
+  document.getElementById('mdo').classList.add('h');
+  document.getElementById('menu').classList.remove('h');
+  document.getElementById('hud').classList.remove('h');
+  startM();
+}
+
+function tryStart(){if(curM&&!mActive)showMDO(curM);}
 
 /* ══════════════════════════════════════════════
    RENDER
@@ -848,28 +1022,8 @@ function render(){
   // Blit pre-rendered world at camera offset
   G.drawImage(WC, cam.x, cam.y, VW, VH, 0, 0, VW, VH);
 
-  // Animated chimney smoke (draw over world each frame)
-  if(!mActive){
-    const t=Date.now()/1000;
-    for(let i=0;i<3;i++){
-      const sx=1096+i*76-cam.x, sy=300-cam.y;
-      for(let j=0;j<4;j++){
-        const a=(t*0.8+i*.4+j*.35)%1.5/1.5;
-        G.globalAlpha=(1-a)*.45;
-        G.fillStyle=`rgb(${160+a*40|0},${155+a*40|0},${140+a*40|0})`;
-        const sr=5+a*9, sfx=sx+Math.sin((t+i+j)*.6)*a*8;
-        G.beginPath(); G.arc(sfx, sy-10-a*32, sr, 0, Math.PI*2); G.fill();
-      }
-    }
-    G.globalAlpha=1;
+  // Animated elements removed to keep map clean
 
-    // Animated water shimmer on lake
-    const wp=(Math.sin(t*1.2)+1)/2;
-    G.globalAlpha=.06+wp*.05;
-    G.fillStyle='#ffffff';
-    G.beginPath(); G.ellipse(370-cam.x,610-cam.y,68,40,-.5,0,Math.PI*2); G.fill();
-    G.globalAlpha=1;
-  }
 
   // Mission zone overlays + red pin markers
   const pulse=(Math.sin(Date.now()/480)+1)/2;
@@ -881,12 +1035,12 @@ function render(){
     // Red pin marker
     drawPin(G, zx+zw/2, zy-4, done, pulse);
 
-    // Label below zone
+    // Label pinned just below the pin marker (zy-4 is pin tip, +10 clears it)
     G.globalAlpha=done?.8:.9;
     G.fillStyle=done?'#00d07a':'#ffffff';
     G.font='bold 8px "Courier New",monospace';
     G.textAlign='center'; G.textBaseline='top';
-    G.fillText(m.title, zx+zw/2, zy+zh+4);
+    G.fillText(m.title, zx+zw/2, zy+6);
     G.globalAlpha=1;
   }
 
@@ -927,12 +1081,7 @@ function drawPlayer(){
   const frames={down:[SP_F0,SP_F1],up:[SP_B,SP_B],left:[SP_F0,SP_F1],right:[SP_F0,SP_F1]};
   const grid=frames[P.dir][P.moving?P.fr:0];
   drawSpr(G,grid,PAL[selC],sx,sy,2,P.dir==='left');
-  // Name tag
-  const nw=P.name.length*6+8;
-  G.fillStyle='rgba(0,0,0,.72)'; G.fillRect(sx+16-nw/2,sy-14,nw,11);
-  G.fillStyle='#e8ffe8'; G.font='bold 7px "Courier New",monospace';
-  G.textAlign='center'; G.textBaseline='middle';
-  G.fillText(P.name,sx+16,sy-8);
+  // Name tag removed per user request
 }
 
 function renderMM(){
