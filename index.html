@@ -145,6 +145,27 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 #stick{position:absolute;top:30px;left:30px;width:60px;height:60px;background:rgba(220,220,220,0.8);border-radius:50%;pointer-events:none;transition:transform 0.1s ease-out;}
 #joystick.active #stick{transition:none;}
 
+/* ── DOLPHIN GAME OVERLAY ── */
+#dg-ov { position: fixed; inset: 0; background-color: #62bceb; z-index: 200; overflow: hidden; display: none; }
+#dg-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+#dg-items { position: absolute; inset: 0; }
+.dg-item { position: absolute; cursor: pointer; transition: transform 0.2s; image-rendering: auto; }
+.dg-item:hover { transform: scale(1.1); }
+#dg-hud { position: absolute; top: 15px; right: 15px; display: flex; flex-direction: row; gap: 15px; z-index: 205; pointer-events: none; }
+#dg-back { position: absolute; top: 15px; left: 15px; width: 56px; height: 56px; background: #fff9e6; border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,.2); display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid #5a3e1b; z-index: 205; transition: transform .2s; }
+#dg-back:hover { transform: scale(1.08); background: #fff2cc; }
+#dg-back:active { transform: scale(0.95); }
+#dg-prompt { position: absolute; top: 25px; left: 50%; transform: translateX(-50%); background: #fdf4da; border: 4px solid #3d2314; padding: 15px 30px; text-align: center; border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,.3); z-index: 205; }
+#dg-prompt-text { font: bold 16px/1 'Courier New',mono; color: #3d2314; margin-bottom: 15px; }
+#dg-prompt-img { height: 60px; width: auto; max-width: 100px; object-fit: contain; }
+.dg-card { background: #fdf4da; border: 4px solid #3d2314; padding: 30px; width: 400px; min-width: 320px; max-width: 90%; text-align: center; position: relative; box-shadow: 0 10px 20px rgba(0,0,0,.5); }
+.dg-card-tail { position: absolute; bottom: 15px; right: -21px; width: 0; height: 0; border-top: 15px solid transparent; border-bottom: 15px solid transparent; border-left: 20px solid #3d2314; }
+.dg-card-tail-inner { position: absolute; bottom: 20px; right: -13px; width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-left: 14px solid #fdf4da; z-index: 2; }
+.dg-title { font: bold 20px/1 'Courier New',mono; color: #286010; margin-bottom: 20px; }
+.dg-text { font: bold 14px/1.4 'Courier New',mono; color: #000; margin-bottom: 30px; text-align: left; }
+.dg-btn { background: #4dfb8b; border: 3px solid #000; padding: 10px 30px; font: bold 14px/1 'Courier New',mono; color: #000; cursor: pointer; transition: transform .1s; box-shadow: 3px 3px 0 #000; outline: none; margin: 0 auto; display: block;}
+.dg-btn:active { transform: translate(3px, 3px); box-shadow: none; }
+
 </style>
 </head>
 <body>
@@ -240,6 +261,47 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 
   <div class="ov h" id="mo"><div class="mp" id="mp"></div></div>
   <div class="ov h" id="lo"><div class="lb"><div class="lt">★ ECO HEROES ★</div><div id="ll"></div><div style="text-align:center;margin-top:10px"><button class="bc2" onclick="hideLB()">◄ BACK</button></div></div></div>
+
+  <!-- Dolphin Game Overlay -->
+  <div id="dg-ov">
+    <img id="dg-bg" src="river.png" alt="river">
+    
+    <img id="dg-dolphin-swimming" src="dolphin.png" alt="dolphin" style="position:absolute; right:10%; top:30%; width: 350px; height: auto; pointer-events:none;">
+    
+    <div id="dg-items"></div>
+
+    <div id="dg-back" onclick="closeDolphinGame(false)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#5a3e1b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+    </div>
+    
+    <div id="dg-prompt">
+      <div id="dg-prompt-text">Find and tap on:</div>
+      <img id="dg-prompt-img" src="" alt="item">
+    </div>
+
+    <div id="dg-hud">
+      <div class="stat-pill xp" style="min-width:180px; height:42px">
+        <div class="progress-fill" style="width:100%;background:#00bfff"></div>
+        <img src="star.svg" alt="star" style="width:28px;height:28px">
+        <div class="value" id="dg-hr">Level +2</div>
+      </div>
+      <div class="stat-pill coin" style="min-width:180px; height:42px">
+        <div class="progress-fill" style="width:100%;background:#ffd700"></div>
+        <img src="coin.svg" alt="coin" style="width:28px;height:28px">
+        <div class="value" id="dg-hc">+1000</div>
+      </div>
+    </div>
+
+    <div id="dg-success" style="position: absolute; inset: 0; background: #3584a7; z-index: 210; display: none; align-items: center; justify-content: center; flex-direction: row; gap: 40px; padding: 40px;">
+      <div class="dg-card" style="z-index:10; flex-shrink: 0;">
+        <div class="dg-card-tail"></div><div class="dg-card-tail-inner"></div>
+        <div class="dg-title">Mission Successful</div>
+        <div class="dg-text">Thank you so much. Now I can go back to my family. You are an amazing human being.</div>
+        <button class="dg-btn" onclick="closeDolphinGame(true)">Back to Map</button>
+      </div>
+      <img src="dolphin.png" style="z-index:10; max-height: 80%; width: auto; object-fit: contain; flex-shrink: 1;">
+    </div>
+  </div>
 
   <!-- Virtual Joystick (bottom-left) -->
   <div id="joystick" class="h">
@@ -1102,12 +1164,16 @@ function renderMM(){
 function startM(){
   if(!curM||mActive)return;
   mActive=true;
-  document.getElementById('prx').classList.remove('on');
-  document.getElementById('mo').classList.remove('h');
+  if(document.getElementById('prx')) document.getElementById('prx').classList.remove('on');
   const m=curM;
-  if(m.type==='quiz')renderQuiz(m);
-  else if(m.type==='sorting')renderSort();
-  else renderPipes();
+  if(m.id === 'dolphin'){
+    startDolphinGame(m);
+  } else {
+    document.getElementById('mo').classList.remove('h');
+    if(m.type==='quiz')renderQuiz(m);
+    else if(m.type==='sorting')renderSort();
+    else renderPipes();
+  }
 }
 function closeM(coins,xp,ok){
   mActive=false; document.getElementById('mo').classList.add('h');
@@ -1204,6 +1270,88 @@ function renderPipes(){
 function updLB(){const ex=LB.find(e=>e.name===P.name);if(ex){ex.coins=Math.max(ex.coins,P.coins);ex.rank=P.rank;}else LB.push({name:P.name,coins:P.coins,rank:P.rank});LB.sort((a,b)=>b.coins-a.coins);}
 function showLB(){updLB();const m=['🥇','🥈','🥉'];document.getElementById('ll').innerHTML=LB.slice(0,10).map((e,i)=>`<div class="lr${e.name===P.name?' ly':''}"><div class="lk">${m[i]||'#'+(i+1)}</div><div class="ln">${e.name}</div><div><div class="lc">🪙 ${e.coins} Rs</div><div class="lrk">${e.rank}</div></div></div>`).join('');document.getElementById('lo').classList.remove('h');mActive=true;}
 function hideLB(){document.getElementById('lo').classList.add('h');mActive=false;}
+
+/* ══════════════════════════════════════════════
+   DOLPHIN MISSION LOGIC
+══════════════════════════════════════════════ */
+let dgItems = [
+  { id: 'water', src: 'water.png', w: 30, h: 80, o: 0.8 },
+  { id: 'pepsi', src: 'pepsi.png', w: 35, h: 80, o: 0.7, rot: 15 },
+  { id: 'fork', src: 'fork.png', w: 80, h: 80, o: 0.6, rot: 45 },
+  { id: 'bag', src: 'bag.png', w: 60, h: 70, o: 0.6 },
+  { id: 'lunchbox', src: 'lunchbox.png', w: 70, h: 50, o: 0.7 }
+];
+let dgCurIndex = 0;
+let dgMaxCoins = 0;
+let dgMaxXp = 0;
+
+function startDolphinGame(m){
+  dgMaxCoins = m.coins * 3; 
+  dgMaxXp = m.xp * 3;
+  
+  document.getElementById('mdo').classList.add('h');
+  document.getElementById('menu').classList.add('h');
+  document.getElementById('hud').classList.add('h');
+  document.getElementById('joystick').classList.add('h');
+  
+  document.getElementById('dg-ov').style.display = 'block';
+  document.getElementById('dg-success').style.display = 'none';
+  
+  document.getElementById('dg-hc').textContent = '+' + dgMaxCoins;
+  document.getElementById('dg-hr').textContent = 'Level +2';
+  
+  dgCurIndex = 0;
+  dgItems.sort(() => Math.random() - 0.5);
+  
+  const cont = document.getElementById('dg-items');
+  cont.innerHTML = '';
+  
+  dgItems.forEach((itm, idx) => {
+    const el = document.createElement('img');
+    el.src = itm.src;
+    el.className = 'dg-item';
+    el.style.width = itm.w + 'px';
+    el.style.height = itm.h + 'px';
+    el.style.left = (Math.random() * 50 + 20) + 'vw';
+    el.style.top = (Math.random() * 50 + 20) + 'vh';
+    el.style.opacity = itm.o;
+    if(itm.rot) el.style.transform = `rotate(${itm.rot}deg)`;
+    el.style.display = 'block'; 
+    
+    el.onclick = () => {
+      if(idx === dgCurIndex) {
+        el.style.display = 'none';
+        dgCurIndex++;
+        nextDolphinPrompt();
+      } else {
+        el.style.opacity = 1;
+        setTimeout(()=>el.style.opacity = itm.o, 300);
+      }
+    };
+    cont.appendChild(el);
+  });
+  
+  nextDolphinPrompt();
+}
+
+function nextDolphinPrompt() {
+  if (dgCurIndex >= dgItems.length) {
+    document.getElementById('dg-prompt').style.display = 'none';
+    document.getElementById('dg-success').style.display = 'flex';
+  } else {
+    document.getElementById('dg-prompt').style.display = 'block';
+    document.getElementById('dg-prompt-img').src = dgItems[dgCurIndex].src;
+  }
+}
+
+function closeDolphinGame(success){
+  document.getElementById('dg-ov').style.display = 'none';
+  closeM(success ? dgMaxCoins : 0, success ? dgMaxXp : 0, success);
+  
+  document.getElementById('menu').classList.remove('h');
+  document.getElementById('joystick').classList.remove('h');
+  document.getElementById('hud').classList.remove('h');
+}
 
 /* ══════════════════════════════════════════════
    BUILD WORLD THEN KICK OFF
