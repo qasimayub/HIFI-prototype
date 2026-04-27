@@ -165,7 +165,74 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 .dg-text { font: bold 14px/1.4 'Courier New',mono; color: #000; margin-bottom: 30px; text-align: left; }
 .dg-btn { background: #4dfb8b; border: 3px solid #000; padding: 10px 30px; font: bold 14px/1 'Courier New',mono; color: #000; cursor: pointer; transition: transform .1s; box-shadow: 3px 3px 0 #000; outline: none; margin: 0 auto; display: block;}
 .dg-btn:active { transform: translate(3px, 3px); box-shadow: none; }
+/* Factory Overlay Base */
+#fc-ov { position:fixed; inset:0; z-index:200; overflow:hidden; display:none; flex-direction:column; background:#fdf4da; font-family:'Courier New',mono;}
+#fc-hud { position:absolute; top:15px; right:15px; display:flex; gap:15px; z-index:205; }
+#fc-back { position:absolute; top:15px; left:15px; width:56px; height:56px; background:#fff9e6; border-radius:50%; box-shadow:0 4px 8px rgba(0,0,0,.2); display:flex; align-items:center; justify-content:center; cursor:pointer; border:2px solid #5a3e1b; z-index:205; }
+#fc-back:hover { transform:scale(1.08); background:#fff2cc; }
+.fc-bg-water { position:absolute; bottom:0; left:0; width:100%; height:50%; background:#707080; border-top:4px solid #fff; z-index:1; }
+.fc-bg-brick { position:absolute; inset:0; background:url('data:image/svg+xml;utf8,<svg width="40" height="20" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="20" fill="%23855E42"/><rect width="38" height="18" fill="%239D7151"/><rect width="40" height="20" fill="none" stroke="%233A2618" stroke-width="2"/></svg>') repeat; z-index:0; }
+.fc-fish { position:absolute; width:80px; height:40px; }
+.fc-fish1 { left:20%; top:20%; }
+.fc-fish2 { left:30%; top:50%; transform:scale(0.6); }
+.fc-fish3 { right:30%; top:60%; transform:scale(1.2) scaleX(-1); }
+.fc-dialog { background:#fdf4da; border:4px solid #3d2314; padding:20px; box-shadow:5px 5px 0 rgba(0,0,0,.15); position:relative; margin:auto; z-index:10; max-width:600px; text-align:center; }
+.fc-dialog .sm-text { font:bold 14px/1.4 'Courier New',mono; color:#3d2314; }
+.fc-dialog .lg-title { font:bold 22px/1 'Courier New',mono; color:#286010; margin-bottom:15px; letter-spacing:2px; }
+.fc-dialog-tail-down { position:absolute; bottom:-15px; left:50%; transform:translateX(-50%); width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent; border-top:15px solid #3d2314; }
+.fc-dialog-tail-down-inner { position:absolute; bottom:-9px; left:50%; transform:translateX(-50%); width:0; height:0; border-left:10px solid transparent; border-right:10px solid transparent; border-top:10px solid #fdf4da; z-index:2; }
+.fc-dialog-tail-left { position:absolute; bottom:15px; left:-18px; width:0; height:0; border-top:15px solid transparent; border-bottom:15px solid transparent; border-right:20px solid #3d2314;}
+.fc-dialog-tail-left-inner { position:absolute; bottom:20px; left:-12px; width:0; height:0; border-top:10px solid transparent; border-bottom:10px solid transparent; border-right:14px solid #fdf4da; z-index:2; }
+.fc-btn { background:#4dfb8b; border:4px solid #3d2314; padding:15px 30px; font:bold 16px/1 'Courier New',mono; color:#3d2314; cursor:pointer; box-shadow:4px 4px 0 #3d2314; display:inline-block; transition:transform 0.1s; }
+.fc-btn:active { transform:translate(4px,4px); box-shadow:0 0 0 #3d2314; }
+.fc-btn.red { background:#e82020; color:#fff; }
+.fc-pipe { position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:120px; height:200px; z-index:5; display:none; }
+.fc-pipe-body { position:absolute; bottom:0; width:100%; height:80%; background:#9c70b8; border:4px solid #3d2314; }
+.fc-pipe-spill { position:absolute; bottom:-200px; left:20px; width:80px; height:200px; background:rgba(156,112,184,0.7); animation: spill 1s infinite alternate; }
+@keyframes spill { from {transform:translateY(0)} to {transform:translateY(10px)} }
+.fc-scene { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; opacity:0; pointer-events:none; transition:opacity .3s; z-index:20; }
+.fc-scene.active { opacity:1; pointer-events:auto; }
+#fc-meter { background:#ddd; border:4px solid #3d2314; padding:15px; display:inline-block; border-radius:8px; box-shadow:4px 4px 10px rgba(0,0,0,.3); margin-top:20px; transform:translateY(-100px); transition:transform .8s cubic-bezier(.17,.84,.44,1); }
+#fc-meter.show { transform:translateY(0); }
+.fc-meter-screen { background:#2a3a30; padding:10px 20px; border:3px solid #111; color:#f53030; font:bold 24px/1.2 'Courier New',mono; text-align:center; min-width:120px;}
+#fc-graph { width:300px; height:150px; border:2px solid #333; position:relative; margin:20px auto; background:#fff; }
+#fc-graph-bar { position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:60%; height:85%; background:#e82020; border:2px solid #000; }
+#fc-graph-line { position:absolute; bottom:40%; left:0; width:100%; border-top:2px dashed #00d07a; }
+.fc-graph-lbl { font:bold 10px sans-serif; position:absolute; }
+/* Glass Pipes Subgame */
+#fc-pipes { position:absolute; inset:0; display:none; flex-direction:column; align-items:center; z-index:30; background:#a3e0ff; overflow:hidden;}
+.gp-bg { position:absolute; inset:0; background:linear-gradient(to bottom, #7cd1ff, #a3e0ff); z-index:0; }
+.gp-cloud { position:absolute; background:rgba(255,255,255,0.7); border-radius:50px; z-index:0; }
+.gp-hill { position:absolute; bottom:0; width:150%; height:15vh; background:#639f37; border-top:10px solid #508628; border-radius:100% 100% 0 0; left:-25%; z-index:1; }
+.gp-grid { display:grid; grid-template-columns:repeat(7, 52px); grid-template-rows:repeat(5, 52px); border:4px solid #222; border-radius:10px; background:rgba(255,255,255,0.1); position:relative; z-index:10; margin-top:80px; box-shadow:0 0 20px rgba(0,0,0,.3); background-image: linear-gradient(rgba(0,0,0,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.1) 1px, transparent 1px); background-size:52px 52px; background-position:-1px -1px; }
 
+.gp-cell { width:52px; height:52px; position:relative; cursor:pointer; }
+.gp-cell:hover { background:rgba(255,255,255,0.2); }
+.gp-pipe { position:absolute; inset:0; pointer-events:none; transition: transform 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28); }
+
+.gp-glass { position:absolute; background:rgba(128,210,230,0.6); border:2px solid #5a7b8e; border-radius:4px; box-shadow:inset 0 0 10px rgba(255,255,255,0.8); transition: background 0.3s; }
+.gp-flange { position:absolute; background:#666; border:2px solid #333; border-radius:2px; z-index:2; box-shadow:inset 0 2px 2px rgba(255,255,255,.3); }
+
+/* Filled Water State */
+.gp-cell.filled .gp-glass { background:rgba(0,250,150,0.8); border-color:#008050; }
+.gp-cell.source .gp-glass { background:rgba(150,112,184,0.8); border-color:#5a3c75; box-shadow:inset 0 0 10px rgba(255,255,255,0.4); }
+
+.gp-source-pipe { position:absolute; width:26px; height:80px; background:#666; border:2px solid #333; top:-80px; left:13px; z-index:11;}
+.gp-drain-pipe { position:absolute; width:26px; height:80px; background:#666; border:2px solid #333; bottom:-80px; left:13px; z-index:11;}
+
+/* Straight Pipe */
+.gp-p-S-E .gp-glass { width:100%; height:26px; top:13px; left:0; }
+.gp-p-S-E .gp-flange { width:8px; height:36px; top:8px; }
+.gp-p-S-E .fl-l { left:-2px; } 
+.gp-p-S-E .fl-r { right:-2px; }
+
+/* Corner Pipe */
+.gp-p-C-NE .gp-g1 { width:26px; height:39px; top:0; left:13px; border-bottom:none; border-radius:4px 4px 0 0; }
+.gp-p-C-NE .gp-g2 { width:39px; height:26px; top:13px; left:13px; border-left:none; border-radius:0 4px 4px 0; }
+.gp-p-C-NE .gp-glass:not(.gp-g1):not(.gp-g2) { width:26px; height:26px; top:13px; left:13px; border:none; box-shadow:none;}
+.gp-p-C-NE .gp-flange { width:36px; height:8px; left:8px; }
+.gp-p-C-NE .fl-t { top:-2px; }
+.gp-p-C-NE .fl-r { width:8px; height:36px; right:-2px; top:8px; }
 </style>
 </head>
 <body>
@@ -300,6 +367,201 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
         <button class="dg-btn" onclick="closeDolphinGame(true)">Back to Map</button>
       </div>
       <img src="dolphin.png" style="z-index:10; max-height: 80%; width: auto; object-fit: contain; flex-shrink: 1;">
+    </div>
+  </div>
+
+  <!-- Factory Game Overlay -->
+  <div id="fc-ov">
+    <div id="fc-back" onclick="closeFactoryGame(false)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#5a3e1b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+    </div>
+    
+    <div id="fc-hud">
+      <div class="stat-pill xp" style="min-width:180px; height:42px">
+        <div class="progress-fill" style="width:100%;background:#00bfff"></div>
+        <img src="star.svg" alt="star" style="width:28px;height:28px">
+        <div class="value" id="fc-hr">Level +0</div>
+      </div>
+      <div class="stat-pill coin" style="min-width:180px; height:42px">
+        <div class="progress-fill" style="width:100%;background:#ffd700"></div>
+        <img src="coin.svg" alt="coin" style="width:28px;height:28px">
+        <div class="value" id="fc-hc">+0</div>
+      </div>
+    </div>
+    
+    <!-- Backgrounds base layer -->
+    <div id="fc-bg-container">
+       <div class="fc-bg-brick" id="fc-bg-brick" style="opacity:0"></div>
+       <div style="position:absolute; inset:0; background:#fdf4da;" id="fc-bg-sky"></div>
+       <div class="fc-bg-water" id="fc-bg-water">
+         <svg class="fc-fish fc-fish1" viewBox="0 0 100 50"><path fill="#6590b0" d="M20 20h60v20h-60zM10 25h10v10h-10zM80 15h10v10h-10zM80 35h10v10h-10z"/><text x="40" y="32" font-family="monospace" font-weight="bold" fill="#2a4d66" font-size="12">x</text></svg>
+         <svg class="fc-fish fc-fish2" viewBox="0 0 100 50"><path fill="#6590b0" d="M20 20h60v20h-60zM10 25h10v10h-10zM80 15h10v10h-10zM80 35h10v10h-10z"/><text x="40" y="32" font-family="monospace" font-weight="bold" fill="#2a4d66" font-size="12">x</text></svg>
+         <svg class="fc-fish fc-fish3" viewBox="0 0 100 50"><path fill="#6590b0" d="M20 20h60v20h-60zM10 25h10v10h-10zM80 15h10v10h-10zM80 35h10v10h-10z"/><text x="40" y="32" font-family="monospace" font-weight="bold" fill="#2a4d66" font-size="12">x</text></svg>
+       </div>
+    </div>
+
+    <!-- The Pipe -->
+    <div class="fc-pipe" id="fc-pipe-el">
+      <div style="position:absolute;bottom:0;width:80px;height:240px;background:#5e5e5e;border:4px solid #333;left:-80px;">
+         <div style="width:10px;height:240px;background:#444;position:absolute;left:20px;border-right:2px solid #222;border-left:2px solid #222"></div>
+         <div style="width:10px;height:240px;background:#444;position:absolute;left:50px;border-right:2px solid #222;border-left:2px solid #222"></div>
+      </div>
+      <div style="position:absolute;bottom:80px;width:100%;height:40px;background:#9c70b8;border:4px solid #333;border-bottom:none"></div>
+      <div style="position:absolute;bottom:40px;width:80%;left:10%;height:40px;background:#9c70b8;border:4px solid #333;border-bottom:none"></div>
+      <div style="position:absolute;bottom:0;width:60%;left:20%;height:40px;background:#9c70b8;border:4px solid #333;"></div>
+      <div class="fc-pipe-spill"></div>
+    </div>
+
+    <!-- Scene 1 -->
+    <div class="fc-scene" id="fcs-1">
+      <div class="fc-dialog" style="margin-top:100px;">
+        <div class="sm-text">The water has turned murky and<br>the fish are dying!</div>
+      </div>
+      <div style="background:#5a3e1b; width:100%; padding:20px 40px; position:absolute; top:40%; display:flex; justify-content:space-between; align-items:center;">
+        <div style="color:#fff; font:bold 14px 'Courier New',mono;">&#x2022; Investigate the river pollution</div>
+        <button class="fc-btn" onclick="fcSetScene(2)">&#9654; TEST WATER QUALITY</button>
+      </div>
+    </div>
+
+    <!-- Scene 2 -->
+    <div class="fc-scene" id="fcs-2">
+      <div class="fc-dialog" style="margin-top:80px; max-width:700px;">
+        <div class="lg-title" style="color:#3e6ca8;text-align:left;">
+          <span style="display:inline-block;background:#8cb4e2;color:#fff;border-radius:4px;padding:0 8px;margin-right:10px;">i</span> What is TDS?
+        </div>
+        <div class="sm-text" style="text-align:left;line-height:1.6">
+          TDS stands for Total Dissolved Solids. It measures minerals, salts, and metals in water.<br>
+          <span style="color:#e82020">High levels from factories can poison fish and make humans sick!</span>
+        </div>
+      </div>
+      <div style="background:#5a3e1b; width:100%; padding:20px 40px; position:absolute; top:45%; display:flex; justify-content:space-between; align-items:center;">
+        <div style="color:#fff; font:bold 14px 'Courier New',mono;">&#x2022; Find the TDS of Water</div>
+        <button class="fc-btn" onclick="fcSetScene(3)">&#9654; MEASURE TDS</button>
+      </div>
+      <div id="fc-meter" style="position:absolute; top:40%; left:55%;">
+        <div style="position:absolute;top:20px;left:-40px;width:60px;height:90px;background:#c49a62;border:3px solid #3d2314;transform:rotate(-15deg);z-index:-1;"></div>
+        <div class="fc-meter-screen">2500<br>PPM</div>
+        <div style="width:10px;height:60px;background:#888;border:2px solid #333;margin:0 auto;position:absolute;bottom:-60px;left:50%;transform:translateX(-50%)"></div>
+      </div>
+    </div>
+
+    <!-- Scene 3 -->
+    <div class="fc-scene" id="fcs-3">
+      <div class="fc-dialog" style="padding:10px; margin-top:20px;">
+        <div class="lg-title" style="margin-bottom:0;color:#3d2314">WATER ANALYSIS REPORT</div>
+        <div id="fc-graph">
+          <div id="fc-graph-line"></div>
+          <div class="fc-graph-lbl" style="top:5px;left:5px">3000</div>
+          <div class="fc-graph-lbl" style="top:15px;width:100%;text-align:center;color:#e82020">DANGEROUS</div>
+          <div class="fc-graph-lbl" style="top:50px;left:5px">2000</div>
+          <div class="fc-graph-lbl" style="top:85px;left:5px">1000</div>
+          <div class="fc-graph-lbl" style="bottom:5px;left:15px">0</div>
+          <div class="fc-graph-lbl" style="top:75px;right:5px;color:#00d07a">SAFE</div>
+          <div id="fc-graph-bar"></div>
+          <div class="fc-graph-lbl" style="bottom:-20px;width:100%;text-align:center">TDS Level (ppm)</div>
+        </div>
+        <div class="fc-dialog-tail-down"></div><div class="fc-dialog-tail-down-inner"></div>
+      </div>
+      <div class="fc-dialog" style="margin-top:35px; width:450px; text-align:left; border-width:4px; padding:15px">
+        <div class="sm-text">We must find the source and fix this problem</div>
+        <div class="sm-text" style="color:#e82020; margin-top:10px;">
+          <span style="font-size:18px">&#9888;</span> TDS levels are dangerously high
+        </div>
+      </div>
+      <button class="fc-btn" style="position:absolute; bottom:30px; right:30px;" onclick="fcSetScene(4)">&#9654; FIND THE SOURCE</button>
+      <div id="fc-meter2" style="position:absolute; top:35%; right:20%; background:#ddd; border:4px solid #3d2314; padding:15px; border-radius:8px; box-shadow:4px 4px 10px rgba(0,0,0,.3);">
+        <div style="position:absolute;top:20px;left:-30px;width:50px;height:80px;background:#c49a62;border:3px solid #3d2314;transform:rotate(-15deg);z-index:-1;"></div>
+        <div class="fc-meter-screen">2500<br>PPM</div>
+        <div style="width:10px;height:60px;background:#888;border:2px solid #333;margin:0 auto;position:absolute;bottom:-60px;left:50%;transform:translateX(-50%)"></div>
+      </div>
+    </div>
+
+    <!-- Scene 4 -->
+    <div class="fc-scene" id="fcs-4">
+      <div class="fc-dialog" style="position:absolute; top:40%; left:50%; width:380px;">
+        <div class="sm-text" style="color:#e82020; text-align:left;">
+          <span style="font-size:18px">&#9888;</span> <b>The TDS levels are highest here! This is the source.</b>
+        </div>
+        <div class="sm-text" style="text-align:left; margin-top:10px;">
+          The factory is dumping waste into the river
+        </div>
+        <div class="fc-dialog-tail-left" style="bottom:10px"></div><div class="fc-dialog-tail-left-inner" style="bottom:15px"></div>
+      </div>
+      <button class="fc-btn" style="position:absolute; bottom:30px; right:30px;" onclick="fcSetScene(5)">&#9654; LET'S FIX THIS</button>
+    </div>
+
+    <!-- Scene 5 -->
+    <div class="fc-scene" id="fcs-5">
+      <div style="position:absolute; top:40px; right:40px; border:4px solid #fdf4da; padding:10px 20px; font:bold 24px/1 'Courier New',mono; color:#fdf4da; letter-spacing:2px;">
+        CHOOSE YOUR ACTION
+      </div>
+      <div class="fc-dialog" style="position:absolute; top:40%; left:30px; width:300px; text-align:left; border-width:3px; padding:15px">
+        <div class="sm-text" style="color:#e82020;">
+          <span style="font-size:18px">&#9888;</span> Remember:
+        </div>
+        <div class="sm-text" style="margin-top:10px;">
+          Real change requires systemic solutions, not just individual actions.
+        </div>
+      </div>
+      <div style="position:absolute; right:40px; top:35%; display:flex; flex-direction:column; gap:30px;">
+        <button class="fc-btn red" style="display:flex; align-items:center; gap:15px; padding:20px; width:480px; text-align:left;" onclick="fcSetScene(6)">
+          <div style="font-size:24px;">&#128274;</div>
+          <div>
+            <div>SHUT DOWN FACTORY</div>
+            <div style="font-size:12px; margin-top:5px; font-weight:normal;">Stop pollution immediately</div>
+          </div>
+        </button>
+        <button class="fc-btn" style="display:flex; align-items:center; gap:15px; padding:20px; width:480px; text-align:left;" onclick="fcSetScene(7)">
+          <div style="font-size:24px; color:#1a80b0;">&#128167;</div>
+          <div>
+            <div>INSTALL EFFLUENT TREATMENT PLANT</div>
+            <div style="font-size:12px; margin-top:5px; font-weight:normal;">Clean water + keep jobs</div>
+          </div>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Scene 6 (Failed) -->
+    <div class="fc-scene" id="fcs-6" style="background:rgba(253,244,218,0.9);">
+      <div class="fc-dialog" style="padding:40px; border-color:#e82020">
+        <div class="lg-title" style="color:#e82020; font-size:28px;">Mission Failed!</div>
+        <div class="sm-text" style="margin-bottom:30px">You stopped the river pollution but all factory workers lost their jobs!</div>
+        <button class="fc-btn" onclick="fcSetScene(5)">&#8635; Try Again</button>
+      </div>
+    </div>
+  </div> 
+
+  <!-- Treatment Builder Overlay -->
+  <!-- Glass Pipes Puzzle Overlay -->
+  <div id="fc-pipes">
+    <div id="fc-back-gp" onclick="closeFactoryGame(false)" style="position:absolute; top:15px; left:15px; width:56px; height:56px; background:#fff9e6; border-radius:50%; box-shadow:0 4px 8px rgba(0,0,0,.2); display:flex; align-items:center; justify-content:center; cursor:pointer; border:2px solid #5a3e1b; z-index:205;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#5a3e1b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></div>
+    
+    <div id="fc-hud-gp" style="position:absolute; top:15px; right:15px; display:flex; gap:15px; z-index:205;">
+      <div class="stat-pill xp" style="min-width:180px; height:42px">
+        <div class="progress-fill" style="width:100%;background:#00bfff"></div><img src="star.svg" style="width:28px;height:28px"><div class="value" id="fcp-hr">Level +0</div>
+      </div>
+      <div class="stat-pill coin" style="min-width:180px; height:42px">
+        <div class="progress-fill" style="width:100%;background:#ffd700"></div><img src="coin.svg" style="width:28px;height:28px"><div class="value" id="fcp-hc">+0</div>
+      </div>
+    </div>
+    
+    <div class="gp-bg">
+      <div class="gp-cloud" style="width:100px; height:40px; top:20%; left:10%"></div>
+      <div class="gp-cloud" style="width:160px; height:60px; top:10%; right:15%"></div>
+      <div class="gp-cloud" style="width:120px; height:50px; top:40%; left:40%"></div>
+    </div>
+    
+    <div style="z-index:20; font:bold 24px/1 'Courier New',mono; background:#fdf4da; border:4px solid #3d2314; padding:15px 30px; margin-top:30px; box-shadow:4px 4px 0 #3d2314;position:relative;">CONNECT THE PIPES</div>
+    
+    <div class="gp-hill"></div>
+    <div class="gp-grid" id="gp-grid"></div>
+    
+    <div id="fcp-success" style="position:absolute; inset:0; background:rgba(0,0,0,.7); display:none; align-items:center; justify-content:center; z-index:50;">
+      <div class="fc-dialog" style="padding:40px;">
+        <div class="lg-title" style="color:#00d07a; font-size:28px;">PIPES SEALED!</div>
+        <div class="sm-text" style="margin-bottom:30px">You effectively stopped the polluted effluent!</div>
+        <button class="fc-btn" onclick="closeFactoryGame(true)">BACK TO MAP</button>
+      </div>
     </div>
   </div>
 
@@ -1168,6 +1430,8 @@ function startM(){
   const m=curM;
   if(m.id === 'dolphin'){
     startDolphinGame(m);
+  } else if(m.id === 'factory'){
+    startFactoryGame(m);
   } else {
     document.getElementById('mo').classList.remove('h');
     if(m.type==='quiz')renderQuiz(m);
@@ -1357,6 +1621,187 @@ function closeDolphinGame(success){
    BUILD WORLD THEN KICK OFF
 ══════════════════════════════════════════════ */
 buildWorld();
+/* ══════════════════════════════════════════════
+   FACTORY MISSION LOGIC
+══════════════════════════════════════════════ */
+let fcMaxCoins = 0;
+let fcMaxXp = 0;
+let fcFiltersAdded = 0;
+
+function startFactoryGame(m) {
+  fcMaxCoins = m.coins;
+  fcMaxXp = m.xp;
+  
+  document.getElementById('mdo').classList.add('h');
+  document.getElementById('menu').classList.add('h');
+  document.getElementById('hud').classList.add('h');
+  document.getElementById('joystick').classList.add('h');
+  
+  document.getElementById('fc-ov').style.display = 'flex';
+  document.getElementById('fc-pipes').style.display = 'none';
+  document.getElementById('fc-hc').textContent = '+' + fcMaxCoins;
+  
+  fcSetScene(1);
+}
+
+function fcSetScene(num) {
+  for(let i=1; i<=6; i++){
+    const el = document.getElementById('fcs-'+i);
+    if(el) {
+      if(i===num) el.classList.add('active');
+      else el.classList.remove('active');
+    }
+  }
+  
+  const bgBrick = document.getElementById('fc-bg-brick');
+  const bgSky = document.getElementById('fc-bg-sky');
+  const pipe = document.getElementById('fc-pipe-el');
+  if(num >= 4 && num <= 5) {
+    bgBrick.style.opacity = 1;
+    bgSky.style.opacity = 0;
+    pipe.style.display = 'block';
+  } else {
+    bgBrick.style.opacity = 0;
+    bgSky.style.opacity = 1;
+    pipe.style.display = 'none';
+  }
+  
+  if(num === 2) {
+    setTimeout(()=>{ document.getElementById('fc-meter').classList.add('show'); }, 100);
+  } else {
+    document.getElementById('fc-meter').classList.remove('show');
+  }
+  
+  if(num === 7) {
+    startGlassPipes();
+  }
+}
+
+function startGlassPipes() {
+  document.getElementById('fc-ov').style.display = 'none';
+  document.getElementById('fc-pipes').style.display = 'flex';
+  document.getElementById('fcp-hc').textContent = '+' + fcMaxCoins;
+  document.getElementById('fcp-success').style.display = 'none';
+
+  const R=5, C=7;
+  const PD = {
+    '─': { t: 'S', r: 0, dirs: ['E','W'] },
+    '│': { t: 'S', r: 90, dirs: ['N','S'] },
+    '└': { t: 'C', r: 0, dirs: ['N','E'] },
+    '┌': { t: 'C', r: 90, dirs: ['S','E'] },
+    '┐': { t: 'C', r: 180, dirs: ['S','W'] },
+    '┘': { t: 'C', r: 270, dirs: ['N','W'] }
+  };
+  const CY = ['─','│','└','┘','┐','┌'];
+  const DR = {N:[-1,0,'S'], S:[1,0,'N'], E:[0,1,'W'], W:[0,-1,'E']};
+
+  let puz = [];
+  for(let i=0; i<R; i++) {
+    let row = [];
+    for(let j=0; j<C; j++) row.push(CY[Math.floor(Math.random()*CY.length)]);
+    puz.push(row);
+  }
+  
+  const path = [[0,0,'│'],[1,0,'└'],[1,1,'─'],[1,2,'─'],[1,3,'┐'],[2,3,'│'],[3,3,'└'],[3,4,'─'],[3,5,'┐'],[4,5,'└'],[4,6,'│']];
+  for (let pt of path) puz[pt[0]][pt[1]] = pt[2];
+  
+  window.fcGP = puz.map(row => row.map(p => {
+    if (p === '─' || p === '│') return Math.random() < 0.5 ? '─' : '│';
+    const corners = ['└', '┌', '┐', '┘'];
+    if (corners.includes(p)) return corners[Math.floor(Math.random() * 4)];
+    return p;
+  }));
+  window.fcGP_solv = false;
+  
+  window.fcGPRender = function() {
+    const vis = new Set(), q = [];
+    if (PD[window.fcGP[0][0]].dirs.includes('N')) {
+      vis.add('0,0');
+      q.push(['0','0']);
+    }
+    
+    while(q.length){
+      const [rs,cs] = q.shift();
+      const r = +rs, c = +cs;
+      const p = window.fcGP[r][c];
+      for(const d of PD[p].dirs) {
+        const [dr, dc, fd] = DR[d];
+        const nr = r+dr, nc = c+dc;
+        if(nr<0 || nr>=R || nc<0 || nc>=C) continue;
+        const np = window.fcGP[nr][nc];
+        if(PD[np].dirs.includes(fd) && !vis.has(nr+','+nc)) {
+          vis.add(nr+','+nc);
+          q.push([String(nr), String(nc)]);
+        }
+      }
+    }
+    
+    let html = '';
+    for(let r=0; r<R; r++){
+      for(let c=0; c<C; c++){
+        const p = window.fcGP[r][c];
+        const isFilled = vis.has(r+','+c);
+        const {t, r:rot} = PD[p];
+        const isSource = (r===0 && c===0);
+        const isDrain = (r===4 && c===6);
+        
+        let inner = t === 'S' 
+          ? `<div class="gp-glass"></div><div class="gp-flange fl-l"></div><div class="gp-flange fl-r"></div>`
+          : `<div class="gp-glass gp-g1"></div><div class="gp-glass gp-g2"></div><div class="gp-glass"></div><div class="gp-flange fl-t"></div><div class="gp-flange fl-r"></div>`;
+        
+        let cls = 'gp-cell';
+        if(isFilled) cls += ' filled';
+        if(isSource && !isFilled) cls += ' source'; // If not filled by water naturally, highlight it as source
+        
+        let extra = '';
+        if(isSource) extra += `<div class="gp-source-pipe"></div>`;
+        if(isDrain) extra += `<div class="gp-drain-pipe"></div>`;
+        
+        html += `<div class="${cls}" onclick="rotGP(${r},${c})">
+           <div class="gp-pipe gp-p-${t}${t==='C'?'-NE':'-E'}" style="transform:rotate(${rot}deg)">${inner}</div>
+           ${extra}
+        </div>`;
+      }
+    }
+    document.getElementById('gp-grid').innerHTML = html;
+    
+    if(vis.has('4,6') && PD[window.fcGP[4][6]].dirs.includes('S')) {
+      if(!window.fcGP_solv) {
+        window.fcGP_solv = true;
+        setTimeout(()=>{
+          document.getElementById('fcp-success').style.display='flex';
+        }, 800);
+      }
+    }
+  };
+
+  window.rotGP = function(r,c) {
+    if(window.fcGP_solv) return;
+    const p = window.fcGP[r][c];
+    let nextP = p;
+    if(p === '─') nextP = '│';
+    else if(p === '│') nextP = '─';
+    else if(p === '└') nextP = '┌';
+    else if(p === '┌') nextP = '┐';
+    else if(p === '┐') nextP = '┘';
+    else if(p === '┘') nextP = '└';
+    window.fcGP[r][c] = nextP;
+    fcGPRender();
+  };
+
+  fcGPRender();
+}
+
+function closeFactoryGame(success){
+  document.getElementById('fc-ov').style.display = 'none';
+  document.getElementById('fc-pipes').style.display = 'none';
+  document.getElementById('fcp-success').style.display = 'none';
+  closeM(success ? fcMaxCoins : 0, success ? fcMaxXp : 0, success);
+  
+  document.getElementById('menu').classList.remove('h');
+  document.getElementById('joystick').classList.remove('h');
+  document.getElementById('hud').classList.remove('h');
+}
 </script>
 </body>
 </html>
