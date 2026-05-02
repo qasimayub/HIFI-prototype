@@ -145,6 +145,20 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 #stick{position:absolute;top:30px;left:30px;width:60px;height:60px;background:rgba(220,220,220,0.8);border-radius:50%;pointer-events:none;transition:transform 0.1s ease-out;}
 #joystick.active #stick{transition:none;}
 
+/* ── SMOG BUSTER OVERLAY ── */
+#sb-ov { position: fixed; inset: 0; background: linear-gradient(to bottom, #87CEEB, #e0f6ff); z-index: 200; overflow: hidden; display: none; }
+#sb-hud { position: absolute; top: 15px; right: 15px; display: flex; flex-direction: row; gap: 15px; z-index: 205; pointer-events: none; }
+#sb-back { position: absolute; top: 15px; left: 15px; width: 56px; height: 56px; background: #fff9e6; border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,.2); display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid #5a3e1b; z-index: 205; transition: transform .2s; }
+#sb-back:hover { transform: scale(1.08); background: #fff2cc; }
+#sb-back:active { transform: scale(0.95); }
+.sb-city { position: absolute; bottom: 0; left: 0; width: 100%; height: 35%; background: #4a5a6a; z-index: 5; border-top: 4px solid #2a3a4a; display: flex; align-items: flex-end; justify-content: space-around; padding: 0 10%; }
+.sb-chimney { width: 70px; height: 100%; background: #6a4a4a; border: 4px solid #3a2a2a; border-bottom: none; position: relative; }
+.sb-chimney::before { content: ''; position: absolute; top: -10px; left: -10px; width: 90px; height: 20px; background: #5a3a3a; border: 4px solid #3a2a2a; }
+.sb-smog { position: absolute; width: 90px; height: 90px; background: rgba(80, 80, 80, 0.95); border-radius: 50%; box-shadow: inset -10px -10px 20px rgba(0,0,0,0.6); cursor: pointer; transition: transform 0.1s, opacity 0.3s; z-index: 10; display: flex; align-items: center; justify-content: center; font-size: 32px; user-select: none; }
+.sb-smog:active { transform: scale(1.2); }
+#sb-score-board { position: absolute; top: 25px; left: 50%; transform: translateX(-50%); background: #fdf4da; border: 4px solid #3d2314; padding: 10px 30px; font: bold 24px 'Courier New',mono; color: #3d2314; border-radius: 8px; z-index: 205; box-shadow: 0 4px 8px rgba(0,0,0,.3); }
+#sb-success { position: absolute; inset: 0; background: rgba(135,206,235,0.9); z-index: 210; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 20px; }
+
 /* ── DOLPHIN GAME OVERLAY ── */
 #dg-ov { position: fixed; inset: 0; background-color: #62bceb; z-index: 200; overflow: hidden; display: none; }
 #dg-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -170,7 +184,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 #fc-hud { position:absolute; top:15px; right:15px; display:flex; gap:15px; z-index:205; }
 #fc-back { position:absolute; top:15px; left:15px; width:56px; height:56px; background:#fff9e6; border-radius:50%; box-shadow:0 4px 8px rgba(0,0,0,.2); display:flex; align-items:center; justify-content:center; cursor:pointer; border:2px solid #5a3e1b; z-index:205; }
 #fc-back:hover { transform:scale(1.08); background:#fff2cc; }
-.fc-bg-water { position:absolute; bottom:0; left:0; width:100%; height:50%; background:#707080; border-top:4px solid #fff; z-index:1; }
+.fc-bg-water { position:absolute; bottom:0; left:0; width:100%; height:55%; background:#7B8B9A; z-index:1; border-top:4px solid #000; overflow:hidden; transition:background 1.5s ease;}
 .fc-bg-brick { position:absolute; inset:0; background:url('data:image/svg+xml;utf8,<svg width="40" height="20" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="20" fill="%23855E42"/><rect width="38" height="18" fill="%239D7151"/><rect width="40" height="20" fill="none" stroke="%233A2618" stroke-width="2"/></svg>') repeat; z-index:0; }
 .fc-fish { position:absolute; width:80px; height:40px; }
 .fc-fish1 { left:20%; top:20%; }
@@ -210,8 +224,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 .gp-cell:hover { background:rgba(255,255,255,0.2); }
 .gp-pipe { position:absolute; inset:0; pointer-events:none; transition: transform 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28); }
 
-.gp-glass { position:absolute; background:rgba(128,210,230,0.6); border:2px solid #5a7b8e; border-radius:4px; box-shadow:inset 0 0 10px rgba(255,255,255,0.8); transition: background 0.3s; }
-.gp-flange { position:absolute; background:#666; border:2px solid #333; border-radius:2px; z-index:2; box-shadow:inset 0 2px 2px rgba(255,255,255,.3); }
+.gp-glass { box-sizing:border-box; position:absolute; background:rgba(128,210,230,0.6); border:2px solid #5a7b8e; border-radius:4px; box-shadow:inset 0 0 10px rgba(255,255,255,0.8); transition: background 0.3s; }
+.gp-flange { box-sizing:border-box; position:absolute; background:#666; border:2px solid #333; border-radius:2px; z-index:2; box-shadow:inset 0 2px 2px rgba(255,255,255,.3); }
 
 /* Filled Water State */
 .gp-cell.filled .gp-glass { background:rgba(0,250,150,0.8); border-color:#008050; }
@@ -221,18 +235,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 .gp-drain-pipe { position:absolute; width:26px; height:80px; background:#666; border:2px solid #333; bottom:-80px; left:13px; z-index:11;}
 
 /* Straight Pipe */
-.gp-p-S-E .gp-glass { width:100%; height:26px; top:13px; left:0; }
+.gp-p-S-E .gp-glass { width:100%; height:26px; top:13px; left:0; border-radius:0; }
 .gp-p-S-E .gp-flange { width:8px; height:36px; top:8px; }
 .gp-p-S-E .fl-l { left:-2px; } 
 .gp-p-S-E .fl-r { right:-2px; }
 
 /* Corner Pipe */
-.gp-p-C-NE .gp-g1 { width:26px; height:39px; top:0; left:13px; border-bottom:none; border-radius:4px 4px 0 0; }
-.gp-p-C-NE .gp-g2 { width:39px; height:26px; top:13px; left:13px; border-left:none; border-radius:0 4px 4px 0; }
-.gp-p-C-NE .gp-glass:not(.gp-g1):not(.gp-g2) { width:26px; height:26px; top:13px; left:13px; border:none; box-shadow:none;}
-.gp-p-C-NE .gp-flange { width:36px; height:8px; left:8px; }
-.gp-p-C-NE .fl-t { top:-2px; }
-.gp-p-C-NE .fl-r { width:8px; height:36px; right:-2px; top:8px; }
+.gp-p-C-NE .gp-g1 { width:26px; height:13px; top:0; left:13px; border-bottom:none; border-radius:0; box-shadow:none; }
+.gp-p-C-NE .gp-g2 { width:13px; height:26px; top:13px; left:39px; border-left:none; border-radius:0; box-shadow:none; }
+.gp-p-C-NE .gp-glass:not(.gp-g1):not(.gp-g2) { width:26px; height:26px; top:13px; left:13px; border-top:none; border-right:none; border-radius:0 0 0 4px; box-shadow:none; }
+.gp-p-C-NE .fl-t { width:36px; height:8px; left:8px; top:-2px; }
+.gp-p-C-NE .fl-r { width:8px; height:36px; right:-2px; top:8px; left:auto; }
 </style>
 </head>
 <body>
@@ -279,7 +292,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
       </div>
       <div class="mdo-unlock-item" style="margin-bottom:15px">
         <img src="badge.svg" class="mdo-icon" alt="badge">
-        <span id="mdo-xp"></span> Level
+        <span id="mdo-xp"></span> XP
       </div>
       
       <div class="mdo-start-wrap">
@@ -329,6 +342,61 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
   <div class="ov h" id="mo"><div class="mp" id="mp"></div></div>
   <div class="ov h" id="lo"><div class="lb"><div class="lt">★ ECO HEROES ★</div><div id="ll"></div><div style="text-align:center;margin-top:10px"><button class="bc2" onclick="hideLB()">◄ BACK</button></div></div></div>
 
+  <!-- Smog Buster Overlay -->
+  <div id="sb-ov">
+    <div id="sb-back" onclick="closeSmogGame(false)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#5a3e1b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+    </div>
+    <div id="sb-hud">
+      <div class="stat-pill xp" style="min-width:180px; height:42px">
+        <div class="progress-fill" style="width:100%;background:#00bfff"></div>
+        <img src="star.svg" alt="star" style="width:28px;height:28px">
+        <div class="value" id="sb-hr">+0 XP</div>
+      </div>
+      <div class="stat-pill coin" style="min-width:180px; height:42px">
+        <div class="progress-fill" style="width:100%;background:#ffd700"></div>
+        <img src="coin.svg" alt="coin" style="width:28px;height:28px">
+        <div class="value" id="sb-hc">+0</div>
+      </div>
+    </div>
+    <div id="sb-score-board" style="display:none;">Score: <span id="sb-score">0</span>/300 &nbsp; Missed: <span id="sb-misses" style="color:#e82020">0</span>/3</div>
+    <div class="sb-city">
+      <div class="sb-chimney" id="ch-1"></div>
+      <div class="sb-chimney" id="ch-2"></div>
+      <div class="sb-chimney" id="ch-3"></div>
+      <div class="sb-chimney" id="ch-4"></div>
+    </div>
+    <div id="sb-smog-container"></div>
+    <div id="sb-intro" style="position: absolute; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; background: rgba(135,206,235,0.95);">
+      <div class="fc-dialog" style="padding:30px; border:4px solid #3d2314; background:#fdf4da; text-align:center; max-width:500px;">
+        <div class="lg-title" style="color:#e82020; font-size:24px; margin-bottom:15px;">TOXIC SMOG ALERT!</div>
+        <div class="sm-text" style="margin-bottom:20px; line-height:1.5;">
+          The factory chimneys are releasing dark, toxic smog into the air.<br><br>
+          <b style="color:#e82020">Breathing this polluted air causes asthma and harms our lungs!</b><br><br>
+          Pop the smog clouds before they spread!<br>
+          <span style="color:#008050">+10 Score for each pop</span><br>
+          <span style="color:#e82020">-5 Score & 1 Strike if you miss one</span><br>
+          <span style="font-size: 12px; color: #555;">(3 strikes = Game Over)</span>
+        </div>
+        <button class="fc-btn" onclick="startSmogGameLoop()">&#9654; PURIFY AIR</button>
+      </div>
+    </div>
+    <div id="sb-success">
+      <div class="dg-card">
+        <div class="dg-title">Sky Cleared!</div>
+        <div class="dg-text" style="text-align:center;">You saved the town from toxic smog! The air is fresh again.</div>
+        <button class="dg-btn" onclick="closeSmogGame(true)">Back to Map</button>
+      </div>
+    </div>
+    <div id="sb-fail" style="position: absolute; inset: 0; background: rgba(135,206,235,0.9); z-index: 210; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 20px;">
+      <div class="dg-card" style="border-color:#e82020;">
+        <div class="dg-title" style="color:#e82020;">Too Much Smog!</div>
+        <div class="dg-text" style="text-align:center;">The town was overwhelmed by the toxic air. We must try harder!</div>
+        <button class="fc-btn red" onclick="closeSmogGame(false)">Try Again</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Dolphin Game Overlay -->
   <div id="dg-ov">
     <img id="dg-bg" src="river.png" alt="river">
@@ -350,7 +418,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
       <div class="stat-pill xp" style="min-width:180px; height:42px">
         <div class="progress-fill" style="width:100%;background:#00bfff"></div>
         <img src="star.svg" alt="star" style="width:28px;height:28px">
-        <div class="value" id="dg-hr">Level +2</div>
+        <div class="value" id="dg-hr">+0 XP</div>
       </div>
       <div class="stat-pill coin" style="min-width:180px; height:42px">
         <div class="progress-fill" style="width:100%;background:#ffd700"></div>
@@ -380,7 +448,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
       <div class="stat-pill xp" style="min-width:180px; height:42px">
         <div class="progress-fill" style="width:100%;background:#00bfff"></div>
         <img src="star.svg" alt="star" style="width:28px;height:28px">
-        <div class="value" id="fc-hr">Level +0</div>
+        <div class="value" id="fc-hr">+0 XP</div>
       </div>
       <div class="stat-pill coin" style="min-width:180px; height:42px">
         <div class="progress-fill" style="width:100%;background:#ffd700"></div>
@@ -529,6 +597,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
         <button class="fc-btn" onclick="fcSetScene(5)">&#8635; Try Again</button>
       </div>
     </div>
+    
+    <!-- Scene 8 (Success) -->
+    <div class="fc-scene" id="fcs-8">
+      <div class="fc-dialog" style="padding:30px; margin-top:80px; width:400px; border:4px solid #3d2314; box-shadow:6px 6px 0 #b8a898; background:#fdf4da;">
+        <div class="lg-title" style="color:#008050; font-size:20px; font-weight:bold; margin-bottom:20px;">Mission Successful</div>
+        <div class="sm-text" style="font-size:14px; color:#3d2314; margin-bottom:30px; text-align:left;">You stopped the river<br>pollution and saved the jobs<br>of all factory workers!</div>
+        <button class="fc-btn" style="background:#4dfb8b; color:#000; border:4px solid #000; padding:15px; width:100%; box-shadow:4px 4px 0 #3d2314;" onclick="closeFactoryGame(true)">Back to Map</button>
+      </div>
+    </div>
   </div> 
 
   <!-- Treatment Builder Overlay -->
@@ -538,7 +615,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
     
     <div id="fc-hud-gp" style="position:absolute; top:15px; right:15px; display:flex; gap:15px; z-index:205;">
       <div class="stat-pill xp" style="min-width:180px; height:42px">
-        <div class="progress-fill" style="width:100%;background:#00bfff"></div><img src="star.svg" style="width:28px;height:28px"><div class="value" id="fcp-hr">Level +0</div>
+        <div class="progress-fill" style="width:100%;background:#00bfff"></div><img src="star.svg" style="width:28px;height:28px"><div class="value" id="fcp-hr">+0 XP</div>
       </div>
       <div class="stat-pill coin" style="min-width:180px; height:42px">
         <div class="progress-fill" style="width:100%;background:#ffd700"></div><img src="coin.svg" style="width:28px;height:28px"><div class="value" id="fcp-hc">+0</div>
@@ -555,14 +632,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
     
     <div class="gp-hill"></div>
     <div class="gp-grid" id="gp-grid"></div>
-    
-    <div id="fcp-success" style="position:absolute; inset:0; background:rgba(0,0,0,.7); display:none; align-items:center; justify-content:center; z-index:50;">
-      <div class="fc-dialog" style="padding:40px;">
-        <div class="lg-title" style="color:#00d07a; font-size:28px;">PIPES SEALED!</div>
-        <div class="sm-text" style="margin-bottom:30px">You effectively stopped the polluted effluent!</div>
-        <button class="fc-btn" onclick="closeFactoryGame(true)">BACK TO MAP</button>
-      </div>
-    </div>
+
   </div>
 
   <!-- Virtual Joystick (bottom-left) -->
@@ -1083,6 +1153,8 @@ let selC=0;
    MISSIONS
 ══════════════════════════════════════════════ */
 const MISSIONS=[
+  {id:'smog',title:'SMOG BUSTER',desc:'Pop the toxic smog clouds\nbefore they pollute the town!',
+   icon:'💨',tx:950,ty:650,tw:80,th:80,type:'smog',coins:300,xp:150,color:'#888888'},
   {id:'polarbear',title:'POLAR BEAR RESCUE',desc:'Melting ice!\nAnswer to save it.',
    icon:'❄️',tx:220,ty:175,tw:80,th:80,type:'quiz',coins:60,xp:120,color:'#90c8f0',
    animal:'Polar Bear',qs:[
@@ -1214,7 +1286,7 @@ function proceed() {
 }
 function updHUD(){
   document.getElementById('hc').textContent=P.coins;
-  const maxCoins = 380; // Total available in all missions
+  const maxCoins = 470; // Total available in all missions
   document.getElementById('hc-fill').style.width=Math.min(100,(P.coins/maxCoins)*100)+'%';
   
   const lvl=Math.floor(P.xp/100)+1;
@@ -1301,7 +1373,9 @@ function showMDO(m) {
   const br = '#3d2314';
   const sv = (p) => `<div style="display:flex;align-items:center;justify-content:center;width:26px;height:26px"><svg width="24" height="24" viewBox="0 0 16 16"><path fill="${br}" d="${p}"/></svg></div>`;
   let bIcon = sv('M7 1h2v4h2v4h-2v6H7v-6H5V5h2V1z'), bText = 'Eco Hero';
-  if(m.id==='landfill'){
+  if(m.id==='smog'){
+    bIcon=sv('M12 2A10 10 0 1 0 22 12A10 10 0 0 0 12 2z'); bText='Air Purifier';
+  } else if(m.id==='landfill'){
     bIcon=sv('M6 2h4v2h2v2h-2v2H6V6H4V4h2V2zm-3 8h2v-2h2v4H3v-2zm10 0h-2v4H9v-2h4v-2z'); bText='Recycling Master';
   } else if(m.id==='factory'){
     bIcon=sv('M6 1h4v2h2v2h2v4h-2v4h-2v2H6v-2H4V9H2V5h2V3h2V1z'); bText='Savior';
@@ -1316,7 +1390,7 @@ function showMDO(m) {
   }
   
   document.getElementById('mdo-badge-item').innerHTML = `${bIcon} <span id="mdo-badge" style="margin-left:10px">${bText}</span>`;
-  document.getElementById('mdo-xp').textContent = '+'+Math.floor(m.xp/100);
+  document.getElementById('mdo-xp').textContent = '+'+m.xp;
   document.getElementById('mdo').classList.remove('h');
   document.getElementById('menu').classList.add('h');
   document.getElementById('hud').classList.add('h');
@@ -1432,6 +1506,8 @@ function startM(){
     startDolphinGame(m);
   } else if(m.id === 'factory'){
     startFactoryGame(m);
+  } else if(m.id === 'smog'){
+    startSmogGame(m);
   } else {
     document.getElementById('mo').classList.remove('h');
     if(m.type==='quiz')renderQuiz(m);
@@ -1536,6 +1612,167 @@ function showLB(){updLB();const m=['🥇','🥈','🥉'];document.getElementById
 function hideLB(){document.getElementById('lo').classList.add('h');mActive=false;}
 
 /* ══════════════════════════════════════════════
+   SMOG BUSTER MISSION LOGIC
+══════════════════════════════════════════════ */
+let sbScore = 0;
+let sbMisses = 0;
+let sbCollected = 0;
+let sbTarget = 30;
+let sbMaxMisses = 3;
+let sbIntervals = [];
+let sbActive = false;
+
+function updateSbHUD() {
+  document.getElementById('sb-score').textContent = sbScore;
+  document.getElementById('sb-misses').textContent = sbMisses;
+  document.getElementById('sb-hc').textContent = '+' + sbScore; // Live coin update
+  
+  // XP scales with score, max 150XP for 300 coins
+  const currentXp = Math.floor(sbScore / 2);
+  document.getElementById('sb-hr').textContent = '+' + currentXp + ' XP';
+}
+
+function startSmogGame(m){
+  sbScore = 0;
+  sbMisses = 0;
+  sbCollected = 0;
+  sbActive = false;
+  
+  document.getElementById('mdo').classList.add('h');
+  document.getElementById('menu').classList.add('h');
+  document.getElementById('hud').classList.add('h');
+  document.getElementById('joystick').classList.add('h');
+  
+  document.getElementById('sb-ov').style.display = 'block';
+  document.getElementById('sb-intro').style.display = 'flex';
+  document.getElementById('sb-success').style.display = 'none';
+  document.getElementById('sb-fail').style.display = 'none';
+  document.getElementById('sb-score-board').style.display = 'none';
+  
+  updateSbHUD();
+  
+  const container = document.getElementById('sb-smog-container');
+  container.innerHTML = '';
+  
+  sbIntervals.forEach(clearTimeout);
+  sbIntervals = [];
+}
+
+function startSmogGameLoop() {
+  document.getElementById('sb-intro').style.display = 'none';
+  document.getElementById('sb-score-board').style.display = 'block';
+  sbActive = true;
+
+  // Game Loop
+  function spawn() {
+    if(!sbActive) return;
+    spawnSmog();
+    
+    let progress = Math.min(1, sbCollected / sbTarget);
+    let spawnRate = 800 - (progress * 350); 
+    
+    sbIntervals.push(setTimeout(spawn, spawnRate));
+  }
+  spawn();
+}
+
+function spawnSmog() {
+  if (sbCollected >= sbTarget || sbMisses >= sbMaxMisses) return;
+  const container = document.getElementById('sb-smog-container');
+  const chimneys = [
+    document.getElementById('ch-1'),
+    document.getElementById('ch-2'),
+    document.getElementById('ch-3'),
+    document.getElementById('ch-4')
+  ];
+  const ch = chimneys[Math.floor(Math.random() * chimneys.length)];
+  const rect = ch.getBoundingClientRect();
+  
+  const smog = document.createElement('div');
+  smog.className = 'sb-smog';
+  smog.textContent = '☁️';
+  const startX = rect.left + rect.width / 2 - 45;
+  const startY = rect.top - 40;
+  
+  smog.style.left = startX + 'px';
+  smog.style.top = startY + 'px';
+  
+  container.appendChild(smog);
+  
+  let posY = startY;
+  let posX = startX;
+  let drift = (Math.random() - 0.5) * 3;
+  
+  let progress = Math.min(1, sbCollected / sbTarget);
+  let speedMult = 1.2 + (progress * 1.3);
+  
+  let isPopped = false;
+  
+  const anim = setInterval(() => {
+    if(!sbActive) { clearInterval(anim); return; }
+    posY -= (2 + Math.random() * 2) * speedMult;
+    posX += drift * speedMult;
+    smog.style.top = posY + 'px';
+    smog.style.left = posX + 'px';
+    
+    if(posY < -100 && !isPopped) {
+      clearInterval(anim);
+      if(smog.parentNode) smog.remove();
+      
+      // Miss logic
+      sbMisses++;
+      sbScore = Math.max(0, sbScore - 5);
+      updateSbHUD();
+      
+      if(sbMisses >= sbMaxMisses) {
+        sbActive = false;
+        setTimeout(() => {
+          document.getElementById('sb-fail').style.display = 'flex';
+        }, 500);
+      }
+    }
+  }, 30);
+  sbIntervals.push(anim);
+  
+  smog.onpointerdown = (e) => {
+    if (isPopped || !sbActive) return;
+    isPopped = true;
+    e.preventDefault();
+    clearInterval(anim);
+    smog.style.background = 'rgba(255,255,255,0.8)';
+    smog.style.opacity = '0';
+    smog.style.transform = 'scale(1.5)';
+    
+    sbCollected++;
+    sbScore = Math.min(300, sbScore + 10);
+    updateSbHUD();
+    
+    setTimeout(() => { if(smog.parentNode) smog.remove(); }, 300);
+    
+    if(sbCollected >= sbTarget) {
+      sbActive = false;
+      setTimeout(() => {
+        document.getElementById('sb-success').style.display = 'flex';
+      }, 500);
+    }
+  };
+}
+
+function closeSmogGame(success){
+  sbActive = false;
+  sbIntervals.forEach(clearTimeout);
+  sbIntervals = [];
+  document.getElementById('sb-ov').style.display = 'none';
+  
+  const finalXP = Math.floor(sbScore / 2);
+  closeM(success ? sbScore : 0, success ? finalXP : 0, success);
+  
+  document.getElementById('menu').classList.remove('h');
+  document.getElementById('joystick').classList.remove('h');
+  document.getElementById('hud').classList.remove('h');
+}
+
+/* ══════════════════════════════════════════════
    DOLPHIN MISSION LOGIC
 ══════════════════════════════════════════════ */
 let dgItems = [
@@ -1562,7 +1799,7 @@ function startDolphinGame(m){
   document.getElementById('dg-success').style.display = 'none';
   
   document.getElementById('dg-hc').textContent = '+' + dgMaxCoins;
-  document.getElementById('dg-hr').textContent = 'Level +2';
+  document.getElementById('dg-hr').textContent = '+' + dgMaxXp + ' XP';
   
   dgCurIndex = 0;
   dgItems.sort(() => Math.random() - 0.5);
@@ -1640,12 +1877,13 @@ function startFactoryGame(m) {
   document.getElementById('fc-ov').style.display = 'flex';
   document.getElementById('fc-pipes').style.display = 'none';
   document.getElementById('fc-hc').textContent = '+' + fcMaxCoins;
+  document.getElementById('fc-hr').textContent = '+' + fcMaxXp + ' XP';
   
   fcSetScene(1);
 }
 
 function fcSetScene(num) {
-  for(let i=1; i<=6; i++){
+  for(let i=1; i<=8; i++){
     const el = document.getElementById('fcs-'+i);
     if(el) {
       if(i===num) el.classList.add('active');
@@ -1656,6 +1894,7 @@ function fcSetScene(num) {
   const bgBrick = document.getElementById('fc-bg-brick');
   const bgSky = document.getElementById('fc-bg-sky');
   const pipe = document.getElementById('fc-pipe-el');
+  const bgWater = document.getElementById('fc-bg-water');
   if(num >= 4 && num <= 5) {
     bgBrick.style.opacity = 1;
     bgSky.style.opacity = 0;
@@ -1666,10 +1905,17 @@ function fcSetScene(num) {
     pipe.style.display = 'none';
   }
   
+  if(num === 8) {
+    bgWater.style.background = '#64a0cd';
+  } else {
+    bgWater.style.background = '#7B8B9A';
+  }
+  
   if(num === 2) {
     setTimeout(()=>{ document.getElementById('fc-meter').classList.add('show'); }, 100);
   } else {
-    document.getElementById('fc-meter').classList.remove('show');
+    const meter = document.getElementById('fc-meter');
+    if(meter) meter.classList.remove('show');
   }
   
   if(num === 7) {
@@ -1681,7 +1927,6 @@ function startGlassPipes() {
   document.getElementById('fc-ov').style.display = 'none';
   document.getElementById('fc-pipes').style.display = 'flex';
   document.getElementById('fcp-hc').textContent = '+' + fcMaxCoins;
-  document.getElementById('fcp-success').style.display = 'none';
 
   const R=5, C=7;
   const PD = {
@@ -1702,7 +1947,7 @@ function startGlassPipes() {
     puz.push(row);
   }
   
-  const path = [[0,0,'│'],[1,0,'└'],[1,1,'─'],[1,2,'─'],[1,3,'┐'],[2,3,'│'],[3,3,'└'],[3,4,'─'],[3,5,'┐'],[4,5,'└'],[4,6,'│']];
+  const path = [[0,0,'│'],[1,0,'└'],[1,1,'─'],[1,2,'─'],[1,3,'┐'],[2,3,'│'],[3,3,'└'],[3,4,'─'],[3,5,'┐'],[4,5,'└'],[4,6,'┐']];
   for (let pt of path) puz[pt[0]][pt[1]] = pt[2];
   
   window.fcGP = puz.map(row => row.map(p => {
@@ -1769,7 +2014,9 @@ function startGlassPipes() {
       if(!window.fcGP_solv) {
         window.fcGP_solv = true;
         setTimeout(()=>{
-          document.getElementById('fcp-success').style.display='flex';
+          document.getElementById('fc-pipes').style.display = 'none';
+          document.getElementById('fc-ov').style.display = 'flex';
+          fcSetScene(8);
         }, 800);
       }
     }
@@ -1795,7 +2042,6 @@ function startGlassPipes() {
 function closeFactoryGame(success){
   document.getElementById('fc-ov').style.display = 'none';
   document.getElementById('fc-pipes').style.display = 'none';
-  document.getElementById('fcp-success').style.display = 'none';
   closeM(success ? fcMaxCoins : 0, success ? fcMaxXp : 0, success);
   
   document.getElementById('menu').classList.remove('h');
