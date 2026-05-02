@@ -313,13 +313,74 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 
 .qz-feedback-toast { position: absolute; top: 120%; left: 50%; transform: translateX(-50%); width: 100%; max-width: 600px; text-align: center; font: bold 16px/1.4 'Courier New', mono; padding: 15px; border-radius: 8px; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
 .qz-feedback-toast.show { opacity: 1; }
+
+/* ── BACKPACK FULL-SCREEN PAGE ── */
+#bp-ov { background: #fdf4da; z-index: 300; display: none; flex-direction: column; overflow: hidden; }
+#bp-ov:not(.h) { display: flex; }
+.bp-card { background: transparent; border: none; border-radius: 0; width: 100%; height: 100%; max-width: none; max-height: none; display: flex; flex-direction: column; box-shadow: none; }
+.bp-header { height: 80px; display: flex; align-items: center; padding: 0 40px; background: #fdf4da; }
+.bp-back { background: #fff9e6; border: 3px solid #3d2314; border-radius: 50%; width: 48px; height: 48px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; box-shadow: 0 4px 0 rgba(0,0,0,0.1); }
+.bp-back:hover { transform: scale(1.1); }
+.bp-tabs { flex: 1; display: flex; justify-content: center; gap: 40px; height: 100%; }
+.bp-tab { display: flex; align-items: center; gap: 12px; cursor: pointer; padding: 0 20px; transition: all 0.2s; border-bottom: 6px solid transparent; }
+.bp-tab img { width: 32px; height: 32px; }
+.bp-tab span { font: bold 20px 'Courier New', mono; color: #3d2314; text-transform: capitalize; }
+.bp-tab.active { border-bottom-color: #3d2314; }
+.bp-tab:hover { opacity: 0.8; }
+
+.bp-body { flex: 1; padding: 40px 60px; overflow-y: auto; display: flex; flex-direction: column; gap: 40px; }
+.bp-body::-webkit-scrollbar { width: 8px; }
+.bp-body::-webkit-scrollbar-thumb { background: #3d2314; border-radius: 4px; }
+
+.bp-section { display: flex; flex-direction: column; gap: 20px; }
+.bp-section-title { display: flex; align-items: center; gap: 15px; font: bold 22px 'Courier New', mono; color: #3d2314; }
+.bp-section-title img, .bp-section-title span.emoji { width: 32px; height: 32px; font-size: 28px; }
+
+.bp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 25px; background: rgba(61, 35, 20, 0.05); border: 4px dashed rgba(61, 35, 20, 0.3); border-radius: 20px; padding: 30px; }
+.bp-item { display: flex; flex-direction: column; align-items: center; gap: 12px; transition: transform 0.2s; position: relative; }
+.bp-item:hover { transform: scale(1.05); }
+.bp-item.locked { opacity: 0.5; filter: grayscale(0.8); }
+.bp-item img { width: 80px; height: 80px; object-fit: contain; image-rendering: pixelated; }
+.bp-item .emoji { font-size: 50px; }
+.bp-item-name { font: bold 14px 'Courier New', mono; color: #3d2314; text-align: center; }
+
+.bp-badge-list { display: grid; grid-template-columns: 1fr; gap: 15px; background: rgba(61, 35, 20, 0.05); border: 4px dashed rgba(61, 35, 20, 0.3); border-radius: 20px; padding: 30px; width: 100%; max-width: 500px; }
+.bp-badge-item { display: flex; align-items: center; gap: 15px; font: bold 18px 'Courier New', mono; color: #3d2314; }
+.bp-badge-icon { font-size: 24px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
+
+.bp-lb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+.bp-lb-col { display: flex; flex-direction: column; gap: 15px; }
+.bp-lb-header { display: flex; align-items: center; gap: 15px; font: bold 20px 'Courier New', mono; color: #3d2314; margin-bottom: 10px; }
+
+/* ── NEW TOOLS TAB STYLES ── */
+.tools-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+.tools-col { background: rgba(61, 35, 20, 0.05); border: 3px dashed rgba(61, 35, 20, 0.3); border-radius: 20px; padding: 25px; display: flex; flex-direction: column; gap: 20px; }
+.tools-col-title { font: bold 18px 'Courier New', mono; color: #3d2314; margin-bottom: 5px; }
+
+.tool-card { display: flex; align-items: center; padding: 15px 25px; background: #5a3e1b; border-radius: 40px; color: white; position: relative; box-shadow: 0 6px 0 #3d2314; transition: transform 0.1s; }
+.tool-card.locked { background: #d0d0d0; color: #5a3e1b; box-shadow: 0 6px 0 #a0a0a0; }
+.tool-card-icon { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
+.tool-card-icon img { width: 32px; height: 32px; image-rendering: pixelated; }
+
+.tool-card-info { flex: 1; padding-left: 15px; display: flex; flex-direction: column; gap: 5px; }
+.tool-card-name { font: bold 16px 'Courier New', mono; text-transform: capitalize; }
+.tool-card-price { background: #ffd700; border-radius: 15px; padding: 2px 10px; display: inline-flex; align-items: center; gap: 5px; color: #3d2314; font: bold 14px 'Courier New', mono; width: fit-content; }
+
+.tool-card-qty-box { display: flex; align-items: center; gap: 10px; }
+.tool-plus { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font: bold 20px 'Courier New', mono; cursor: pointer; color: white; }
+.tool-card.locked .tool-plus { color: #5a3e1b; }
+.tool-qty-pill { background: #b09070; border: 4px solid #3d2314; border-radius: 20px; width: 80px; height: 36px; display: flex; align-items: center; justify-content: center; font: bold 18px 'Courier New', mono; color: #3d2314; }
+.tool-card.locked .tool-qty-pill { background: #e0e0e0; border-color: #3d2314; }
+
+/* Tooltip style for locked missions */
+.bp-item-req { position: absolute; bottom: -5px; right: -5px; background: #e82020; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font: bold 12px sans-serif; border: 2px solid #3d2314; }
 </style>
 </head>
 <body>
 <div id="wrap">
   <canvas id="gc" width="800" height="560"></canvas>
   <div id="menu" class="h">
-    <div class="menu-btn" title="Backpack" onclick="notify('INVENTORY COMING SOON!')"><img src="backpack.svg" alt="Backpack"></div>
+    <div class="menu-btn" title="Backpack" onclick="openBP()"><img src="backpack.svg" alt="Backpack"></div>
     <div class="menu-btn" title="Leaderboard" onclick="showLB()"><img src="world.svg" alt="World"></div>
     <div class="menu-btn" title="Missions" onclick="notify('EXPLORE TO FIND MISSIONS!')"><img src="group.svg" alt="Group"></div>
     <div class="menu-btn" title="Language" onclick="notify('LANGUAGE SETTINGS COMING SOON!')"><span class="text-icon">ار</span></div>
@@ -827,6 +888,34 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
         <div class="dg-title">Landfill Cleaned!</div>
         <div class="dg-text" style="text-align:center;">Great job! You've properly categorized the waste. The environment is much safer now.</div>
         <button class="dg-btn" onclick="completeLandfillGame()">Back to Map</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Backpack Overlay -->
+  <div class="ov h" id="bp-ov">
+    <div class="bp-card">
+      <div class="bp-header">
+        <button class="bp-back" onclick="closeBP()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5a3e1b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        </button>
+        <div class="bp-tabs">
+          <div class="bp-tab active" id="tab-tools" onclick="switchBPTab('tools')">
+            <img src="wrench.png" alt="Tools"> <span>Tools</span>
+          </div>
+          <div class="bp-tab" id="tab-journal" onclick="switchBPTab('journal')">
+            <img src="book.png" alt="Journal"> <span>Journal</span>
+          </div>
+          <div class="bp-tab" id="tab-leaderboard" onclick="switchBPTab('leaderboard')">
+            <img src="trophy.png" alt="Leaderboard"> <span>Leaderboard</span>
+          </div>
+          <div class="bp-tab" id="tab-settings" onclick="switchBPTab('settings')">
+            <img src="gear.png" alt="Settings"> <span>Settings</span>
+          </div>
+        </div>
+      </div>
+      <div class="bp-body" id="bp-body">
+        <!-- Content injected by JS -->
       </div>
     </div>
   </div>
@@ -1361,7 +1450,7 @@ const MISSIONS=[
   ]},
   {id:'dolphin',title:'DOLPHIN RESCUE',desc:'Tangled in plastic!\nAnswer to free it.',
    icon:'🐬',tx:585,ty:720,tw:80,th:50,type:'quiz',coins:50,xp:100,color:'#60b0e0',
-   animal:'Dolphin',qs:[
+   animal:'Dolphin', reqTools:['magnifier'], qs:[
     {q:'Plastic bottles entering ocean per minute?',opts:['100','1,000','1 million+','10'],a:2,f:'Over 1 million plastic bottles bought every minute — many end in the ocean.'},
     {q:'What to do with old plastic bags?',opts:['Burn them','Reuse or recycle','Bury them','Leave outside'],a:1,f:'Reusing and recycling plastic keeps it out of our oceans.'},
     {q:'How do dolphins communicate?',opts:['Sign language','Clicks & whistles','Colour changes','Smell'],a:1,f:'Dolphins have unique whistles like names — they are incredibly intelligent!'},
@@ -1370,7 +1459,8 @@ const MISSIONS=[
   {id:'landfill',title:'CLEAN THE LANDFILL',desc:'Sort the waste\ninto correct bins!',
    icon:'🗑️',tx:1300,ty:1050,tw:180,th:200,type:'sorting',coins:70,xp:140,color:'#b09050'},
   {id:'factory',title:'FIX THE FACTORY LEAK',desc:'Connect pipes to\nseal the toxic leak!',
-   icon:'⚙️',tx:1270,ty:705,tw:160,th:150,type:'pipes',coins:80,xp:160,color:'#a0a888'},
+   icon:'⚙️',tx:1270,ty:705,tw:160,th:150,type:'pipes',coins:80,xp:160,color:'#a0a888',
+   reqTools:['tester']},
   {id:'forest',title:'SAVE THE FOREST',desc:'Deforestation crisis!\nLearn why forests matter.',
    icon:'🌲',tx:620,ty:250,tw:60,th:44,type:'quiz',coins:55,xp:110,color:'#40b050',
    animal:'Forest',qs:[
@@ -1381,13 +1471,37 @@ const MISSIONS=[
   ]},
   {id:'coral',title:'SAVE THE CORAL REEF',desc:'Coral reefs dying!\nLearn to protect them.',
    icon:'🪸',tx:1200,ty:180,tw:200,th:200,type:'quiz',coins:65,xp:130,color:'#e09070',
-   animal:'Coral Reef',qs:[
+   animal:'Coral Reef', badge: 'Reef Protector', qs:[
     {q:'What causes coral bleaching?',opts:['Cold water','Warmer ocean temps','More fish','High tides'],a:1,f:'Warmer seas stress corals — they expel the algae that feed them.'},
     {q:'Reefs support what % of ocean species?',opts:['5%','10%','25%+','1%'],a:2,f:'Reefs cover <1% of the ocean floor yet support 25%+ of marine species!'},
     {q:'Chemicals that damage coral reefs?',opts:['Saltwater','Sunscreen & fertilisers','Rainwater','Fish waste'],a:1,f:'Chemical sunscreens and agricultural runoff are major threats to coral.'},
     {q:'How can YOU help coral reefs?',opts:['Eat more fish','Reduce plastic use','Heat the ocean','Nothing'],a:1,f:'Reducing plastic, reef-safe sunscreen, and cutting CO2 all protect reefs.'},
   ]},
 ];
+
+const ANIMAL_DATA = {
+  markhor: { name: 'Markhor', icon: 'markhor.svg', mission: 'forest' },
+  leapord: { name: 'Snow Leopard', icon: 'leapord.svg', mission: 'smog' },
+  pangolin: { name: 'Pangolin', icon: 'pangolin.svg', mission: 'landfill' },
+  polar_bear: { name: 'Polar Bear', icon: 'bear.svg', mission: 'polarbear' },
+  dolphin: { name: 'Indus River Dolphin', icon: 'dolphin.svg', mission: 'dolphin' }
+};
+
+const TOOL_DATA = {
+  hammer: { name: 'Hammer', icon: 'hammer.png', price: 3, qty: 5 },
+  sledge: { name: 'Sledge Hammer', icon: 'sledge.png', price: 5, qty: 3 },
+  scissors: { name: 'Scissors', icon: 'scissors.png', price: 8, qty: 3 },
+  solar: { name: 'Solar Panel', icon: 'tester.png', price: 5, qty: 0, locked: true }
+};
+
+const BADGE_DATA = {
+  tree_saver: { name: 'Tree Saver', icon: '🌳' },
+  electricity_saver: { name: 'Electricity Saver', icon: '⚡' },
+  air_purifier: { name: 'Air Purifier', icon: '💨' },
+  recycling_master: { name: 'Recycling Master', icon: '♻️' },
+  savior: { name: 'Savior', icon: '🎖️' },
+  reef_protector: { name: 'Reef Protector', icon: '🪸' }
+};
 
 const RANKS=[{xp:0,n:'ECO ROOKIE'},{xp:300,n:'GREEN GUARDIAN'},{xp:700,n:'PLANET PROTECTOR'},{xp:1200,n:'EARTH HERO'}];
 function getRank(xp){let r=RANKS[0];for(const k of RANKS)if(xp>=k.xp)r=k;return r;}
@@ -1397,7 +1511,11 @@ let LB=[{name:'HAMZA',coins:280,rank:'GREEN GUARDIAN'},{name:'AMNA',coins:210,ra
    GAME STATE
 ══════════════════════════════════════════════ */
 let P={x:678,y:565,w:32,h:32,speed:2.5,dir:'down',fr:0,ft:0,moving:false,
-       name:'PLAYER',coins:0,xp:0,rank:'ECO ROOKIE',done:[]};
+       name:'PLAYER',coins:1250,xp:450,rank:'GREEN GUARDIAN',done:['forest', 'smog', 'landfill', 'polarbear'],
+       animals: ['markhor', 'leapord', 'pangolin', 'polar_bear'],
+       tools: ['magnifier', 'tester'],
+       badges: ['tree_saver', 'electricity_saver']
+};
 let cam={x:0,y:0};
 let curM=null, mActive=false, running=false;
 const K={};
@@ -1587,6 +1705,33 @@ function showMDO(m) {
   
   document.getElementById('mdo-badge-item').innerHTML = `${bIcon} <span id="mdo-badge" style="margin-left:10px">${bText}</span>`;
   document.getElementById('mdo-xp').textContent = '+'+m.xp;
+
+  // Check for required tools
+  let hasTools = true;
+  let toolNames = [];
+  if(m.reqTools) {
+    for(const tid of m.reqTools) {
+      if(!P.tools.includes(tid)) {
+        hasTools = false;
+        toolNames.push(TOOL_DATA[tid].name);
+      }
+    }
+  }
+
+  const startBtn = document.querySelector('.mdo-start');
+  if(!hasTools) {
+    startBtn.disabled = true;
+    startBtn.style.opacity = 0.5;
+    startBtn.style.cursor = 'not-allowed';
+    startBtn.textContent = "Locked";
+    notify("MISSING: " + toolNames.join(", "));
+  } else {
+    startBtn.disabled = false;
+    startBtn.style.opacity = 1;
+    startBtn.style.cursor = 'pointer';
+    startBtn.textContent = "Start";
+  }
+
   document.getElementById('mdo').classList.remove('h');
   document.getElementById('menu').classList.add('h');
   document.getElementById('hud').classList.add('h');
@@ -1719,6 +1864,22 @@ function closeM(coins,xp,ok){
   mActive=false; document.getElementById('mo').classList.add('h');
   if(ok&&curM&&!P.done.includes(curM.id)){
     P.done.push(curM.id); P.coins+=coins; P.xp+=xp; updHUD(); updLB();
+    
+    // Award Animal
+    const aid = Object.keys(ANIMAL_DATA).find(k => ANIMAL_DATA[k].mission === curM.id);
+    if(aid && !P.animals.includes(aid)) P.animals.push(aid);
+
+    // Award Badge
+    if(curM.badge) {
+      const bid = Object.keys(BADGE_DATA).find(k => BADGE_DATA[k].name === curM.badge);
+      if(bid && !P.badges.includes(bid)) P.badges.push(bid);
+    } else {
+      // Default mission-to-badge mapping from showMDO logic if no specific badge set
+      const m2b = {smog:'air_purifier', landfill:'recycling_master', factory:'savior', forest:'tree_saver', polarbear:'savior', dolphin:'savior'};
+      const bid = m2b[curM.id];
+      if(bid && !P.badges.includes(bid)) P.badges.push(bid);
+    }
+
     notify('+'+coins+' Rs\n+'+xp+' XP!');
     const nr=getRank(P.xp); if(nr.n!==P.rank)setTimeout(()=>notify('RANK UP!\n'+nr.n+'!'),1200);
   }
@@ -1807,9 +1968,180 @@ function renderPipes(){
   tid=setInterval(()=>{if(slv){clearInterval(tid);return;}tl--;const e=document.getElementById('pt2');if(e){e.textContent='TIME: '+tl+'s';e.style.color=tl<15?'#d03030':'#e07820';}if(tl<=0){clearInterval(tid);if(!slv){const f=document.getElementById('pfb');if(f){f.style.color='#d03030';f.textContent='TIME\'S UP!';}setTimeout(()=>closeM(0,0,false),1600);}}},1000);
 }
 
+function openBP(tab = 'tools') {
+  document.getElementById('bp-ov').classList.remove('h');
+  document.getElementById('menu').classList.add('h');
+  document.getElementById('hud').classList.add('h');
+  mActive = true;
+  switchBPTab(tab);
+}
+
+function closeBP() {
+  document.getElementById('bp-ov').classList.add('h');
+  document.getElementById('menu').classList.remove('h');
+  document.getElementById('hud').classList.remove('h');
+  mActive = false;
+}
+
+function switchBPTab(tab) {
+  document.querySelectorAll('.bp-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  renderBPTab(tab);
+}
+
+function renderBPTab(tab) {
+  const body = document.getElementById('bp-body');
+  body.innerHTML = '';
+
+  if (tab === 'tools') {
+    let html = `<div class="tools-layout">
+      <div class="tools-col">
+        <div class="tools-col-title">Active Tools</div>`;
+    
+    Object.keys(TOOL_DATA).forEach(tid => {
+      const tool = TOOL_DATA[tid];
+      if (!tool.locked) {
+        html += `<div class="tool-card">
+          <div class="tool-card-icon"><img src="${tool.icon}"></div>
+          <div class="tool-card-info">
+            <div class="tool-card-name">${tool.name}</div>
+            <div class="tool-card-price"><img src="coin.svg" style="width:16px;height:16px"> ${tool.price}</div>
+          </div>
+          <div class="tool-card-qty-box">
+            <div class="tool-plus" onclick="notify('Buy more ${tool.name}?')">+</div>
+            <div class="tool-qty-pill">${tool.qty}</div>
+          </div>
+        </div>`;
+      }
+    });
+    html += `</div>
+      <div class="tools-col">
+        <div class="tools-col-title">Locked Tools</div>`;
+    
+    Object.keys(TOOL_DATA).forEach(tid => {
+      const tool = TOOL_DATA[tid];
+      if (tool.locked) {
+        html += `<div class="tool-card locked">
+          <div class="tool-card-icon"><img src="${tool.icon}" style="opacity:0.6"></div>
+          <div class="tool-card-info">
+            <div class="tool-card-name">${tool.name}</div>
+            <div class="tool-card-price"><img src="coin.svg" style="width:16px;height:16px;filter:grayscale(1)"> ${tool.price}</div>
+          </div>
+          <div class="tool-card-qty-box">
+            <div class="tool-qty-pill">0</div>
+          </div>
+        </div>`;
+      }
+    });
+    html += `</div></div>`;
+    body.innerHTML = html;
+
+  } else if (tab === 'journal') {
+    // Collected Animals
+    let html = `<div class="bp-section">
+      <div class="bp-section-title"><span class="emoji">🐾</span> <span>COLLECTED ANIMALS</span></div>
+      <div class="bp-grid">`;
+    
+    P.animals.forEach(aid => {
+      const animal = ANIMAL_DATA[aid];
+      html += `<div class="bp-item">
+        <img src="${animal.icon}" alt="${animal.name}">
+        <div class="bp-item-name">${animal.name}</div>
+      </div>`;
+    });
+    html += `</div></div>`;
+
+    // Remaining Animals
+    html += `<div class="bp-section">
+      <div class="bp-section-title"><span class="emoji">❓</span> <span>REMAINING ANIMALS</span></div>
+      <div class="bp-grid">`;
+    
+    Object.keys(ANIMAL_DATA).forEach(aid => {
+      if (!P.animals.includes(aid)) {
+        const animal = ANIMAL_DATA[aid];
+        html += `<div class="bp-item locked">
+          <img src="${animal.icon}" alt="${animal.name}">
+          <div class="bp-item-name">${animal.name}</div>
+        </div>`;
+      }
+    });
+    html += `</div></div>`;
+
+    // Badges
+    html += `<div class="bp-section">
+      <div class="bp-section-title"><span class="emoji">🏅</span> <span>YOUR BADGES</span></div>
+      <div class="bp-badge-list">`;
+    
+    P.badges.forEach(bid => {
+      const badge = BADGE_DATA[bid];
+      html += `<div class="bp-badge-item">
+        <div class="bp-badge-icon">${badge.icon}</div>
+        <span>${badge.name}</span>
+      </div>`;
+    });
+    html += `</div></div>`;
+    body.innerHTML = html;
+
+  } else if (tab === 'leaderboard') {
+    updLB();
+    const medals = ['🥇', '🥈', '🥉'];
+    let html = `<div class="bp-lb-grid">
+      <div class="bp-lb-col">
+        <div class="bp-lb-header"><img src="world.svg" style="width:20px"> <span>PAKISTAN</span></div>
+        <div class="bp-badge-list" style="gap:5px">`;
+    
+    // Sort and show top 10
+    LB.slice(0, 10).forEach((e, i) => {
+      html += `<div class="bp-badge-item" style="padding:8px; background:${e.name===P.name?'#ffd700':'#fdf4da'}; border-radius:8px">
+        <span style="width:25px">${medals[i] || (i+1)+'.'}</span>
+        <span style="flex:1">${e.name}</span>
+        <span style="color:#5a3e1b">🪙 ${e.coins}</span>
+      </div>`;
+    });
+    html += `</div></div>
+      <div class="bp-lb-col">
+        <div class="bp-lb-header"><img src="group.svg" style="width:20px"> <span>LAHORE</span></div>
+        <div class="bp-badge-list" style="gap:5px">`;
+    
+    // City leaderboard (simulated with random names)
+    const cityLB = [...LB, {name:'NOVERA',coins:420}, {name:'USMAN',coins:380}, {name:'FAJR',coins:310}].sort((a,b)=>b.coins-a.coins);
+    cityLB.slice(0, 10).forEach((e, i) => {
+      html += `<div class="bp-badge-item" style="padding:8px; background:${e.name===P.name?'#ffd700':'#fdf4da'}; border-radius:8px">
+        <span style="width:25px">${medals[i] || (i+1)+'.'}</span>
+        <span style="flex:1">${e.name}</span>
+        <span style="color:#5a3e1b">🪙 ${e.coins}</span>
+      </div>`;
+    });
+    html += `</div></div></div>`;
+    body.innerHTML = html;
+
+  } else if (tab === 'settings') {
+    body.innerHTML = `<div class="bp-section">
+      <div class="bp-section-title"><span class="emoji">⚙️</span> <span>GAME SETTINGS</span></div>
+      <div class="bp-badge-list" style="gap:20px; padding:30px">
+        <div class="bp-badge-item">
+          <span>🔊 Sound Effects</span>
+          <div style="flex:1"></div>
+          <button class="ss-play" style="width:60px; height:30px; border-width:2px">ON</button>
+        </div>
+        <div class="bp-badge-item">
+          <span>🎵 Background Music</span>
+          <div style="flex:1"></div>
+          <button class="ss-play" style="width:60px; height:30px; border-width:2px">ON</button>
+        </div>
+        <div class="bp-badge-item">
+          <span>🌍 Language</span>
+          <div style="flex:1"></div>
+          <button class="ss-play" style="width:100px; height:30px; border-width:2px" onclick="begin()">CHANGE</button>
+        </div>
+      </div>
+    </div>`;
+  }
+}
+
 function updLB(){const ex=LB.find(e=>e.name===P.name);if(ex){ex.coins=Math.max(ex.coins,P.coins);ex.rank=P.rank;}else LB.push({name:P.name,coins:P.coins,rank:P.rank});LB.sort((a,b)=>b.coins-a.coins);}
-function showLB(){updLB();const m=['🥇','🥈','🥉'];document.getElementById('ll').innerHTML=LB.slice(0,10).map((e,i)=>`<div class="lr${e.name===P.name?' ly':''}"><div class="lk">${m[i]||'#'+(i+1)}</div><div class="ln">${e.name}</div><div><div class="lc">🪙 ${e.coins} Rs</div><div class="lrk">${e.rank}</div></div></div>`).join('');document.getElementById('lo').classList.remove('h');mActive=true;}
-function hideLB(){document.getElementById('lo').classList.add('h');mActive=false;}
+function showLB(){ openBP('leaderboard'); }
+function hideLB(){ closeBP(); }
 
 /* ══════════════════════════════════════════════
    SMOG BUSTER MISSION LOGIC
