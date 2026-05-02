@@ -246,6 +246,47 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 .gp-p-C-NE .gp-glass:not(.gp-g1):not(.gp-g2) { width:26px; height:26px; top:13px; left:13px; border-top:none; border-right:none; border-radius:0 0 0 4px; box-shadow:none; }
 .gp-p-C-NE .fl-t { width:36px; height:8px; left:8px; top:-2px; }
 .gp-p-C-NE .fl-r { width:8px; height:36px; right:-2px; top:8px; left:auto; }
+/* ── LANDFILL GAME OVERLAY ── */
+#lf-ov { position: fixed; inset: 0; background: #fdf4da; z-index: 200; overflow: hidden; display: none; flex-direction: column; align-items: center; justify-content: center; font-family: 'Courier New', mono; }
+#lf-hud { position: absolute; top: 15px; right: 15px; display: flex; gap: 15px; z-index: 205; pointer-events: none; }
+#lf-back { position: absolute; top: 15px; left: 15px; width: 56px; height: 56px; background: #fff9e6; border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,.2); display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid #5a3e1b; z-index: 205; transition: transform .2s; }
+#lf-back:hover { transform: scale(1.08); background: #fff2cc; }
+#lf-back:active { transform: scale(0.95); }
+
+.lf-container { width: 90%; max-width: 900px; display: flex; flex-direction: column; align-items: center; gap: 30px; }
+.lf-item-box { width: 100%; background: #e6d5b8; border: 4px solid #5a3e1b; border-radius: 4px; padding: 25px; box-shadow: 0 6px 0 rgba(0,0,0,0.1); position: relative; }
+.lf-instruction { font: bold 16px 'Courier New', mono; color: #5a3e1b; margin-bottom: 25px; }
+.lf-items-row { display: flex; justify-content: space-around; align-items: flex-end; min-height: 110px; flex-wrap: wrap; gap: 15px; }
+
+.lf-item { cursor: grab; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: transform 0.1s; user-select: none; touch-action: none; }
+.lf-item:active { cursor: grabbing; transform: scale(1.1); }
+.lf-item-icon { font-size: 40px; image-rendering: pixelated; filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.2)); }
+.lf-item-label { font: bold 12px 'Courier New', mono; color: #5a3e1b; }
+
+.lf-bins-row { display: flex; justify-content: center; gap: 50px; width: 100%; margin-top: 20px; }
+.lf-bin { display: flex; flex-direction: column; align-items: center; gap: 15px; transition: transform 0.2s; cursor: default; }
+.lf-bin.hover { transform: scale(1.05); }
+.lf-bin-shape { width: 150px; height: 160px; position: relative; border-radius: 4px 4px 30px 30px; border: 6px solid; box-shadow: 6px 6px 0 rgba(0,0,0,0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.lf-bin-lid { width: 130px; height: 20px; border: 6px solid; border-bottom: none; border-radius: 10px 10px 0 0; position: absolute; top: -26px; left: 4px; }
+.lf-bin-lid-handle { width: 40px; height: 10px; border: 6px solid; border-bottom: none; border-radius: 6px 6px 0 0; position: absolute; top: -16px; left: 39px; }
+
+.lf-bin.recycle .lf-bin-shape, .lf-bin.recycle .lf-bin-lid, .lf-bin.recycle .lf-bin-lid-handle { background: #1b5e20; border-color: #113d15; color: #113d15; }
+.lf-bin.dangerous .lf-bin-shape, .lf-bin.dangerous .lf-bin-lid, .lf-bin.dangerous .lf-bin-lid-handle { background: #b71c1c; border-color: #7b1313; color: #7b1313; }
+.lf-bin.general .lf-bin-shape, .lf-bin.general .lf-bin-lid, .lf-bin.general .lf-bin-lid-handle { background: #e65100; border-color: #9c3600; color: #9c3600; }
+
+.lf-bin-label { font: bold 22px 'Courier New', mono; margin-top: 5px; }
+.lf-bin.recycle .lf-bin-label { color: #1b5e20; }
+.lf-bin.dangerous .lf-bin-label { color: #b71c1c; }
+.lf-bin.general .lf-bin-label { color: #e65100; }
+
+.lf-bin-logo { width: 60px; height: 60px; opacity: 0.8; filter: brightness(0) invert(1); }
+
+#lf-next { background: #4dfb8b; border: 4px solid #113d15; padding: 12px 60px; font: bold 20px 'Courier New', mono; color: #113d15; cursor: pointer; box-shadow: 4px 4px 0 #113d15; transition: transform 0.1s, box-shadow 0.1s; margin-top: 20px; }
+#lf-next:active { transform: translate(4px, 4px); box-shadow: 0 0 0 #113d15; }
+#lf-next:disabled { background: #a0a0a0; border-color: #555; color: #555; box-shadow: 4px 4px 0 #555; cursor: not-allowed; opacity: 0.6; }
+
+.lf-feedback { position: absolute; top: -40px; left: 50%; transform: translateX(-50%); padding: 10px 20px; border-radius: 8px; font: bold 16px 'Courier New', mono; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 0.3s, top 0.3s; }
+.lf-feedback.show { opacity: 1; top: -60px; }
 </style>
 </head>
 <body>
@@ -633,6 +674,86 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
     <div class="gp-hill"></div>
     <div class="gp-grid" id="gp-grid"></div>
 
+  </div>
+
+  <!-- Landfill Game Overlay -->
+  <div id="lf-ov">
+    <div id="lf-back" onclick="closeLandfillGame(false)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#5a3e1b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+    </div>
+    <div id="lf-hud">
+      <div class="stat-pill xp" style="min-width:180px; height:42px">
+        <div class="progress-fill" style="width:100%;background:#00bfff"></div>
+        <img src="star.svg" alt="star" style="width:28px;height:28px">
+        <div class="value" id="lf-hr">+0 XP</div>
+      </div>
+      <div class="stat-pill coin" style="min-width:180px; height:42px">
+        <div class="progress-fill" style="width:100%;background:#ffd700"></div>
+        <img src="coin.svg" alt="coin" style="width:28px;height:28px">
+        <div class="value" id="lf-hc">+0</div>
+      </div>
+    </div>
+
+    <div class="lf-container">
+      <div class="lf-item-box">
+        <div class="lf-feedback" id="lf-feedback"></div>
+        <div class="lf-instruction">Drag the items to the correct bins:</div>
+        <div class="lf-items-row" id="lf-items-row">
+          <!-- Items will be injected here -->
+        </div>
+      </div>
+
+      <div class="lf-bins-row">
+        <div class="lf-bin recycle" data-bin="recycle" id="bin-recycle">
+          <div class="lf-bin-shape">
+            <div class="lf-bin-lid"><div class="lf-bin-lid-handle"></div></div>
+            <svg class="lf-bin-logo" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L4.5 15h3V22h9v-7h3L12 2zm1 18h-2v-4h2v4zm0-6h-2V7h2v7z"/></svg>
+            <div style="font:bold 12px 'Courier New',mono; color:white; margin-top:10px;" id="lf-count-recycle">0</div>
+          </div>
+          <div class="lf-bin-label">Recycle</div>
+        </div>
+        
+        <div class="lf-bin dangerous" data-bin="dangerous" id="bin-dangerous">
+          <div class="lf-bin-shape">
+            <div class="lf-bin-lid"><div class="lf-bin-lid-handle"></div></div>
+            <svg class="lf-bin-logo" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a5 5 0 0 0-5 5v2a3 3 0 0 0-3 3v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a3 3 0 0 0-3-3V7a5 5 0 0 0-5-5zm3 7H9V7a3 3 0 0 1 6 0v2z"/></svg>
+            <div style="font:bold 12px 'Courier New',mono; color:white; margin-top:10px;" id="lf-count-dangerous">0</div>
+          </div>
+          <div class="lf-bin-label">Dangerous</div>
+        </div>
+
+        <div class="lf-bin general" data-bin="general" id="bin-general">
+          <div class="lf-bin-shape">
+            <div class="lf-bin-lid"><div class="lf-bin-lid-handle"></div></div>
+            <svg class="lf-bin-logo" viewBox="0 0 24 24" fill="currentColor"><path d="M19 4h-3V2h-8v2h-3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM9 18l-4-4 1.41-1.41L9 15.17l7.59-7.59L18 9l-9 9z"/></svg>
+            <div style="font:bold 12px 'Courier New',mono; color:white; margin-top:10px;" id="lf-count-general">0</div>
+          </div>
+          <div class="lf-bin-label">General</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Intro Modal -->
+    <div id="lf-intro" style="position: absolute; inset: 0; z-index: 300; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.85);">
+      <div class="fc-dialog" style="padding:30px; border:4px solid #3d2314; background:#fdf4da; text-align:center; max-width:500px;">
+        <div class="lg-title" style="color:#e65100; font-size:24px; margin-bottom:15px;">WASTE SORTING MISSION</div>
+        <div class="sm-text" style="margin-bottom:20px; line-height:1.5;">
+          The landfill is overflowing with unsorted waste!<br><br>
+          <b style="color:#b71c1c">Hazardous waste like batteries can poison the soil and water.</b><br><br>
+          Sort the items into the correct bins to earn points and save the environment.<br>
+        </div>
+        <button class="fc-btn" onclick="startLandfillLogic()">&#9654; START SORTING</button>
+      </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="lf-success" style="position: absolute; inset: 0; z-index: 300; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.85);">
+      <div class="dg-card">
+        <div class="dg-title">Landfill Cleaned!</div>
+        <div class="dg-text" style="text-align:center;">Great job! You've properly categorized the waste. The environment is much safer now.</div>
+        <button class="dg-btn" onclick="completeLandfillGame()">Back to Map</button>
+      </div>
+    </div>
   </div>
 
   <!-- Virtual Joystick (bottom-left) -->
@@ -1508,6 +1629,8 @@ function startM(){
     startFactoryGame(m);
   } else if(m.id === 'smog'){
     startSmogGame(m);
+  } else if(m.id === 'landfill'){
+    startLandfillGame(m);
   } else {
     document.getElementById('mo').classList.remove('h');
     if(m.type==='quiz')renderQuiz(m);
@@ -2043,6 +2166,158 @@ function closeFactoryGame(success){
   document.getElementById('fc-ov').style.display = 'none';
   document.getElementById('fc-pipes').style.display = 'none';
   closeM(success ? fcMaxCoins : 0, success ? fcMaxXp : 0, success);
+  
+  document.getElementById('menu').classList.remove('h');
+  document.getElementById('joystick').classList.remove('h');
+  document.getElementById('hud').classList.remove('h');
+}
+
+/* ── LANDFILL GAME LOGIC ── */
+let lfMaxCoins = 0, lfMaxXp = 0;
+let lfItemsSorted = 0;
+let lfTotalItems = 0;
+
+const LF_ITEMS = [
+  { id: 'battery', name: 'Battery', icon: '🔋', bin: 'dangerous', fact: 'Batteries leak toxic acid!' },
+  { id: 'magnet', name: 'Magnet', icon: '🧲', bin: 'recycle', fact: 'Magnets are recyclable metal!' },
+  { id: 'lightbulb', name: 'Light Bulb', icon: '💡', bin: 'dangerous', fact: 'Bulbs contain toxic mercury!' },
+  { id: 'newspaper', name: 'News Paper', icon: '📰', bin: 'recycle', fact: 'Paper is highly recyclable!' },
+  { id: 'camera', name: 'Camera', icon: '📷', bin: 'dangerous', fact: 'E-waste has toxic components!' },
+  { id: 'flower', name: 'Flower', icon: '🌷', bin: 'general', fact: 'Organic waste is general/compost!' },
+  { id: 'glasses', name: 'Glasses', icon: '👓', bin: 'general', fact: 'Mixed materials go to general!' }
+];
+
+function startLandfillGame(m) {
+  lfMaxCoins = m.coins;
+  lfMaxXp = m.xp;
+  lfItemsSorted = 0;
+  lfTotalItems = LF_ITEMS.length;
+  
+  document.getElementById('lf-hr').textContent = '+0 XP';
+  document.getElementById('lf-hc').textContent = '+0';
+  document.getElementById('lf-count-recycle').textContent = '0';
+  document.getElementById('lf-count-dangerous').textContent = '0';
+  document.getElementById('lf-count-general').textContent = '0';
+  document.getElementById('lf-items-row').innerHTML = '';
+  document.getElementById('lf-intro').style.display = 'flex';
+  document.getElementById('lf-success').style.display = 'none';
+  
+  document.getElementById('mdo').classList.add('h');
+  document.getElementById('menu').classList.add('h');
+  document.getElementById('hud').classList.add('h');
+  document.getElementById('joystick').classList.add('h');
+  
+  document.getElementById('lf-ov').style.display = 'flex';
+}
+
+function startLandfillLogic() {
+  document.getElementById('lf-intro').style.display = 'none';
+  renderLandfillItems();
+}
+
+function renderLandfillItems() {
+  const row = document.getElementById('lf-items-row');
+  row.innerHTML = '';
+  LF_ITEMS.forEach(it => {
+    const el = document.createElement('div');
+    el.className = 'lf-item';
+    el.id = 'lf-item-' + it.id;
+    el.dataset.bin = it.bin;
+    el.innerHTML = `<div class="lf-item-icon">${it.icon}</div><div class="lf-item-label">${it.name}</div>`;
+    row.appendChild(el);
+    initLFDrag(el, it);
+  });
+}
+
+function initLFDrag(el, it) {
+  let ghost = null, startX, startY;
+  
+  el.addEventListener('pointerdown', e => {
+    e.preventDefault();
+    el.setPointerCapture(e.pointerId);
+    startX = e.clientX; startY = e.clientY;
+    
+    ghost = el.cloneNode(true);
+    ghost.style.position = 'fixed';
+    ghost.style.left = e.clientX + 'px';
+    ghost.style.top = e.clientY + 'px';
+    ghost.style.transform = 'translate(-50%, -50%)';
+    ghost.style.pointerEvents = 'none';
+    ghost.style.zIndex = '1000';
+    ghost.style.opacity = '0.8';
+    document.body.appendChild(ghost);
+    el.style.opacity = '0.3';
+  });
+  
+  el.addEventListener('pointermove', e => {
+    if (!ghost) return;
+    ghost.style.left = e.clientX + 'px';
+    ghost.style.top = e.clientY + 'px';
+    
+    document.querySelectorAll('.lf-bin').forEach(b => b.classList.remove('hover'));
+    const hit = document.elementFromPoint(e.clientX, e.clientY);
+    const bin = hit && hit.closest('.lf-bin');
+    if (bin) bin.classList.add('hover');
+  });
+  
+  el.addEventListener('pointerup', e => {
+    if (!ghost) return;
+    const hit = document.elementFromPoint(e.clientX, e.clientY);
+    const bin = hit && hit.closest('.lf-bin');
+    
+    if (bin) {
+      const targetBin = bin.dataset.bin;
+      const correctBin = el.dataset.bin;
+      
+      if (targetBin === correctBin) {
+        lfItemsSorted++;
+        el.remove();
+        showLFFeedback('Correct! ' + it.fact, '#1b5e20');
+        const countEl = document.getElementById('lf-count-' + targetBin);
+        countEl.textContent = parseInt(countEl.textContent) + 1;
+        
+        // Dynamic scoring update
+        const progress = lfItemsSorted / lfTotalItems;
+        document.getElementById('lf-hc').textContent = '+' + Math.floor(lfMaxCoins * progress);
+        document.getElementById('lf-hr').textContent = '+' + Math.floor(lfMaxXp * progress) + ' XP';
+        
+        if (lfItemsSorted === lfTotalItems) {
+          setTimeout(finishLandfillGame, 800);
+        }
+      } else {
+        showLFFeedback('Wrong! ' + it.fact, '#b71c1c');
+        el.style.opacity = '1';
+      }
+    } else {
+      el.style.opacity = '1';
+    }
+    
+    ghost.remove();
+    ghost = null;
+    document.querySelectorAll('.lf-bin').forEach(b => b.classList.remove('hover'));
+  });
+}
+
+function showLFFeedback(msg, color) {
+  const fb = document.getElementById('lf-feedback');
+  fb.textContent = msg;
+  fb.style.background = color;
+  fb.style.color = 'white';
+  fb.classList.add('show');
+  setTimeout(() => fb.classList.remove('show'), 1500);
+}
+
+function finishLandfillGame() {
+  document.getElementById('lf-success').style.display = 'flex';
+}
+
+function completeLandfillGame() {
+  closeLandfillGame(true);
+}
+
+function closeLandfillGame(success) {
+  document.getElementById('lf-ov').style.display = 'none';
+  closeM(success ? lfMaxCoins : 0, success ? lfMaxXp : 0, success);
   
   document.getElementById('menu').classList.remove('h');
   document.getElementById('joystick').classList.remove('h');
