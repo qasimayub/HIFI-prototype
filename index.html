@@ -287,6 +287,32 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 
 .lf-feedback { position: absolute; top: -40px; left: 50%; transform: translateX(-50%); padding: 10px 20px; border-radius: 8px; font: bold 16px 'Courier New', mono; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 0.3s, top 0.3s; }
 .lf-feedback.show { opacity: 1; top: -60px; }
+
+/* ── QUIZ GAME OVERLAY ── */
+#qz-ov { position: fixed; inset: 0; background: #fdf4da; z-index: 200; overflow: hidden; display: none; flex-direction: column; align-items: center; justify-content: center; font-family: 'Courier New', mono; }
+#qz-hud { position: absolute; top: 15px; right: 15px; display: flex; gap: 15px; z-index: 205; pointer-events: none; }
+#qz-back { position: absolute; top: 15px; left: 15px; width: 56px; height: 56px; background: #fff9e6; border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,.2); display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid #5a3e1b; z-index: 205; }
+
+.qz-container { width: 90%; max-width: 900px; display: flex; flex-direction: column; align-items: center; gap: 40px; position: relative; }
+.qz-question { font: bold 26px 'Courier New', mono; color: #5a3e1b; text-align: center; line-height: 1.4; max-width: 800px; }
+.qz-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 30px; width: 100%; max-width: 800px; }
+.qz-option { background: #e6d5b8; border: 4px solid #5a3e1b; padding: 30px 20px; text-align: center; font: bold 18px 'Courier New', mono; color: #3d2314; cursor: pointer; box-shadow: 6px 6px 0 rgba(0,0,0,0.1); transition: transform 0.1s, background 0.2s; display: flex; align-items: center; justify-content: center; min-height: 100px; border-radius: 4px; }
+.qz-option:hover { transform: scale(1.02); background: #f0e2cc; }
+.qz-option:active { transform: scale(0.98); }
+.qz-option.correct { background: #4dfb8b !important; border-color: #113d15; color: #113d15; }
+.qz-option.wrong { background: #ff5252 !important; border-color: #b71c1c; color: white; }
+.qz-option.disabled { cursor: default; pointer-events: none; }
+
+#qz-next { background: #4dfb8b; border: 4px solid #113d15; padding: 12px 80px; font: bold 20px 'Courier New', mono; color: #113d15; cursor: pointer; box-shadow: 4px 4px 0 #113d15; transition: transform 0.1s, box-shadow 0.1s; margin-top: 20px; }
+#qz-next:active { transform: translate(4px, 4px); box-shadow: 0 0 0 #113d15; }
+#qz-next:disabled { display: none; }
+
+.qz-timer-wrap { position: absolute; top: -60px; width: 100%; max-width: 400px; height: 10px; background: rgba(0,0,0,0.1); border-radius: 5px; overflow: hidden; }
+.qz-timer-bar { height: 100%; background: #e65100; width: 100%; transition: width 1s linear, background 0.3s; }
+.qz-timer-bar.low { background: #b71c1c; }
+
+.qz-feedback-toast { position: absolute; top: 120%; left: 50%; transform: translateX(-50%); width: 100%; max-width: 600px; text-align: center; font: bold 16px/1.4 'Courier New', mono; padding: 15px; border-radius: 8px; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+.qz-feedback-toast.show { opacity: 1; }
 </style>
 </head>
 <body>
@@ -674,6 +700,55 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
     <div class="gp-hill"></div>
     <div class="gp-grid" id="gp-grid"></div>
 
+  </div>
+
+  <!-- Quiz Game Overlay -->
+  <div id="qz-ov">
+    <div id="qz-back" onclick="closeQuizGame(false)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#5a3e1b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+    </div>
+    <div id="qz-hud">
+      <div class="stat-pill xp" style="min-width:180px; height:42px">
+        <div class="progress-fill" style="width:100%;background:#00bfff"></div>
+        <img src="star.svg" alt="star" style="width:28px;height:28px">
+        <div class="value" id="qz-hr">+0 XP</div>
+      </div>
+      <div class="stat-pill coin" style="min-width:180px; height:42px">
+        <div class="progress-fill" style="width:100%;background:#ffd700"></div>
+        <img src="coin.svg" alt="coin" style="width:28px;height:28px">
+        <div class="value" id="qz-hc">+0</div>
+      </div>
+    </div>
+
+    <div class="qz-container">
+      <div class="qz-timer-wrap"><div class="qz-timer-bar" id="qz-timer"></div></div>
+      <div class="qz-question" id="qz-question">Loading question...</div>
+      <div class="qz-grid" id="qz-grid">
+        <!-- Options injected here -->
+      </div>
+      <button id="qz-next" onclick="qzNext()">Next</button>
+      <div class="qz-feedback-toast" id="qz-toast"></div>
+    </div>
+
+    <!-- Intro Modal -->
+    <div id="qz-intro" style="position: absolute; inset: 0; z-index: 300; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.85);">
+      <div class="fc-dialog" style="padding:30px; border:4px solid #3d2314; background:#fdf4da; text-align:center; max-width:500px;">
+        <div class="lg-title" id="qz-intro-title">QUIZ MISSION</div>
+        <div class="sm-text" id="qz-intro-text" style="margin-bottom:20px; line-height:1.5;">
+          Test your knowledge to save the environment!
+        </div>
+        <button class="fc-btn" onclick="startQuizLogic()">&#9654; START QUIZ</button>
+      </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="qz-success" style="position: absolute; inset: 0; z-index: 300; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.85);">
+      <div class="dg-card">
+        <div class="dg-title" id="qz-result-title">Quiz Complete!</div>
+        <div class="dg-text" id="qz-result-text" style="text-align:center;">You've finished the quiz. Great job!</div>
+        <button class="dg-btn" onclick="completeQuizGame()">Back to Map</button>
+      </div>
+    </div>
   </div>
 
   <!-- Landfill Game Overlay -->
@@ -1631,6 +1706,8 @@ function startM(){
     startSmogGame(m);
   } else if(m.id === 'landfill'){
     startLandfillGame(m);
+  } else if(m.type === 'quiz'){
+    startQuizGame(m);
   } else {
     document.getElementById('mo').classList.remove('h');
     if(m.type==='quiz')renderQuiz(m);
@@ -2318,6 +2395,128 @@ function completeLandfillGame() {
 function closeLandfillGame(success) {
   document.getElementById('lf-ov').style.display = 'none';
   closeM(success ? lfMaxCoins : 0, success ? lfMaxXp : 0, success);
+  
+  document.getElementById('menu').classList.remove('h');
+  document.getElementById('joystick').classList.remove('h');
+  document.getElementById('hud').classList.remove('h');
+}
+
+/* ── QUIZ GAME LOGIC ── */
+let qzCurM = null, qzIdx = 0, qzScore = 0, qzTimer = null, qzTimeLeft = 15;
+let qzMaxCoins = 0, qzMaxXp = 0;
+
+function startQuizGame(m) {
+  qzCurM = m; qzIdx = 0; qzScore = 0;
+  qzMaxCoins = m.coins; qzMaxXp = m.xp;
+  
+  document.getElementById('qz-intro-title').textContent = m.title;
+  document.getElementById('qz-intro-text').innerHTML = m.desc.replace(/\n/g,'<br>') + `<br><br><b>${m.animal} Rescue Mission!</b>`;
+  document.getElementById('qz-intro').style.display = 'flex';
+  document.getElementById('qz-success').style.display = 'none';
+  document.getElementById('qz-next').disabled = true;
+  document.getElementById('qz-hr').textContent = '+0 XP';
+  document.getElementById('qz-hc').textContent = '+0';
+  
+  document.getElementById('mdo').classList.add('h');
+  document.getElementById('menu').classList.add('h');
+  document.getElementById('hud').classList.add('h');
+  document.getElementById('joystick').classList.add('h');
+  
+  document.getElementById('qz-ov').style.display = 'flex';
+}
+
+function startQuizLogic() {
+  document.getElementById('qz-intro').style.display = 'none';
+  showQzQuestion();
+}
+
+function showQzQuestion() {
+  if (qzIdx >= qzCurM.qs.length) return finishQuizGame();
+  
+  const q = qzCurM.qs[qzIdx];
+  document.getElementById('qz-question').textContent = q.q;
+  const grid = document.getElementById('qz-grid');
+  grid.innerHTML = q.opts.map((o, i) => `<div class="qz-option" onclick="ansQz(${i})">${o}</div>`).join('');
+  
+  document.getElementById('qz-next').disabled = true;
+  document.getElementById('qz-toast').classList.remove('show');
+  
+  startQzTimer();
+}
+
+function startQzTimer() {
+  clearInterval(qzTimer);
+  qzTimeLeft = 15;
+  const bar = document.getElementById('qz-timer');
+  bar.style.width = '100%';
+  bar.classList.remove('low');
+  
+  qzTimer = setInterval(() => {
+    qzTimeLeft--;
+    bar.style.width = (qzTimeLeft / 15 * 100) + '%';
+    if (qzTimeLeft <= 5) bar.classList.add('low');
+    
+    if (qzTimeLeft <= 0) {
+      clearInterval(qzTimer);
+      ansQz(-1); // Timeout
+    }
+  }, 1000);
+}
+
+function ansQz(idx) {
+  clearInterval(qzTimer);
+  const q = qzCurM.qs[qzIdx];
+  const options = document.querySelectorAll('.qz-option');
+  options.forEach(o => o.classList.add('disabled'));
+  
+  const toast = document.getElementById('qz-toast');
+  toast.classList.add('show');
+  
+  if (idx === q.a) {
+    qzScore++;
+    if (idx !== -1) options[idx].classList.add('correct');
+    toast.textContent = 'Correct! ' + q.f;
+    toast.style.background = '#4dfb8b';
+    toast.style.color = '#113d15';
+  } else {
+    if (idx !== -1) options[idx].classList.add('wrong');
+    options[q.a].classList.add('correct');
+    toast.textContent = (idx === -1 ? 'Time Out! ' : 'Wrong! ') + q.f;
+    toast.style.background = '#ff5252';
+    toast.style.color = 'white';
+  }
+  
+  // Dynamic HUD update
+  const progress = (qzIdx + 1) / qzCurM.qs.length;
+  const currentScoreRatio = qzScore / (qzIdx + 1);
+  document.getElementById('qz-hc').textContent = '+' + Math.floor(qzMaxCoins * (qzScore / qzCurM.qs.length));
+  document.getElementById('qz-hr').textContent = '+' + Math.floor(qzMaxXp * (qzScore / qzCurM.qs.length)) + ' XP';
+  
+  document.getElementById('qz-next').disabled = false;
+}
+
+function qzNext() {
+  qzIdx++;
+  showQzQuestion();
+}
+
+function finishQuizGame() {
+  document.getElementById('qz-success').style.display = 'flex';
+  const ratio = qzScore / qzCurM.qs.length;
+  document.getElementById('qz-result-title').textContent = ratio >= 0.7 ? 'Mission Successful!' : 'Mission Ended';
+  document.getElementById('qz-result-text').textContent = `You got ${qzScore} out of ${qzCurM.qs.length} questions correct. ` + (ratio >= 0.7 ? 'The environment is grateful!' : 'Study more to save the planet!');
+}
+
+function completeQuizGame() {
+  closeQuizGame(true);
+}
+
+function closeQuizGame(success) {
+  clearInterval(qzTimer);
+  document.getElementById('qz-ov').style.display = 'none';
+  const finalCoins = Math.floor(qzMaxCoins * (qzScore / qzCurM.qs.length));
+  const finalXp = Math.floor(qzMaxXp * (qzScore / qzCurM.qs.length));
+  closeM(success ? finalCoins : 0, success ? finalXp : 0, success);
   
   document.getElementById('menu').classList.remove('h');
   document.getElementById('joystick').classList.remove('h');
