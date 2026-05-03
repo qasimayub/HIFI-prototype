@@ -12,7 +12,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 #mc{image-rendering:pixelated}
 
 /* ── REDESIGNED HUD (CAPSULE BARS) ── */
-#hud{position:absolute;top:15px;right:15px;display:flex;flex-direction:row;gap:15px;z-index:100;pointer-events:none}
+#hud{position:absolute;top:15px;right:15px;display:flex;flex-direction:row;gap:15px;z-index:130;pointer-events:none}
 .stat-pill{position:relative;background:rgba(150,150,150,.85);border:none;border-radius:24px;height:48px;min-width:220px;display:flex;align-items:center;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,.2)}
 .stat-pill .progress-fill{position:absolute;left:0;top:0;bottom:0;z-index:1;border:none;transition:width .4s ease}
 .stat-pill.xp .progress-fill{background:#00bfff}
@@ -21,7 +21,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 .stat-pill .value{position:relative;z-index:3;flex-grow:1;text-align:center;font:bold 15px 'Courier New',mono;color:#000;padding-right:44px;letter-spacing:1px}
 
 /* ── SIDE MENU ── */
-#menu{position:absolute;top:15px;left:15px;display:flex;flex-direction:column;gap:15px;z-index:100}
+#menu{position:absolute;top:15px;left:15px;display:flex;flex-direction:column;gap:15px;z-index:130}
 .menu-btn{width:56px;height:56px;background:#fff9e6;border-radius:15px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 8px rgba(0,0,0,.2);transition:transform .2s, background .2s;border:2px solid #5a3e1b}
 .menu-btn:hover{transform:scale(1.08);background:#fff2cc}
 .menu-btn:active{transform:scale(0.95)}
@@ -66,7 +66,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 
 
 /* mdo overlay */
-#mdo{background:rgba(26,26,26,.8);z-index:120;cursor:pointer;}
+#mdo{background:rgba(26,26,26,.72);z-index:120;cursor:pointer;}
 .mdo-card{background:#fdf4da;border:4px dashed #3d2314;border-radius:16px;padding:35px 40px;width:420px;max-width:90%;position:relative;cursor:default;color:#3d2314;box-sizing:border-box;}
 .mdo-close{position:absolute;top:12px;right:12px;width:32px;height:32px;border:4px solid #3d2314;border-radius:50%;display:flex;align-items:center;justify-content:center;font:bold 16px/1 sans-serif;cursor:pointer;color:#3d2314;background:#fdf4da;}
 .mdo-title{font:900 24px/1 'Courier New',mono;text-align:center;margin-bottom:20px;letter-spacing:1px;}
@@ -79,6 +79,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 .mdo-start{width:120px;height:40px;background:#3d2314;color:#fdf4da;border:none;border-radius:20px;font:bold 18px/1 'Courier New',mono;cursor:pointer;transition:transform 0.1s;}
 .mdo-start:hover{background:#5a3e1b;}
 .mdo-start:active{transform:scale(0.95);}
+.mdo-tool-lock{display:none;margin:18px 0 0;padding:14px;background:rgba(232,32,32,.08);border:3px solid #e82020;border-radius:8px;font:bold 13px/1.35 'Courier New',mono;color:#3d2314}
+.mdo-tool-row{display:flex;align-items:center;gap:10px;margin-top:10px}
+.mdo-tool-row img{width:34px;height:34px;object-fit:contain}
+.mdo-tool-copy{flex:1}
+.mdo-buy{background:#4dfb8b;border:3px solid #3d2314;border-radius:8px;height:34px;min-width:84px;font:bold 11px 'Courier New',mono;color:#3d2314;cursor:pointer;box-shadow:3px 3px 0 #3d2314}
+.mdo-buy:active{transform:translate(3px,3px);box-shadow:none}
+.mdo-buy:disabled{background:#d0d0d0;color:#777;cursor:not-allowed;box-shadow:none}
 
 /* mission panel */
 #mo{z-index:50}
@@ -138,7 +145,42 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 @keyframes nI{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
 @keyframes nO{to{opacity:0}}
 #ctrl{display:none}
-#mm{position:absolute;bottom:15px;left:15px;border:3px solid #5a3e1b;z-index:10;background:#000;border-radius:8px;overflow:hidden}
+#mm{position:absolute;bottom:15px;left:15px;border:3px solid #5a3e1b;z-index:10;background:#000;border-radius:8px;overflow:hidden;cursor:pointer}
+
+/* full map */
+#map-ov{position:fixed;inset:0;z-index:260;background:#fdf4da;display:none;color:#5a3e1b;font-family:'Courier New',mono;overflow:hidden}
+#map-ov.open{display:block}
+.map-title{position:absolute;top:34px;left:0;right:0;text-align:center;font:900 30px/1 'Courier New',mono;letter-spacing:2px}
+.map-back{position:absolute;top:26px;left:32px;width:56px;height:56px;border:3px solid #5a3e1b;border-radius:50%;background:#fff9e6;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.12);z-index:3}
+.map-layout{position:absolute;inset:105px 42px 42px 42px;display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:38px;align-items:center}
+.map-board{position:relative;width:min(100%, calc((100vh - 147px) * 4 / 3));aspect-ratio:4/3;justify-self:center;align-self:center;border:6px solid #5a3e1b;box-shadow:0 0 0 3px #2d1708,0 8px 0 rgba(0,0,0,.18);background:#90c8e8;overflow:hidden}
+.map-board canvas{position:absolute;inset:0;width:100%;height:100%;image-rendering:auto}
+.map-pin{position:absolute;width:36px;height:44px;transform:translate(-50%,-100%);border:none;background:transparent;padding:0;cursor:pointer;filter:drop-shadow(2px 4px 2px rgba(0,0,0,.35));z-index:2}
+.map-pin::before{content:'';position:absolute;left:5px;top:0;width:26px;height:26px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff}
+.map-pin::after{position:absolute;left:8px;top:2px;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;transform:none;font:900 18px/1 'Courier New',mono;color:#fff}
+.map-pin.open::before{background:#f5ff64}
+.map-pin.open::after{content:'?';color:#5a3e1b}
+.map-pin.locked::before{background:#6a3e14}
+.map-pin.locked::after{content:'+'}
+.map-pin.rescue::before{background:#e82020}
+.map-pin.rescue::after{content:'!'}
+.map-pin.done::before{background:#00b864}
+.map-pin.done::after{content:'✓'}
+.map-pin.timed::before{background:#fff}
+.map-pin.timed::after{content:'◷';color:#111}
+.map-pin-label{position:absolute;left:50%;top:44px;transform:translateX(-50%);background:#fdf4da;border:2px solid #5a3e1b;border-radius:6px;padding:4px 7px;white-space:nowrap;font:900 10px/1 'Courier New',mono;color:#5a3e1b;opacity:0;pointer-events:none}
+.map-pin:hover .map-pin-label{opacity:1}
+.map-hit{position:absolute;width:54px;height:64px;transform:translate(-50%,-100%);border:0;background:transparent;padding:0;cursor:pointer;z-index:2}
+.map-hit-label{position:absolute;left:50%;top:64px;transform:translateX(-50%);background:#fdf4da;border:2px solid #5a3e1b;border-radius:6px;padding:4px 7px;white-space:nowrap;font:900 10px/1 'Courier New',mono;color:#5a3e1b;opacity:0;pointer-events:none}
+.map-hit:hover .map-hit-label{opacity:1}
+.map-key{align-self:center;border:3px dashed #5a3e1b;border-radius:8px;background:rgba(220,190,120,.28);padding:28px 24px}
+.map-key-title{font:900 20px/1 'Courier New',mono;margin-bottom:22px}
+.map-key-row{display:flex;align-items:center;gap:16px;font:900 15px/1 'Courier New',mono;margin:18px 0}
+.map-key-icon{width:58px;height:58px;flex:0 0 58px}
+@media (max-width:900px){
+  .map-layout{inset:88px 18px 20px 18px;grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto;gap:18px}
+  .map-key{display:grid;grid-template-columns:1fr 1fr;padding:14px}.map-key-title{grid-column:1/-1;margin-bottom:4px}.map-key-row{margin:8px 0;font-size:12px}
+}
 
 /* ── VIRTUAL JOYSTICK ── */
 #joystick{position:fixed;bottom:40px;right:40px;width:120px;height:120px;background:rgba(200,200,200,.3);border-radius:50%;z-index:50;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;backdrop-filter:blur(2px)}
@@ -314,6 +356,34 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 .qz-feedback-toast { position: absolute; top: 120%; left: 50%; transform: translateX(-50%); width: 100%; max-width: 600px; text-align: center; font: bold 16px/1.4 'Courier New', mono; padding: 15px; border-radius: 8px; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
 .qz-feedback-toast.show { opacity: 1; }
 
+/* ── ENERGY RUSH OVERLAY ── */
+#rr-ov { position: fixed; inset: 0; z-index: 200; overflow: hidden; display: none; background:#fdf4da; font-family: 'Courier New', mono; }
+#rr-hud { position: absolute; top: 15px; right: 15px; display: flex; gap: 15px; z-index: 205; pointer-events: none; }
+#rr-back { position: absolute; top: 15px; left: 15px; width: 56px; height: 56px; background: #fff9e6; border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,.2); display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid #5a3e1b; z-index: 205; transition: transform .2s; }
+#rr-back:hover { transform: scale(1.08); background: #fff2cc; }
+#rr-field { position:absolute; inset:0; overflow:hidden; background:linear-gradient(#fdf4da 0 18%, #d7e7b3 18% 100%); }
+.rr-track { position:absolute; left:50%; top:74px; width:min(640px,74vw); bottom:0; transform:translateX(-50%); background:repeating-linear-gradient(to bottom, rgba(61,35,20,.08) 0 18px, rgba(61,35,20,.03) 18px 36px), #9fcf6e; border-left:8px solid #5a3e1b; border-right:8px solid #5a3e1b; box-shadow:0 0 0 4px rgba(61,35,20,.18); }
+.rr-lane-line { position:absolute; top:0; bottom:0; width:4px; background:repeating-linear-gradient(to bottom,#5a3e1b 0 20px,transparent 20px 42px); opacity:.42; }
+.rr-lane-line.l1 { left:33.333%; }
+.rr-lane-line.l2 { left:66.666%; }
+.rr-runner { --jump-y:0; --shadow-w:54px; --shadow-o:1; position:absolute; bottom:82px; width:72px; height:94px; z-index:30; transform:translate(-50%, calc(var(--jump-y) * -1px)); transition:left .12s cubic-bezier(.18,.89,.32,1.28); }
+.rr-runner.jump { z-index:45; }
+.rr-runner canvas { width:72px; height:72px; image-rendering:pixelated; display:block; margin:0 auto; }
+.rr-runner::after { content:''; position:absolute; left:50%; bottom:8px; width:var(--shadow-w); height:13px; transform:translateX(-50%); border-radius:50%; background:rgba(61,35,20,.25); opacity:var(--shadow-o); z-index:-1; }
+.rr-obj { position:absolute; width:82px; height:82px; border-radius:12px; border:4px solid #3d2314; display:flex; align-items:center; justify-content:center; transform:translate(-50%,-50%); z-index:22; }
+.rr-obj svg { width:62px; height:62px; display:block; }
+.rr-obj.clean { background:#ffd700; color:#3d2314; box-shadow:4px 4px 0 rgba(61,35,20,.25); }
+.rr-obj.bad { background:#4b4238; color:#fdf4da; box-shadow:4px 4px 0 rgba(61,35,20,.25); }
+.rr-obj-label { position:absolute; bottom:-18px; left:50%; transform:translateX(-50%); font:900 9px/1 'Courier New',mono; color:#3d2314; background:#fdf4da; border:2px solid #3d2314; border-radius:5px; padding:2px 5px; white-space:nowrap; }
+.rr-obj.bad .rr-obj-label { color:#fdf4da; background:#3d2314; }
+.rr-blast canvas { animation:rrBlast .25s ease; }
+@keyframes rrBlast { 50% { filter:brightness(1.45) drop-shadow(0 0 8px #ffd700); } }
+#rr-board { position:absolute; top:24px; left:50%; transform:translateX(-50%); background:#fdf4da; border:4px solid #3d2314; border-radius:8px; box-shadow:0 5px 0 rgba(0,0,0,.22); padding:10px 24px; z-index:205; font:900 17px/1.2 'Courier New',mono; color:#3d2314; display:none; text-align:center; min-width:330px; }
+#rr-waterbar { position:absolute; left:50%; bottom:18px; transform:translateX(-50%); width:min(520px,70vw); height:22px; background:#fdf4da; border:4px solid #3d2314; border-radius:14px; z-index:205; overflow:hidden; display:none; }
+#rr-waterfill { height:100%; width:100%; background:#4dfb8b; transition:width .2s, background .2s; }
+#rr-intro { position:absolute; inset:0; z-index:300; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.82); }
+#rr-success,#rr-fail { position:absolute; inset:0; z-index:300; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.78); }
+
 /* ── BACKPACK FULL-SCREEN PAGE ── */
 #bp-ov { background: #fdf4da; z-index: 300; display: none; flex-direction: column; overflow: hidden; }
 #bp-ov:not(.h) { display: flex; }
@@ -336,7 +406,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 .bp-section-title { display: flex; align-items: center; gap: 15px; font: bold 22px 'Courier New', mono; color: #3d2314; }
 .bp-section-title img, .bp-section-title span.emoji { width: 32px; height: 32px; font-size: 28px; }
 
-.bp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 25px; background: rgba(61, 35, 20, 0.05); border: 4px dashed rgba(61, 35, 20, 0.3); border-radius: 20px; padding: 30px; }
+.bp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 25px; background: rgba(61, 35, 20, 0.05); border: 4px dashed rgba(61, 35, 20, 0.3); border-radius: 8px; padding: 30px; }
 .bp-item { display: flex; flex-direction: column; align-items: center; gap: 12px; transition: transform 0.2s; position: relative; }
 .bp-item:hover { transform: scale(1.05); }
 .bp-item.locked { opacity: 0.5; filter: grayscale(0.8); }
@@ -344,7 +414,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 .bp-item .emoji { font-size: 50px; }
 .bp-item-name { font: bold 14px 'Courier New', mono; color: #3d2314; text-align: center; }
 
-.bp-badge-list { display: grid; grid-template-columns: 1fr; gap: 15px; background: rgba(61, 35, 20, 0.05); border: 4px dashed rgba(61, 35, 20, 0.3); border-radius: 20px; padding: 30px; width: 100%; max-width: 500px; }
+.bp-badge-list { display: grid; grid-template-columns: 1fr; gap: 15px; background: rgba(61, 35, 20, 0.05); border: 4px dashed rgba(61, 35, 20, 0.3); border-radius: 8px; padding: 30px; width: 100%; max-width: 500px; }
 .bp-badge-item { display: flex; align-items: center; gap: 15px; font: bold 18px 'Courier New', mono; color: #3d2314; }
 .bp-badge-icon { font-size: 24px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
 
@@ -354,11 +424,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 
 /* ── NEW TOOLS TAB STYLES ── */
 .tools-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-.tools-col { background: rgba(61, 35, 20, 0.05); border: 3px dashed rgba(61, 35, 20, 0.3); border-radius: 20px; padding: 25px; display: flex; flex-direction: column; gap: 20px; }
+.tools-col { background: rgba(61, 35, 20, 0.05); border: 3px dashed rgba(61, 35, 20, 0.3); border-radius: 8px; padding: 25px; display: flex; flex-direction: column; gap: 20px; }
 .tools-col-title { font: bold 18px 'Courier New', mono; color: #3d2314; margin-bottom: 5px; }
 
-.tool-card { display: flex; align-items: center; padding: 15px 25px; background: #5a3e1b; border-radius: 40px; color: white; position: relative; box-shadow: 0 6px 0 #3d2314; transition: transform 0.1s; }
-.tool-card.locked { background: #d0d0d0; color: #5a3e1b; box-shadow: 0 6px 0 #a0a0a0; }
+.tool-card { display: flex; align-items: center; padding: 15px 18px; background: #5a3e1b; border-radius: 8px; color: white; position: relative; box-shadow: 0 6px 0 #3d2314; transition: transform 0.1s; gap: 8px; }
+.tool-card.shop { background: #fdf4da; color: #3d2314; border: 3px solid #3d2314; }
 .tool-card-icon { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
 .tool-card-icon img { width: 32px; height: 32px; image-rendering: pixelated; }
 
@@ -367,10 +437,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 .tool-card-price { background: #ffd700; border-radius: 15px; padding: 2px 10px; display: inline-flex; align-items: center; gap: 5px; color: #3d2314; font: bold 14px 'Courier New', mono; width: fit-content; }
 
 .tool-card-qty-box { display: flex; align-items: center; gap: 10px; }
-.tool-plus { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font: bold 20px 'Courier New', mono; cursor: pointer; color: white; }
-.tool-card.locked .tool-plus { color: #5a3e1b; }
+.tool-buy { background: #4dfb8b; border: 3px solid #3d2314; border-radius: 8px; min-width: 70px; height: 36px; font: bold 12px 'Courier New', mono; color: #3d2314; cursor: pointer; box-shadow: 3px 3px 0 #3d2314; }
+.tool-buy:active { transform: translate(3px, 3px); box-shadow: none; }
+.tool-buy:disabled { background: #d0d0d0; color: #777; cursor: not-allowed; box-shadow: none; }
 .tool-qty-pill { background: #b09070; border: 4px solid #3d2314; border-radius: 20px; width: 80px; height: 36px; display: flex; align-items: center; justify-content: center; font: bold 18px 'Courier New', mono; color: #3d2314; }
-.tool-card.locked .tool-qty-pill { background: #e0e0e0; border-color: #3d2314; }
+.settings-row { display:flex; align-items:center; gap:16px; padding:14px; background:#fdf4da; border:3px solid #3d2314; border-radius:8px; }
+.settings-label { font:bold 18px 'Courier New',mono; color:#3d2314; }
+.settings-toggle { min-width:76px; height:34px; border:3px solid #3d2314; border-radius:18px; background:#d0d0d0; cursor:pointer; position:relative; font:bold 11px 'Courier New',mono; color:#3d2314; padding-left:28px; text-align:center; }
+.settings-toggle::before { content:''; position:absolute; width:22px; height:22px; left:4px; top:3px; border-radius:50%; background:#3d2314; transition:left .2s; }
+.settings-toggle.on { background:#4dfb8b; padding-left:0; padding-right:28px; }
+.settings-toggle.on::before { left:43px; }
 
 /* Tooltip style for locked missions */
 .bp-item-req { position: absolute; bottom: -5px; right: -5px; background: #e82020; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font: bold 12px sans-serif; border: 2px solid #3d2314; }
@@ -400,8 +476,26 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
     <div id="hn" style="display:none"></div>
   </div>
   <div id="ctrl">WASD · MOVE &nbsp; E · MISSION</div>
-  <div id="mm" class="h"><canvas id="mc" width="100" height="74"></canvas></div>
+  <div id="mm" class="h" title="Open Map" onclick="openFullMap()"><canvas id="mc" width="100" height="74"></canvas></div>
   <div id="ntf"></div>
+  <div id="map-ov" onclick="closeFullMap()">
+    <button class="map-back" onclick="event.stopPropagation(); closeFullMap()" aria-label="Back">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#5a3e1b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+    <div class="map-title">Map</div>
+    <div class="map-layout" onclick="event.stopPropagation()">
+      <div class="map-board" id="full-map-board">
+        <canvas id="full-map-canvas" width="1600" height="1200" aria-label="World map"></canvas>
+      </div>
+      <div class="map-key">
+        <div class="map-key-title">Key</div>
+        <div class="map-key-row"><canvas class="map-key-icon" data-state="rescue" width="58" height="58"></canvas><span>Rescue Animals</span></div>
+        <div class="map-key-row"><canvas class="map-key-icon" data-state="open" width="58" height="58"></canvas><span>Missions</span></div>
+        <div class="map-key-row"><canvas class="map-key-icon" data-state="locked" width="58" height="58"></canvas><span>Locked Missions</span></div>
+        <div class="map-key-row"><canvas class="map-key-icon" data-state="timed" width="58" height="58"></canvas><span>Limited Time Missions</span></div>
+      </div>
+    </div>
+  </div>
   <!-- Mission Detail Overlay -->
   <div class="ov h" id="mdo" onclick="closeMDO()">
     <div class="mdo-card" onclick="event.stopPropagation()">
@@ -422,6 +516,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
         <img src="badge.svg" class="mdo-icon" alt="badge">
         <span id="mdo-xp"></span> XP
       </div>
+      <div class="mdo-tool-lock" id="mdo-tool-lock"></div>
       
       <div class="mdo-start-wrap">
         <button class="mdo-start" onclick="startMFromMDO()">Start</button>
@@ -551,7 +646,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
       <div class="stat-pill coin" style="min-width:180px; height:42px">
         <div class="progress-fill" style="width:100%;background:#ffd700"></div>
         <img src="coin.svg" alt="coin" style="width:28px;height:28px">
-        <div class="value" id="dg-hc">+1000</div>
+        <div class="value" id="dg-hc">+0</div>
       </div>
     </div>
 
@@ -812,6 +907,59 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
     </div>
   </div>
 
+  <!-- Riverbank Rescue Overlay -->
+  <div id="rr-ov">
+    <div id="rr-back" onclick="closeRiverGame(false)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#5a3e1b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+    </div>
+    <div id="rr-hud">
+      <div class="stat-pill xp" style="min-width:180px; height:42px">
+        <div class="progress-fill" style="width:100%;background:#00bfff"></div>
+        <img src="star.svg" alt="star" style="width:28px;height:28px">
+        <div class="value" id="rr-hr">+0 XP</div>
+      </div>
+      <div class="stat-pill coin" style="min-width:180px; height:42px">
+        <div class="progress-fill" style="width:100%;background:#ffd700"></div>
+        <img src="coin.svg" alt="coin" style="width:28px;height:28px">
+        <div class="value" id="rr-hc">+0</div>
+      </div>
+    </div>
+    <div id="rr-board">Clean Power: <span id="rr-score">0</span>/30 &nbsp; Grid: <span id="rr-flood">3</span>/3 &nbsp; Time: <span id="rr-time">45</span>s</div>
+    <div id="rr-waterbar"><div id="rr-waterfill"></div></div>
+    <div id="rr-field">
+      <div class="rr-track">
+        <div class="rr-lane-line l1"></div>
+        <div class="rr-lane-line l2"></div>
+        <div class="rr-runner" id="rr-player"><canvas id="rr-player-canvas" width="36" height="36"></canvas></div>
+      </div>
+    </div>
+    <div id="rr-intro">
+      <div class="fc-dialog" style="padding:30px; border:4px solid #3d2314; background:#fdf4da; text-align:center; max-width:540px;">
+        <div class="lg-title" style="color:#0b6fa4; font-size:24px; margin-bottom:15px;">ENERGY RUSH!</div>
+        <div class="sm-text" style="margin-bottom:22px; line-height:1.5;">
+          The town is upgrading away from coal power, but dirty fossil-fuel blocks are still flooding the grid.<br><br>
+          <b style="color:#e82020">Coal power creates smog and heats the climate.</b><br><br>
+          Switch lanes with arrow keys or swipe left/right. Jump with Space, Up, W, or swipe up. Collect leaves, solar panels, and water drops. Jump over coal and smoke.
+        </div>
+        <button class="fc-btn" onclick="startRiverGameLoop()">&#9654; START RUN</button>
+      </div>
+    </div>
+    <div id="rr-success">
+      <div class="dg-card">
+        <div class="dg-title">Grid Upgraded!</div>
+        <div class="dg-text" style="text-align:center;">You powered the town with clean energy and kept coal sludge out of the grid.</div>
+        <button class="dg-btn" onclick="closeRiverGame(true)">Back to Map</button>
+      </div>
+    </div>
+    <div id="rr-fail">
+      <div class="dg-card" style="border-color:#e82020;">
+        <div class="dg-title" style="color:#e82020;">Grid Overloaded!</div>
+        <div class="dg-text" style="text-align:center;">Too much coal sludge hit the system. Dodge faster and grab clean power.</div>
+        <button class="fc-btn red" onclick="closeRiverGame(false)">Try Again</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Landfill Game Overlay -->
   <div id="lf-ov">
     <div id="lf-back" onclick="closeLandfillGame(false)">
@@ -968,17 +1116,35 @@ const bulldozerImg = new Image();
 bulldozerImg.src = 'buldozer.png';
 bulldozerImg.onload = () => { bulldozerImgLoaded = true; tryDrawBackground(); };
 
+const lockImg = new Image();
+let lockImgLoaded = false;
+lockImg.src = 'lock.svg';
+lockImg.onload = () => {
+  lockImgLoaded = true;
+  if(running) render();
+  if(document.getElementById('map-ov').classList.contains('open')) renderFullMap();
+};
+
 function tryDrawBackground() {
   if (mapImgLoaded && bearImgLoaded && dolphinImgLoaded && bulldozerImgLoaded) buildWorld();
 }
 
+function isMissionDone(id){
+  try {
+    return P.done && P.done.includes(id);
+  } catch(e) {
+    return false;
+  }
+}
+
 function buildWorld(){
+  wc.clearRect(0, 0, WW, WH);
+  mm_wc.clearRect(0, 0, 100, 74);
   if (mapImgLoaded && bearImgLoaded && dolphinImgLoaded && bulldozerImgLoaded) {
     wc.drawImage(mapImg, 0, 0, WW, WH);
-    polarBear(180, 200);           // mountains — top-left
-    dolphin(630, 325, 0.08);       // river stream — centred in blue channel
-    // Bulldozer in the forest — top-center (right of mountains)
-    wc.drawImage(bulldozerImg, 620, 260, 70, 50);
+    if(!isMissionDone('polarbear')) polarBear(180, 200);
+    if(!isMissionDone('dolphin')) dolphin(630, 725, 0.08);
+    if(!isMissionDone('forest')) wc.drawImage(bulldozerImg, 620, 260, 70, 50);
     mm_wc.drawImage(WC, 0, 0, WW, WH, 0, 0, 100, 74);
     // Force SVG rasterization so the browser doesn't re-render vectors every frame
     const imgDt = wc.getImageData(0, 0, WW, WH);
@@ -1145,15 +1311,19 @@ function buildWorld(){
 
   /* ── MISSION ZONE LANDMARKS ── */
   // === POLAR BEAR on ice ===
-  polarBear(168,118);
+  if(!isMissionDone('polarbear')) polarBear(168,118);
 
   // === DOLPHINS in lake ===
-  dolphin(375,628,-.25);
-  dolphin(478,692,.35);
+  if(!isMissionDone('dolphin')){
+    dolphin(375,628,-.25);
+    dolphin(478,692,.35);
+  }
   // Splash rings at dolphins
   wc.strokeStyle='rgba(140,220,255,.45)'; wc.lineWidth=1.5;
-  for(const[dx,dy]of[[375,645],[478,708]]){
-    for(let i=0;i<3;i++){wc.beginPath();wc.arc(dx+(i-1)*10,dy,5+i*3,Math.PI,0);wc.stroke();}
+  if(!isMissionDone('dolphin')){
+    for(const[dx,dy]of[[375,645],[478,708]]){
+      for(let i=0;i<3;i++){wc.beginPath();wc.arc(dx+(i-1)*10,dy,5+i*3,Math.PI,0);wc.stroke();}
+    }
   }
 
   // === FACTORY BUILDING ===
@@ -1252,7 +1422,7 @@ function dolphin(x,y,rot){
   wc.save();
   wc.translate(x, y);
   if (rot) wc.rotate(rot);
-  wc.drawImage(dolphinImg, -10, 400, 80, 50);
+  wc.drawImage(dolphinImg, -40, -25, 80, 50);
   wc.restore();
 }
 
@@ -1456,6 +1626,8 @@ const MISSIONS=[
     {q:'How do dolphins communicate?',opts:['Sign language','Clicks & whistles','Colour changes','Smell'],a:1,f:'Dolphins have unique whistles like names — they are incredibly intelligent!'},
     {q:'Biggest threat to dolphins today?',opts:['Sharks','Ocean noise','Plastic pollution','Jellyfish'],a:2,f:'Plastic entangles and poisons hundreds of thousands of marine animals every year.'},
   ]},
+  {id:'energy',title:'ENERGY RUSH',desc:'Dodge coal sludge\nand collect clean power!',
+   icon:'⚡',tx:820,ty:610,tw:130,th:120,type:'runner',coins:75,xp:150,color:'#ffd700'},
   {id:'landfill',title:'CLEAN THE LANDFILL',desc:'Sort the waste\ninto correct bins!',
    icon:'🗑️',tx:1300,ty:1050,tw:180,th:200,type:'sorting',coins:70,xp:140,color:'#b09050'},
   {id:'factory',title:'FIX THE FACTORY LEAK',desc:'Connect pipes to\nseal the toxic leak!',
@@ -1463,7 +1635,7 @@ const MISSIONS=[
    reqTools:['tester']},
   {id:'forest',title:'SAVE THE FOREST',desc:'Deforestation crisis!\nLearn why forests matter.',
    icon:'🌲',tx:620,ty:250,tw:60,th:44,type:'quiz',coins:55,xp:110,color:'#40b050',
-   animal:'Forest',qs:[
+   animal:'Forest', reqTools:['sledge'], qs:[
     {q:'Forests cover what % of Earth\'s land?',opts:['10%','31%','60%','5%'],a:1,f:'Forests cover 31% of Earth\'s land — but we lose 15 billion trees per year!'},
     {q:'Trees cut down every year?',opts:['1 million','50 million','15 billion+','100,000'],a:2,f:'Humans cut approximately 15 billion trees per year — a massive crisis.'},
     {q:'Best way to help forests?',opts:['Plant more trees','Use more paper','Remove old trees','Ignore it'],a:0,f:'Planting trees absorbs CO2 and restores habitats for thousands of species.'},
@@ -1471,7 +1643,7 @@ const MISSIONS=[
   ]},
   {id:'coral',title:'SAVE THE CORAL REEF',desc:'Coral reefs dying!\nLearn to protect them.',
    icon:'🪸',tx:1200,ty:180,tw:200,th:200,type:'quiz',coins:65,xp:130,color:'#e09070',
-   animal:'Coral Reef', badge: 'Reef Protector', qs:[
+   animal:'Coral Reef', badge: 'Reef Protector', reqTools:['scissors'], qs:[
     {q:'What causes coral bleaching?',opts:['Cold water','Warmer ocean temps','More fish','High tides'],a:1,f:'Warmer seas stress corals — they expel the algae that feed them.'},
     {q:'Reefs support what % of ocean species?',opts:['5%','10%','25%+','1%'],a:2,f:'Reefs cover <1% of the ocean floor yet support 25%+ of marine species!'},
     {q:'Chemicals that damage coral reefs?',opts:['Saltwater','Sunscreen & fertilisers','Rainwater','Fish waste'],a:1,f:'Chemical sunscreens and agricultural runoff are major threats to coral.'},
@@ -1488,10 +1660,13 @@ const ANIMAL_DATA = {
 };
 
 const TOOL_DATA = {
-  hammer: { name: 'Hammer', icon: 'hammer.png', price: 3, qty: 5 },
-  sledge: { name: 'Sledge Hammer', icon: 'sledge.png', price: 5, qty: 3 },
-  scissors: { name: 'Scissors', icon: 'scissors.png', price: 8, qty: 3 },
-  solar: { name: 'Solar Panel', icon: 'tester.png', price: 5, qty: 0, locked: true }
+  gloves: { name: 'Safety Gloves', icon: 'gloves.png', price: 35, desc: 'Handle waste safely.' },
+  hammer: { name: 'Hammer', icon: 'hammer.png', price: 45, desc: 'Repair small broken structures.' },
+  magnifier: { name: 'Magnifier', icon: 'magnifier.png', price: 120, desc: 'Find hidden river plastic.' },
+  tester: { name: 'Water Tester', icon: 'tester.png', price: 180, desc: 'Measure factory water pollution.' },
+  scissors: { name: 'Scissors', icon: 'scissors.png', price: 75, desc: 'Cut nets and tangled plastic.' },
+  aidkit: { name: 'Aid Kit', icon: 'aidkit.png', price: 95, desc: 'Help injured wildlife.' },
+  sledge: { name: 'Sledge Hammer', icon: 'sledge.png', price: 140, desc: 'Break heavy debris.' }
 };
 
 const BADGE_DATA = {
@@ -1500,6 +1675,7 @@ const BADGE_DATA = {
   air_purifier: { name: 'Air Purifier', icon: '💨' },
   recycling_master: { name: 'Recycling Master', icon: '♻️' },
   savior: { name: 'Savior', icon: '🎖️' },
+  grid_guardian: { name: 'Grid Guardian', icon: '⚡' },
   reef_protector: { name: 'Reef Protector', icon: '🪸' }
 };
 
@@ -1511,11 +1687,13 @@ let LB=[{name:'HAMZA',coins:280,rank:'GREEN GUARDIAN'},{name:'AMNA',coins:210,ra
    GAME STATE
 ══════════════════════════════════════════════ */
 let P={x:678,y:565,w:32,h:32,speed:2.5,dir:'down',fr:0,ft:0,moving:false,
-       name:'PLAYER',coins:1250,xp:450,rank:'GREEN GUARDIAN',done:['forest', 'smog', 'landfill', 'polarbear'],
-       animals: ['markhor', 'leapord', 'pangolin', 'polar_bear'],
-       tools: ['magnifier', 'tester'],
-       badges: ['tree_saver', 'electricity_saver']
+       name:'PLAYER',coins:0,xp:0,rank:'ECO ROOKIE',done:[],
+       animals: [],
+       toolCounts: { gloves: 1, hammer: 1 },
+       badges: []
 };
+P.tools = Object.keys(P.toolCounts).filter(tid => P.toolCounts[tid] > 0);
+let APP_SETTINGS = { sfx: true, music: true };
 let cam={x:0,y:0};
 let curM=null, mActive=false, running=false;
 const K={};
@@ -1598,9 +1776,25 @@ function proceed() {
   running=true; updHUD(); notify(P_lang==='en' ? 'WELCOME '+n+'!\nEXPLORE THE WORLD!' : 'خوش آمدید '+n+'!\nدنیا کو دریافت کریں!');
   requestAnimationFrame(loop);
 }
+
+function openLanguageSettings(){
+  closeBP();
+  running = false;
+  document.getElementById('hud').classList.add('h');
+  document.getElementById('menu').classList.add('h');
+  document.getElementById('mm').classList.add('h');
+  document.getElementById('joystick').classList.add('h');
+  document.getElementById('lang').classList.remove('h');
+}
+
+function toggleSetting(key){
+  APP_SETTINGS[key] = !APP_SETTINGS[key];
+  notify((key === 'sfx' ? 'SOUND EFFECTS ' : 'MUSIC ') + (APP_SETTINGS[key] ? 'ON' : 'OFF'));
+  renderBPTab('settings');
+}
 function updHUD(){
   document.getElementById('hc').textContent=P.coins;
-  const maxCoins = 470; // Total available in all missions
+  const maxCoins = MISSIONS.reduce((sum, m) => sum + m.coins, 0);
   document.getElementById('hc-fill').style.width=Math.min(100,(P.coins/maxCoins)*100)+'%';
   
   const lvl=Math.floor(P.xp/100)+1;
@@ -1614,12 +1808,52 @@ function notify(txt){
   document.getElementById('ntf').appendChild(d);setTimeout(()=>d.remove(),3100);
 }
 
+function syncTools(){
+  P.tools = Object.keys(P.toolCounts).filter(tid => P.toolCounts[tid] > 0);
+}
+function getToolQty(tid){
+  return P.toolCounts[tid] || 0;
+}
+function hasTool(tid){
+  return getToolQty(tid) > 0;
+}
+function missionMissingTools(m){
+  return (m.reqTools || []).filter(tid => !hasTool(tid));
+}
+function getMissionState(m){
+  if(P.done.includes(m.id)) return 'done';
+  if(missionMissingTools(m).length) return 'locked';
+  if(m.animal && m.animal !== 'Forest' && m.animal !== 'Coral Reef') return 'rescue';
+  if(m.timed) return 'timed';
+  return 'open';
+}
+function buyTool(tid){
+  const tool = TOOL_DATA[tid];
+  if(!tool) return;
+  if(P.coins < tool.price){
+    notify('NEED '+(tool.price-P.coins)+' MORE COINS\nFOR '+tool.name.toUpperCase());
+    return;
+  }
+  P.coins -= tool.price;
+  P.toolCounts[tid] = getToolQty(tid) + 1;
+  syncTools();
+  updHUD();
+  notify(tool.name.toUpperCase()+' BOUGHT!\n-'+tool.price+' Rs');
+  renderBPTab('tools');
+}
+
+function buyToolFromMission(tid){
+  buyTool(tid);
+  if(curM) showMDO(curM);
+}
+
 /* ══════════════════════════════════════════════
    GAME LOOP
 ══════════════════════════════════════════════ */
 function loop(){
   if(!running)return;
   moveP(); updateCam(); render();
+  reconcileWorldChrome();
   requestAnimationFrame(loop);
 }
 function moveP(){
@@ -1693,6 +1927,8 @@ function showMDO(m) {
     bIcon=sv('M6 2h4v2h2v2h-2v2H6V6H4V4h2V2zm-3 8h2v-2h2v4H3v-2zm10 0h-2v4H9v-2h4v-2z'); bText='Recycling Master';
   } else if(m.id==='factory'){
     bIcon=sv('M6 1h4v2h2v2h2v4h-2v4h-2v2H6v-2H4V9H2V5h2V3h2V1z'); bText='Savior';
+  } else if(m.id==='energy'){
+    bIcon=sv('M9 1 3 9h4l-1 6 7-9H9l0-5z'); bText='Grid Guardian';
   } else if(m.id==='forest'){
     bIcon=sv('M7 1h2v4h2v4h-2v6H7v-6H5V5h2V1z'); bText='Tree Lover';
   } else if(m.id==='polarbear'){
@@ -1708,14 +1944,32 @@ function showMDO(m) {
 
   // Check for required tools
   let hasTools = true;
-  let toolNames = [];
+  let missingTools = [];
   if(m.reqTools) {
-    for(const tid of m.reqTools) {
-      if(!P.tools.includes(tid)) {
-        hasTools = false;
-        toolNames.push(TOOL_DATA[tid].name);
-      }
-    }
+    missingTools = missionMissingTools(m);
+    hasTools = missingTools.length === 0;
+  }
+
+  const lockBox = document.getElementById('mdo-tool-lock');
+  if(!hasTools) {
+    lockBox.style.display = 'block';
+    lockBox.innerHTML = `<div>Tool required to unlock this mission:</div>` + missingTools.map(tid => {
+      const tool = TOOL_DATA[tid] || { name: tid, icon: 'wrench.png', price: 0 };
+      const canBuy = P.coins >= tool.price;
+      return `<div class="mdo-tool-row">
+        <img src="${tool.icon}" alt="${tool.name}">
+        <div class="mdo-tool-copy">
+          <div>${tool.name}</div>
+          <div style="display:flex;align-items:center;gap:5px;font-size:11px;margin-top:2px">
+            <img src="coin.svg" alt="coin" style="width:14px;height:14px"> ${tool.price}
+          </div>
+        </div>
+        <button class="mdo-buy" onclick="buyToolFromMission('${tid}')" ${canBuy ? '' : 'disabled'}>${canBuy ? 'BUY NOW' : 'NO COINS'}</button>
+      </div>`;
+    }).join('');
+  } else {
+    lockBox.style.display = 'none';
+    lockBox.innerHTML = '';
   }
 
   const startBtn = document.querySelector('.mdo-start');
@@ -1724,7 +1978,6 @@ function showMDO(m) {
     startBtn.style.opacity = 0.5;
     startBtn.style.cursor = 'not-allowed';
     startBtn.textContent = "Locked";
-    notify("MISSING: " + toolNames.join(", "));
   } else {
     startBtn.disabled = false;
     startBtn.style.opacity = 1;
@@ -1733,8 +1986,6 @@ function showMDO(m) {
   }
 
   document.getElementById('mdo').classList.remove('h');
-  document.getElementById('menu').classList.add('h');
-  document.getElementById('hud').classList.add('h');
 }
 
 function closeMDO() {
@@ -1745,6 +1996,10 @@ function closeMDO() {
 }
 
 function startMFromMDO() {
+  if(curM && curM.reqTools && curM.reqTools.some(tid => !hasTool(tid))){
+    notify('BUY REQUIRED TOOL FIRST!');
+    return;
+  }
   document.getElementById('mdo').classList.add('h');
   document.getElementById('menu').classList.remove('h');
   document.getElementById('hud').classList.remove('h');
@@ -1752,6 +2007,68 @@ function startMFromMDO() {
 }
 
 function tryStart(){if(curM&&!mActive)showMDO(curM);}
+
+function openFullMap(){
+  if(!running || mActive) return;
+  document.getElementById('map-ov').classList.add('open');
+  document.getElementById('menu').classList.add('h');
+  document.getElementById('hud').classList.add('h');
+  document.getElementById('joystick').classList.add('h');
+  mActive = true;
+  renderFullMap();
+}
+
+function closeFullMap(){
+  document.getElementById('map-ov').classList.remove('open');
+  document.getElementById('menu').classList.remove('h');
+  document.getElementById('hud').classList.remove('h');
+  document.getElementById('joystick').classList.remove('h');
+  mActive = false;
+}
+
+function openMissionFromFullMap(id){
+  const m = MISSIONS.find(mm => mm.id === id);
+  if(!m) return;
+  closeFullMap();
+  if(P.done.includes(m.id)){
+    notify('MISSION ALREADY COMPLETE!');
+    return;
+  }
+  showMDO(m);
+}
+
+function renderFullMap(){
+  const board=document.getElementById('full-map-board');
+  const mapCanvas=document.getElementById('full-map-canvas');
+  const mapCtx=mapCanvas.getContext('2d');
+  mapCtx.clearRect(0,0,WW,WH);
+  mapCtx.drawImage(WC,0,0);
+  renderMapKey();
+  board.querySelectorAll('.map-hit').forEach(el=>el.remove());
+  for(const m of MISSIONS){
+    const x=m.tx+m.tw/2;
+    const y=m.ty-4;
+    const state=getMissionState(m);
+    drawPin(mapCtx,x,y,state,0,2);
+    const btn=document.createElement('button');
+    btn.className='map-hit';
+    btn.type='button';
+    btn.title=m.title;
+    btn.style.left=(x/WW*100)+'%';
+    btn.style.top=(y/WH*100)+'%';
+    btn.onclick=(e)=>{e.stopPropagation();openMissionFromFullMap(m.id);};
+    btn.innerHTML=`<span class="map-hit-label">${m.title}</span>`;
+    board.appendChild(btn);
+  }
+}
+
+function renderMapKey(){
+  document.querySelectorAll('.map-key-icon').forEach(canvas=>{
+    const ctx=canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    drawPin(ctx,canvas.width/2,canvas.height-8,canvas.dataset.state,0,1.2,false);
+  });
+}
 
 /* ══════════════════════════════════════════════
    RENDER
@@ -1769,14 +2086,13 @@ function render(){
   for(const m of MISSIONS){
     const zx=m.tx-cam.x, zy=m.ty-cam.y, zw=m.tw, zh=m.th;
     if(zx>VW||zy>VH||zx+zw<0||zy+zh<0)continue;
-    const done=P.done.includes(m.id);
+    const state=getMissionState(m);
 
-    // Red pin marker
-    drawPin(G, zx+zw/2, zy-4, done, pulse);
+    drawPin(G, zx+zw/2, zy-4, state, pulse, 1);
 
     // Label pinned just below the pin marker (zy-4 is pin tip, +10 clears it)
-    G.globalAlpha=done?.8:.9;
-    G.fillStyle=done?'#00d07a':'#ffffff';
+    G.globalAlpha=state==='done'?.8:.9;
+    G.fillStyle=state==='done'?'#00d07a':'#ffffff';
     G.font='bold 8px "Courier New",monospace';
     G.textAlign='center'; G.textBaseline='top';
     G.fillText(m.title, zx+zw/2, zy+6);
@@ -1788,27 +2104,38 @@ function render(){
   renderMM();
 }
 
-function drawPin(ctx,x,y,done,pulse){
-  const s=done?1:1+pulse*.08;
+function drawPin(ctx,x,y,state,pulse,scale=1,showShadow=true){
+  const done=state==='done';
+  const locked=state==='locked';
+  const open=state==='open';
+  const rescue=state==='rescue';
+  const timed=state==='timed';
+  const s=(done?1:1+pulse*.08)*scale;
   ctx.save(); ctx.translate(x,y); ctx.scale(s,s);
   // Drop shadow
-  ctx.fillStyle='rgba(0,0,0,.3)';
-  ctx.beginPath(); ctx.ellipse(2,4,9,5,0,0,Math.PI*2); ctx.fill();
-  // Pin body (heart/teardrop shape)
-  ctx.fillStyle=done?'#00d07a':'#e82020';
+  if(showShadow){
+    ctx.fillStyle='rgba(0,0,0,.3)';
+    ctx.beginPath(); ctx.ellipse(2,4,9,5,0,0,Math.PI*2); ctx.fill();
+  }
+  ctx.fillStyle=done?'#00b864':locked?'#6a3e14':open?'#f5ff64':timed?'#ffffff':'#e82020';
   ctx.beginPath();
   ctx.arc(0,-18,13,0,Math.PI*2); ctx.fill();
   ctx.beginPath();
   ctx.moveTo(-8,-10); ctx.lineTo(0,0); ctx.lineTo(8,-10);
   ctx.closePath(); ctx.fill();
-  // Inner circle
-  ctx.fillStyle=done?'#003818':'#900000';
+  ctx.strokeStyle='#ffffff';
+  ctx.lineWidth=2;
+  ctx.beginPath(); ctx.arc(0,-18,13,0,Math.PI*2); ctx.stroke();
+  ctx.fillStyle=done?'#006c38':locked?'#3d2314':open?'#faff9c':timed?'#f4f4f4':'#a60000';
   ctx.beginPath(); ctx.arc(0,-18,8,0,Math.PI*2); ctx.fill();
-  // Symbol
-  ctx.fillStyle='#ffffff';
+  ctx.fillStyle=open||timed?'#3d2314':'#ffffff';
   ctx.font='bold 12px "Courier New",monospace';
   ctx.textAlign='center'; ctx.textBaseline='middle';
-  ctx.fillText(done?'✓':'!', 0,-18);
+  if(locked && lockImgLoaded){
+    ctx.drawImage(lockImg,-6,-24,12,12);
+  } else {
+    ctx.fillText(done?'✓':locked?'':open?'?':timed?'◷':'!', 0,-18);
+  }
   ctx.restore();
 }
 
@@ -1826,8 +2153,8 @@ function drawPlayer(){
 function renderMM(){
   MG.drawImage(MM_BG_C,0,0);
   for(const m of MISSIONS){
-    MG.fillStyle=P.done.includes(m.id)?'#00d07a':m.color;
-    MG.fillRect(m.tx*100/WW,m.ty*74/WH,m.tw*100/WW,m.th*74/WH);
+    const px=(m.tx+m.tw/2)*100/WW, py=m.ty*74/WH;
+    drawPin(MG,px,py,getMissionState(m),0,.28);
   }
   MG.strokeStyle='rgba(255,255,255,.5)'; MG.lineWidth=1;
   MG.strokeRect(cam.x*100/WW,cam.y*74/WH,VW*100/WW,VH*74/WH);
@@ -1849,6 +2176,8 @@ function startM(){
     startFactoryGame(m);
   } else if(m.id === 'smog'){
     startSmogGame(m);
+  } else if(m.id === 'energy'){
+    startRiverGame(m);
   } else if(m.id === 'landfill'){
     startLandfillGame(m);
   } else if(m.type === 'quiz'){
@@ -1860,28 +2189,86 @@ function startM(){
     else renderPipes();
   }
 }
+
+function restoreWorldUI(){
+  ['sb-ov','dg-ov','fc-ov','fc-pipes','rr-ov','lf-ov','qz-ov'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.style.display='none';
+  });
+  document.getElementById('mdo').classList.add('h');
+  document.getElementById('mo').classList.add('h');
+  document.getElementById('map-ov').classList.remove('open');
+  document.getElementById('bp-ov').classList.add('h');
+  const menu=document.getElementById('menu');
+  const hud=document.getElementById('hud');
+  const miniMap=document.getElementById('mm');
+  const joystick=document.getElementById('joystick');
+  menu.classList.remove('h');
+  hud.classList.remove('h');
+  miniMap.classList.remove('h');
+  joystick.classList.remove('h');
+  menu.style.display='flex';
+  hud.style.display='flex';
+  miniMap.style.display='block';
+  joystick.style.display='block';
+  mActive=false;
+  updHUD();
+  if(running) render();
+}
+
+function isOverlayVisible(id){
+  const el=document.getElementById(id);
+  if(!el) return false;
+  if(id==='map-ov') return el.classList.contains('open');
+  if(el.classList.contains('h')) return false;
+  return getComputedStyle(el).display !== 'none';
+}
+
+function reconcileWorldChrome(){
+  if(!running) return;
+  const blockingIds=['ss','lang','mdo','mo','bp-ov','map-ov','sb-ov','dg-ov','fc-ov','fc-pipes','rr-ov','lf-ov','qz-ov'];
+  if(blockingIds.some(isOverlayVisible)) return;
+  const menu=document.getElementById('menu');
+  const hud=document.getElementById('hud');
+  const miniMap=document.getElementById('mm');
+  const joystick=document.getElementById('joystick');
+  if(menu.classList.contains('h') || hud.classList.contains('h') || miniMap.classList.contains('h') || joystick.classList.contains('h') || mActive){
+    mActive=false;
+    menu.classList.remove('h'); hud.classList.remove('h'); miniMap.classList.remove('h'); joystick.classList.remove('h');
+    menu.style.display='flex'; hud.style.display='flex'; miniMap.style.display='block'; joystick.style.display='block';
+    updHUD();
+  }
+}
+
 function closeM(coins,xp,ok){
-  mActive=false; document.getElementById('mo').classList.add('h');
-  if(ok&&curM&&!P.done.includes(curM.id)){
-    P.done.push(curM.id); P.coins+=coins; P.xp+=xp; updHUD(); updLB();
-    
-    // Award Animal
-    const aid = Object.keys(ANIMAL_DATA).find(k => ANIMAL_DATA[k].mission === curM.id);
-    if(aid && !P.animals.includes(aid)) P.animals.push(aid);
+  const completedMission = curM;
+  try {
+    if(ok&&completedMission&&!P.done.includes(completedMission.id)){
+      P.done.push(completedMission.id); P.coins+=coins; P.xp+=xp; updHUD(); updLB();
+      
+      // Award Animal
+      const aid = Object.keys(ANIMAL_DATA).find(k => ANIMAL_DATA[k].mission === completedMission.id);
+      if(aid && !P.animals.includes(aid)) P.animals.push(aid);
 
-    // Award Badge
-    if(curM.badge) {
-      const bid = Object.keys(BADGE_DATA).find(k => BADGE_DATA[k].name === curM.badge);
-      if(bid && !P.badges.includes(bid)) P.badges.push(bid);
-    } else {
-      // Default mission-to-badge mapping from showMDO logic if no specific badge set
-      const m2b = {smog:'air_purifier', landfill:'recycling_master', factory:'savior', forest:'tree_saver', polarbear:'savior', dolphin:'savior'};
-      const bid = m2b[curM.id];
-      if(bid && !P.badges.includes(bid)) P.badges.push(bid);
+      // Award Badge
+      if(completedMission.badge) {
+        const bid = Object.keys(BADGE_DATA).find(k => BADGE_DATA[k].name === completedMission.badge);
+        if(bid && !P.badges.includes(bid)) P.badges.push(bid);
+      } else {
+        // Default mission-to-badge mapping from showMDO logic if no specific badge set
+        const m2b = {smog:'air_purifier', landfill:'recycling_master', factory:'savior', energy:'grid_guardian', forest:'tree_saver', polarbear:'savior', dolphin:'savior'};
+        const bid = m2b[completedMission.id];
+        if(bid && !P.badges.includes(bid)) P.badges.push(bid);
+      }
+
+      const nr=getRank(P.xp); if(nr.n!==P.rank)setTimeout(()=>notify('RANK UP!\n'+nr.n+'!'),1200);
+      buildWorld();
     }
-
-    notify('+'+coins+' Rs\n+'+xp+' XP!');
-    const nr=getRank(P.xp); if(nr.n!==P.rank)setTimeout(()=>notify('RANK UP!\n'+nr.n+'!'),1200);
+  } catch(err) {
+    console.error('Mission close failed before UI restore:', err);
+  } finally {
+    curM = null;
+    restoreWorldUI();
   }
 }
 function showDone(m,c,x,msg){
@@ -1996,42 +2383,45 @@ function renderBPTab(tab) {
   if (tab === 'tools') {
     let html = `<div class="tools-layout">
       <div class="tools-col">
-        <div class="tools-col-title">Active Tools</div>`;
+        <div class="tools-col-title">Your Tools</div>`;
     
     Object.keys(TOOL_DATA).forEach(tid => {
       const tool = TOOL_DATA[tid];
-      if (!tool.locked) {
+      const qty = getToolQty(tid);
+      if (qty > 0) {
         html += `<div class="tool-card">
           <div class="tool-card-icon"><img src="${tool.icon}"></div>
           <div class="tool-card-info">
             <div class="tool-card-name">${tool.name}</div>
-            <div class="tool-card-price"><img src="coin.svg" style="width:16px;height:16px"> ${tool.price}</div>
+            <div style="font: bold 11px/1.3 'Courier New', mono; opacity:.85">${tool.desc}</div>
           </div>
           <div class="tool-card-qty-box">
-            <div class="tool-plus" onclick="notify('Buy more ${tool.name}?')">+</div>
-            <div class="tool-qty-pill">${tool.qty}</div>
+            <div class="tool-qty-pill">${qty}</div>
           </div>
         </div>`;
       }
     });
+    if(!Object.keys(TOOL_DATA).some(tid => getToolQty(tid) > 0)){
+      html += `<div class="bp-item-name" style="text-align:left">No tools yet.</div>`;
+    }
     html += `</div>
       <div class="tools-col">
-        <div class="tools-col-title">Locked Tools</div>`;
+        <div class="tools-col-title">Tool Shop</div>`;
     
     Object.keys(TOOL_DATA).forEach(tid => {
       const tool = TOOL_DATA[tid];
-      if (tool.locked) {
-        html += `<div class="tool-card locked">
-          <div class="tool-card-icon"><img src="${tool.icon}" style="opacity:0.6"></div>
+      const canBuy = P.coins >= tool.price;
+      html += `<div class="tool-card shop">
+          <div class="tool-card-icon"><img src="${tool.icon}"></div>
           <div class="tool-card-info">
             <div class="tool-card-name">${tool.name}</div>
             <div class="tool-card-price"><img src="coin.svg" style="width:16px;height:16px;filter:grayscale(1)"> ${tool.price}</div>
+            <div style="font: bold 11px/1.3 'Courier New', mono; opacity:.75">${tool.desc}</div>
           </div>
           <div class="tool-card-qty-box">
-            <div class="tool-qty-pill">0</div>
+            <button class="tool-buy" onclick="buyTool('${tid}')" ${canBuy ? '' : 'disabled'}>${canBuy ? 'BUY' : 'LOCKED'}</button>
           </div>
         </div>`;
-      }
     });
     html += `</div></div>`;
     body.innerHTML = html;
@@ -2119,20 +2509,20 @@ function renderBPTab(tab) {
     body.innerHTML = `<div class="bp-section">
       <div class="bp-section-title"><span class="emoji">⚙️</span> <span>GAME SETTINGS</span></div>
       <div class="bp-badge-list" style="gap:20px; padding:30px">
-        <div class="bp-badge-item">
-          <span>🔊 Sound Effects</span>
+        <div class="settings-row">
+          <span class="settings-label">🔊 Sound Effects</span>
           <div style="flex:1"></div>
-          <button class="ss-play" style="width:60px; height:30px; border-width:2px">ON</button>
+          <button class="settings-toggle ${APP_SETTINGS.sfx ? 'on' : ''}" onclick="toggleSetting('sfx')">${APP_SETTINGS.sfx ? 'ON' : 'OFF'}</button>
         </div>
-        <div class="bp-badge-item">
-          <span>🎵 Background Music</span>
+        <div class="settings-row">
+          <span class="settings-label">🎵 Background Music</span>
           <div style="flex:1"></div>
-          <button class="ss-play" style="width:60px; height:30px; border-width:2px">ON</button>
+          <button class="settings-toggle ${APP_SETTINGS.music ? 'on' : ''}" onclick="toggleSetting('music')">${APP_SETTINGS.music ? 'ON' : 'OFF'}</button>
         </div>
-        <div class="bp-badge-item">
-          <span>🌍 Language</span>
+        <div class="settings-row">
+          <span class="settings-label">🌍 Language</span>
           <div style="flex:1"></div>
-          <button class="ss-play" style="width:100px; height:30px; border-width:2px" onclick="begin()">CHANGE</button>
+          <button class="tool-buy" style="width:110px" onclick="openLanguageSettings()">${P_lang === 'en' ? 'ENGLISH' : 'URDU'}</button>
         </div>
       </div>
     </div>`;
@@ -2298,10 +2688,285 @@ function closeSmogGame(success){
   
   const finalXP = Math.floor(sbScore / 2);
   closeM(success ? sbScore : 0, success ? finalXP : 0, success);
-  
-  document.getElementById('menu').classList.remove('h');
-  document.getElementById('joystick').classList.remove('h');
-  document.getElementById('hud').classList.remove('h');
+}
+
+/* ══════════════════════════════════════════════
+   ENERGY RUSH MISSION LOGIC
+══════════════════════════════════════════════ */
+let rrScore = 0, rrLives = 3, rrTime = 45, rrActive = false;
+let rrMaxCoins = 0, rrMaxXp = 0, rrTarget = 30, rrLane = 1;
+let rrTimers = [], rrObjects = [], rrLastFrame = 0, rrRunFrame = 0, rrRunTick = 0, rrJumping = false, rrJumpStart = 0;
+const RR_JUMP_DURATION = 980;
+const RR_JUMP_HEIGHT = 176;
+let rrTouchStartX = 0, rrTouchStartY = 0;
+const RR_CLEAN_ITEMS = [
+  { label:'LEAF', svg:`<svg viewBox="0 0 64 64" aria-hidden="true"><path fill="#2f9e44" d="M55 9C31 7 13 18 10 39c-1 9 5 16 14 16 20 0 32-20 31-46Z"/><path fill="#70d66b" d="M16 48c9-17 20-25 35-34C37 27 29 39 16 48Z"/><path fill="none" stroke="#1f6f32" stroke-width="4" stroke-linecap="round" d="M13 52c13-11 23-22 36-39"/></svg>` },
+  { label:'SOLAR', svg:`<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="14" width="44" height="30" rx="4" fill="#2477b8" stroke="#3d2314" stroke-width="4"/><path stroke="#9fe3ff" stroke-width="3" d="M24 15v28M39 15v28M11 29h42"/><path fill="#8a5a32" d="M28 44h8v10H28z"/><path fill="#3d2314" d="M19 54h26v5H19z"/><circle cx="50" cy="10" r="5" fill="#ffd700"/></svg>` },
+  { label:'WATER', svg:`<svg viewBox="0 0 64 64" aria-hidden="true"><path fill="#32b7e8" stroke="#3d2314" stroke-width="4" d="M32 6C21 21 15 31 15 42c0 11 8 18 17 18s17-7 17-18C49 31 43 21 32 6Z"/><path fill="#a8ecff" d="M24 43c0 5 4 9 9 9-8 2-14-3-14-10 0-5 3-11 8-19-2 8-3 14-3 20Z"/></svg>` },
+  { label:'TREE', svg:`<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="28" y="34" width="8" height="22" fill="#8a5a32"/><circle cx="25" cy="29" r="13" fill="#2f9e44"/><circle cx="39" cy="29" r="13" fill="#3bbf55"/><circle cx="32" cy="18" r="13" fill="#70d66b"/><path fill="#3d2314" d="M18 56h28v5H18z"/></svg>` }
+];
+const RR_BAD_ITEMS = [
+  { label:'COAL', svg:`<svg viewBox="0 0 64 64" aria-hidden="true"><path fill="#191919" stroke="#fdf4da" stroke-width="3" d="m14 27 10-13 18 3 10 15-8 17-21 3-13-12Z"/><path fill="#4d4d4d" d="m26 18 15 3-10 8-12-1Z"/><text x="32" y="43" text-anchor="middle" font-family="monospace" font-size="12" font-weight="900" fill="#fff">COAL</text></svg>` },
+  { label:'SMOKE', svg:`<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="24" cy="38" r="14" fill="#555"/><circle cx="39" cy="35" r="17" fill="#333"/><circle cx="30" cy="24" r="12" fill="#777"/><path fill="#e82020" d="M28 47h8v8h-8zM28 12h8v28h-8z"/></svg>` },
+  { label:'OIL', svg:`<svg viewBox="0 0 64 64" aria-hidden="true"><path fill="#111" stroke="#fdf4da" stroke-width="3" d="M32 6C20 22 14 32 14 43c0 10 8 17 18 17s18-7 18-17C50 32 44 22 32 6Z"/><path fill="#444" d="M24 45c0 5 4 9 10 9-9 2-15-3-15-10 0-5 3-11 8-19-2 8-3 14-3 20Z"/></svg>` }
+];
+
+function updateRiverHUD(){
+  const ratio = Math.min(1, rrScore / rrTarget);
+  const coins = Math.floor(rrMaxCoins * ratio);
+  const xp = Math.floor(rrMaxXp * ratio);
+  document.getElementById('rr-score').textContent = rrScore;
+  document.getElementById('rr-flood').textContent = rrLives;
+  document.getElementById('rr-time').textContent = rrTime;
+  document.getElementById('rr-hc').textContent = '+' + coins;
+  document.getElementById('rr-hr').textContent = '+' + xp + ' XP';
+  const fill = document.getElementById('rr-waterfill');
+  fill.style.width = Math.max(0, rrLives / 3 * 100) + '%';
+  fill.style.background = rrLives <= 1 ? '#e82020' : rrLives === 2 ? '#ffd700' : '#4dfb8b';
+}
+
+function startRiverGame(m){
+  rrScore = 0; rrLives = 3; rrTime = 45; rrActive = false; rrLane = 1; rrObjects = []; rrLastFrame = 0; rrRunFrame = 0; rrRunTick = 0; rrJumping = false; rrJumpStart = 0;
+  rrMaxCoins = m.coins; rrMaxXp = m.xp;
+  rrTimers.forEach(clearTimeout); rrTimers.forEach(clearInterval); rrTimers = [];
+  document.getElementById('rr-field').querySelectorAll('.rr-obj').forEach(el => el.remove());
+  moveRiverPlayer(1);
+  document.getElementById('mdo').classList.add('h');
+  document.getElementById('menu').classList.add('h');
+  document.getElementById('hud').classList.add('h');
+  document.getElementById('joystick').classList.add('h');
+  document.getElementById('rr-ov').style.display = 'block';
+  document.getElementById('rr-intro').style.display = 'flex';
+  document.getElementById('rr-success').style.display = 'none';
+  document.getElementById('rr-fail').style.display = 'none';
+  document.getElementById('rr-board').style.display = 'none';
+  document.getElementById('rr-waterbar').style.display = 'none';
+  const track = document.querySelector('#rr-field .rr-track');
+  track.onpointerdown = (e) => {
+    if(!rrActive) return;
+    rrTouchStartX = e.clientX;
+    rrTouchStartY = e.clientY;
+  };
+  track.onpointerup = (e) => {
+    if(!rrActive) return;
+    const dx = e.clientX - rrTouchStartX;
+    const dy = e.clientY - rrTouchStartY;
+    if(dy < -34 && Math.abs(dy) > Math.abs(dx)){
+      jumpRiverPlayer();
+      return;
+    }
+    if(Math.abs(dx) > 28 && Math.abs(dx) > Math.abs(dy)){
+      moveRiverPlayer(rrLane + (dx > 0 ? 1 : -1));
+      return;
+    }
+    const r = track.getBoundingClientRect();
+    moveRiverPlayer(e.clientX < r.left + r.width / 2 ? rrLane - 1 : rrLane + 1);
+  };
+  drawRiverAvatar(false);
+  setRiverJumpVisual(0);
+  updateRiverHUD();
+}
+
+function startRiverGameLoop(){
+  document.getElementById('rr-intro').style.display = 'none';
+  document.getElementById('rr-board').style.display = 'block';
+  document.getElementById('rr-waterbar').style.display = 'block';
+  rrActive = true;
+  window.addEventListener('keydown', handleRiverKey);
+  const tick = setInterval(() => {
+    if(!rrActive) return;
+    rrTime--;
+    updateRiverHUD();
+    if(rrTime <= 0) {
+      rrActive = false;
+      finishRiverGame(rrScore >= rrTarget);
+    }
+  }, 1000);
+  rrTimers.push(tick);
+  spawnRiverObjectLoop();
+  requestAnimationFrame(runRiverFrame);
+}
+
+function moveRiverPlayer(lane){
+  rrLane = Math.max(0, Math.min(2, lane));
+  const player = document.getElementById('rr-player');
+  if(player) player.style.left = ((rrLane + .5) / 3 * 100) + '%';
+}
+
+function drawRiverAvatar(moving=true){
+  const canvas = document.getElementById('rr-player-canvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  drawSpr(ctx, moving ? [SP_F0, SP_F1][rrRunFrame] : SP_F0, PAL[selC], 2, 2, 2, false);
+}
+
+function handleRiverKey(e){
+  if(!rrActive) return;
+  if(e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') { e.preventDefault(); moveRiverPlayer(rrLane - 1); }
+  if(e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') { e.preventDefault(); moveRiverPlayer(rrLane + 1); }
+  if(e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W' || e.key === ' ') { e.preventDefault(); jumpRiverPlayer(); }
+}
+
+function jumpRiverPlayer(){
+  if(!rrActive || rrJumping) return;
+  const player = document.getElementById('rr-player');
+  rrJumping = true;
+  rrJumpStart = performance.now();
+  if(player) player.classList.add('jump');
+}
+
+function setRiverJumpVisual(y){
+  const player = document.getElementById('rr-player');
+  if(!player) return;
+  const liftRatio = Math.min(1, y / RR_JUMP_HEIGHT);
+  player.style.setProperty('--jump-y', y.toFixed(1));
+  player.style.setProperty('--shadow-w', (54 - liftRatio * 24).toFixed(1) + 'px');
+  player.style.setProperty('--shadow-o', (1 - liftRatio * .62).toFixed(2));
+}
+
+function updateRiverJump(ts){
+  if(!rrJumping) {
+    setRiverJumpVisual(0);
+    return;
+  }
+  const progress = Math.min(1, (ts - rrJumpStart) / RR_JUMP_DURATION);
+  const y = Math.sin(progress * Math.PI) * RR_JUMP_HEIGHT;
+  setRiverJumpVisual(y);
+  if(progress >= 1) {
+    rrJumping = false;
+    rrJumpStart = 0;
+    setRiverJumpVisual(0);
+    const player = document.getElementById('rr-player');
+    if(player) player.classList.remove('jump');
+  }
+}
+
+function spawnRiverObjectLoop(){
+  if(!rrActive) return;
+  spawnRiverObject();
+  const progress = Math.min(1, rrScore / rrTarget);
+  const delay = 520 - progress * 240;
+  rrTimers.push(setTimeout(spawnRiverObjectLoop, delay));
+}
+
+function spawnRiverObject(){
+  if(!rrActive) return;
+  const field = document.getElementById('rr-field');
+  const lane = Math.floor(Math.random() * 3);
+  const clean = Math.random() > .42;
+  const item = clean
+    ? RR_CLEAN_ITEMS[Math.floor(Math.random() * RR_CLEAN_ITEMS.length)]
+    : RR_BAD_ITEMS[Math.floor(Math.random() * RR_BAD_ITEMS.length)];
+  const el = document.createElement('div');
+  el.className = 'rr-obj ' + (clean ? 'clean' : 'bad');
+  el.innerHTML = item.svg + `<span class="rr-obj-label">${item.label}</span>`;
+  el.style.left = ((lane + .5) / 3 * 100) + '%';
+  el.style.top = '-60px';
+  const obj = { el, lane, y: -60, clean, hit: false, jumped: false };
+  rrObjects.push(obj);
+  field.querySelector('.rr-track').appendChild(el);
+}
+
+function shrinkRect(rect, xPad, yPad){
+  return {
+    left: rect.left + xPad,
+    right: rect.right - xPad,
+    top: rect.top + yPad,
+    bottom: rect.bottom - yPad
+  };
+}
+
+function rectsOverlap(a,b){
+  return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+}
+
+function riverObjectTouchesPlayer(obj){
+  if(obj.jumped) return false;
+  if(rrJumping) return false;
+  const playerCanvas = document.getElementById('rr-player-canvas');
+  if(!playerCanvas || !obj.el.isConnected) return false;
+  const playerRect = shrinkRect(playerCanvas.getBoundingClientRect(), 18, 10);
+  const objRect = shrinkRect(obj.el.getBoundingClientRect(), 12, 12);
+  return rectsOverlap(playerRect, objRect);
+}
+
+function riverObjectAtJumpGate(obj, trackHeight){
+  const groundCenterY = trackHeight - 129;
+  return obj.lane === rrLane && obj.y > groundCenterY - 54 && obj.y < groundCenterY + 54;
+}
+
+function runRiverFrame(ts){
+  if(!rrActive) return;
+  const dt = rrLastFrame ? Math.min(42, ts - rrLastFrame) : 16;
+  rrLastFrame = ts;
+  rrRunTick += dt;
+  if(rrRunTick > 130){ rrRunTick = 0; rrRunFrame ^= 1; drawRiverAvatar(true); }
+  updateRiverJump(ts);
+  const progress = Math.min(1, rrScore / rrTarget);
+  const speed = 330 + progress * 260;
+  const track = document.querySelector('#rr-field .rr-track');
+  const trackHeight = track ? track.getBoundingClientRect().height : window.innerHeight;
+  for(const obj of [...rrObjects]){
+    obj.y += speed * dt / 1000;
+    obj.el.style.top = obj.y + 'px';
+    if(rrJumping && !obj.hit && riverObjectAtJumpGate(obj, trackHeight)){
+      obj.jumped = true;
+      continue;
+    }
+    if(!obj.hit && riverObjectTouchesPlayer(obj)){
+      obj.hit = true;
+      obj.el.remove();
+      rrObjects = rrObjects.filter(o => o !== obj);
+      if(obj.clean){
+        rrScore++;
+        document.getElementById('rr-player').classList.add('rr-blast');
+        setTimeout(()=>document.getElementById('rr-player').classList.remove('rr-blast'),260);
+        updateRiverHUD();
+        if(rrScore >= rrTarget){ rrActive = false; finishRiverGame(true); return; }
+      } else {
+        rrLives--;
+        updateRiverHUD();
+        if(rrLives <= 0){ rrActive = false; finishRiverGame(false); return; }
+      }
+    } else if(obj.y > trackHeight + 120){
+      obj.el.remove();
+      rrObjects = rrObjects.filter(o => o !== obj);
+    }
+  }
+  requestAnimationFrame(runRiverFrame);
+}
+
+function finishRiverGame(success){
+  rrActive = false;
+  rrJumping = false;
+  setRiverJumpVisual(0);
+  const successPlayer = document.getElementById('rr-player');
+  if(successPlayer) successPlayer.classList.remove('jump');
+  rrTimers.forEach(clearTimeout);
+  rrTimers.forEach(clearInterval);
+  rrTimers = [];
+  window.removeEventListener('keydown', handleRiverKey);
+  rrObjects.forEach(o => o.el.remove());
+  rrObjects = [];
+  document.getElementById(success ? 'rr-success' : 'rr-fail').style.display = 'flex';
+}
+
+function closeRiverGame(success){
+  rrActive = false;
+  rrJumping = false;
+  setRiverJumpVisual(0);
+  const closePlayer = document.getElementById('rr-player');
+  if(closePlayer) closePlayer.classList.remove('jump');
+  rrTimers.forEach(clearTimeout);
+  rrTimers.forEach(clearInterval);
+  rrTimers = [];
+  window.removeEventListener('keydown', handleRiverKey);
+  rrObjects.forEach(o => o.el.remove());
+  rrObjects = [];
+  document.getElementById('rr-ov').style.display = 'none';
+  const ratio = Math.min(1, rrScore / rrTarget);
+  closeM(success ? Math.floor(rrMaxCoins * ratio) : 0, success ? Math.floor(rrMaxXp * ratio) : 0, success);
 }
 
 /* ══════════════════════════════════════════════
@@ -2319,8 +2984,8 @@ let dgMaxCoins = 0;
 let dgMaxXp = 0;
 
 function startDolphinGame(m){
-  dgMaxCoins = m.coins * 3; 
-  dgMaxXp = m.xp * 3;
+  dgMaxCoins = m.coins; 
+  dgMaxXp = m.xp;
   
   document.getElementById('mdo').classList.add('h');
   document.getElementById('menu').classList.add('h');
@@ -2380,10 +3045,6 @@ function nextDolphinPrompt() {
 function closeDolphinGame(success){
   document.getElementById('dg-ov').style.display = 'none';
   closeM(success ? dgMaxCoins : 0, success ? dgMaxXp : 0, success);
-  
-  document.getElementById('menu').classList.remove('h');
-  document.getElementById('joystick').classList.remove('h');
-  document.getElementById('hud').classList.remove('h');
 }
 
 /* ══════════════════════════════════════════════
@@ -2575,10 +3236,6 @@ function closeFactoryGame(success){
   document.getElementById('fc-ov').style.display = 'none';
   document.getElementById('fc-pipes').style.display = 'none';
   closeM(success ? fcMaxCoins : 0, success ? fcMaxXp : 0, success);
-  
-  document.getElementById('menu').classList.remove('h');
-  document.getElementById('joystick').classList.remove('h');
-  document.getElementById('hud').classList.remove('h');
 }
 
 /* ── LANDFILL GAME LOGIC ── */
@@ -2727,10 +3384,6 @@ function completeLandfillGame() {
 function closeLandfillGame(success) {
   document.getElementById('lf-ov').style.display = 'none';
   closeM(success ? lfMaxCoins : 0, success ? lfMaxXp : 0, success);
-  
-  document.getElementById('menu').classList.remove('h');
-  document.getElementById('joystick').classList.remove('h');
-  document.getElementById('hud').classList.remove('h');
 }
 
 /* ── QUIZ GAME LOGIC ── */
@@ -2840,7 +3493,7 @@ function finishQuizGame() {
 }
 
 function completeQuizGame() {
-  closeQuizGame(true);
+  closeQuizGame(qzScore / qzCurM.qs.length >= 0.7);
 }
 
 function closeQuizGame(success) {
@@ -2849,10 +3502,6 @@ function closeQuizGame(success) {
   const finalCoins = Math.floor(qzMaxCoins * (qzScore / qzCurM.qs.length));
   const finalXp = Math.floor(qzMaxXp * (qzScore / qzCurM.qs.length));
   closeM(success ? finalCoins : 0, success ? finalXp : 0, success);
-  
-  document.getElementById('menu').classList.remove('h');
-  document.getElementById('joystick').classList.remove('h');
-  document.getElementById('hud').classList.remove('h');
 }
 </script>
 </body>
