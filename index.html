@@ -413,7 +413,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 .bp-back:hover { transform: scale(1.1); }
 .bp-tabs { flex: 1; display: flex; justify-content: center; gap: 40px; height: 100%; }
 .bp-tab { display: flex; align-items: center; gap: 12px; cursor: pointer; padding: 0 20px; transition: all 0.2s; border-bottom: 6px solid transparent; }
-.bp-tab img { width: 32px; height: 32px; }
+.bp-tab img { width: 32px; height: 32px; mix-blend-mode: multiply; }
 .bp-tab span { font: bold 20px 'Courier New', mono; color: #3d2314; text-transform: capitalize; }
 .bp-tab.active { border-bottom-color: #3d2314; }
 .bp-tab:hover { opacity: 0.8; }
@@ -468,8 +468,49 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 .settings-toggle.on { background:#4dfb8b; padding-left:0; padding-right:28px; }
 .settings-toggle.on::before { left:43px; }
 
+/* ── REDESIGNED SETTINGS PAGE ── */
+.settings-page { display:grid; grid-template-columns:1fr 1fr; gap:30px; width:100%; padding:10px 0; }
+.settings-col { display:flex; flex-direction:column; gap:14px; }
+.settings-col-title { display:flex; align-items:center; gap:12px; font:bold 20px 'Courier New',mono; color:#3d2314; }
+.settings-col-title img { width:28px; height:28px; image-rendering:pixelated; mix-blend-mode:multiply; }
+.settings-col-title .s-icon { font-size:24px; line-height:1; }
+.settings-panel { background:rgba(61,35,20,0.05); border:3px dashed rgba(61,35,20,0.3); border-radius:8px; padding:22px 26px; display:flex; flex-direction:column; gap:20px; }
+.s-row { display:flex; align-items:center; gap:10px; font:bold 16px 'Courier New',mono; color:#3d2314; }
+.s-row .s-label { flex:1; }
+.s-slider-wrap { position:relative; display:inline-flex; align-items:center; width:210px; flex-shrink:0; }
+.s-slider { -webkit-appearance:none; appearance:none; width:100%; height:34px; border-radius:18px; border:3px solid #3d2314; background:#5a3e1b; outline:none; cursor:pointer; }
+.s-slider::-webkit-slider-thumb { -webkit-appearance:none; width:26px; height:26px; border-radius:50%; background:#c8b89a; border:3px solid #3d2314; cursor:pointer; }
+.s-slider-val { position:absolute; left:50%; transform:translateX(-50%); font:bold 14px 'Courier New',mono; color:#fdf4da; pointer-events:none; z-index:1; }
+.s-tog { width:58px; height:30px; border:3px solid #3d2314; border-radius:15px; background:#d0d0d0; cursor:pointer; position:relative; flex-shrink:0; transition:background .2s; }
+.s-tog::after { content:''; position:absolute; width:18px; height:18px; border-radius:50%; background:#3d2314; top:3px; left:3px; transition:left .2s; }
+.s-tog.on { background:#4dfb8b; }
+.s-tog.on::after { left:31px; }
+.s-btn-group { display:flex; gap:8px; flex-shrink:0; }
+.s-btn-opt { background:#fdf4da; border:3px solid #3d2314; border-radius:20px; padding:6px 14px; font:bold 13px 'Courier New',mono; color:#3d2314; cursor:pointer; box-shadow:2px 2px 0 #3d2314; transition:transform .1s; }
+.s-btn-opt.active { background:#5a3e1b; color:#fdf4da; box-shadow:none; }
+.s-btn-opt:active { transform:translate(2px,2px); box-shadow:none; }
+
 /* Tooltip style for locked missions */
 .bp-item-req { position: absolute; bottom: -5px; right: -5px; background: #e82020; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font: bold 12px sans-serif; border: 2px solid #3d2314; }
+
+/* ── REAL WORLD EVENTS OVERLAY ── */
+#ev-ov { background: rgba(26,26,26,.72); z-index: 250; }
+.ev-card { background: #fdf4da; border: 4px dashed #3d2314; border-radius: 20px; padding: 36px 40px; width: 560px; max-width: 92%; position: relative; cursor: default; box-sizing: border-box; }
+.ev-close { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; border: 4px solid #3d2314; border-radius: 50%; display: flex; align-items: center; justify-content: center; font: bold 18px/1 sans-serif; cursor: pointer; color: #3d2314; background: #fdf4da; }
+.ev-close:hover { background: #e8d9b0; }
+.ev-title { font: 900 26px/1 'Courier New', mono; color: #3d2314; text-align: center; margin-bottom: 14px; letter-spacing: 1px; }
+.ev-subtitle { font: bold 15px/1.5 'Courier New', mono; color: #3d2314; text-align: center; margin-bottom: 28px; opacity: .85; }
+.ev-row { display: flex; align-items: center; gap: 18px; padding: 14px 0; border-top: 2px solid rgba(61,35,20,.15); }
+.ev-row:last-child { border-bottom: 2px solid rgba(61,35,20,.15); }
+.ev-icon { width: 60px; height: 60px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 42px; }
+.ev-info { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.ev-name { font: bold 18px/1 'Courier New', mono; color: #3d2314; }
+.ev-reward { display: inline-flex; align-items: center; gap: 6px; background: #f5c518; border: 2px solid #3d2314; border-radius: 20px; padding: 5px 14px; font: bold 15px/1 'Courier New', mono; color: #3d2314; width: fit-content; }
+.ev-reward img { width: 20px; height: 20px; }
+.ev-signup { background: #3d2314; color: #fdf4da; border: none; border-radius: 20px; padding: 10px 24px; font: bold 16px/1 'Courier New', mono; cursor: pointer; flex-shrink: 0; transition: transform .1s, background .2s; box-shadow: 3px 3px 0 rgba(0,0,0,.25); }
+.ev-signup:hover { background: #5a3e1b; }
+.ev-signup:active { transform: translate(2px,2px); box-shadow: none; }
+.ev-signup.done { background: #4dfb8b; color: #3d2314; cursor: default; box-shadow: none; }
 </style>
 </head>
 <body>
@@ -477,9 +518,34 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
   <canvas id="gc" width="800" height="560"></canvas>
   <div id="menu" class="h">
     <div class="menu-btn" title="Backpack" onclick="openBP()"><img src="backpack.svg" alt="Backpack"></div>
-    <div class="menu-btn" title="Leaderboard" onclick="showLB()"><img src="world.svg" alt="World"></div>
+    <div class="menu-btn" title="Real World Events" onclick="openEvents()"><img src="world.svg" alt="World"></div>
     <div class="menu-btn" title="Missions" onclick="notify('EXPLORE TO FIND MISSIONS!')"><img src="group.svg" alt="Group"></div>
     <div class="menu-btn" title="Language" onclick="notify('LANGUAGE SETTINGS COMING SOON!')"><span class="text-icon">ار</span></div>
+  </div>
+
+  <!-- Real World Events Overlay -->
+  <div class="ov h" id="ev-ov" onclick="closeEvents()">
+    <div class="ev-card" onclick="event.stopPropagation()">
+      <button class="ev-close" onclick="closeEvents()">✕</button>
+      <div class="ev-title">Events Around You</div>
+      <div class="ev-subtitle">Sign up for the environment events<br>around you and get free E-Rupees.</div>
+      <div class="ev-row">
+        <div class="ev-icon">🌳</div>
+        <div class="ev-info">
+          <div class="ev-name">Plantation Drive</div>
+          <div class="ev-reward"><img src="coin.svg" alt="coin"> +200</div>
+        </div>
+        <button class="ev-signup" id="ev-btn-0" onclick="signUpEvent(0, 200)">Sign Up</button>
+      </div>
+      <div class="ev-row">
+        <div class="ev-icon">🏖️</div>
+        <div class="ev-info">
+          <div class="ev-name">Beach Cleaning Drive</div>
+          <div class="ev-reward"><img src="coin.svg" alt="coin"> +500</div>
+        </div>
+        <button class="ev-signup" id="ev-btn-1" onclick="signUpEvent(1, 500)">Sign Up</button>
+      </div>
+    </div>
   </div>
 
   <div id="hud" class="h">
@@ -1776,7 +1842,7 @@ let P={x:678,y:565,w:32,h:32,speed:2.5,dir:'down',fr:0,ft:0,moving:false,
        badges: []
 };
 P.tools = Object.keys(P.toolCounts).filter(tid => P.toolCounts[tid] > 0);
-let APP_SETTINGS = { sfx: true, music: true };
+let APP_SETTINGS = { sfx: true, music: true, gameVolume: 85, notifications: false, notificationsVolume: 85, tts: true, textSize: 'small', colorblind: 'deu' };
 let cam={x:0,y:0};
 let curM=null, mActive=false, running=false;
 const K={};
@@ -1873,6 +1939,15 @@ function openLanguageSettings(){
 function toggleSetting(key){
   APP_SETTINGS[key] = !APP_SETTINGS[key];
   notify((key === 'sfx' ? 'SOUND EFFECTS ' : 'MUSIC ') + (APP_SETTINGS[key] ? 'ON' : 'OFF'));
+  renderBPTab('settings');
+}
+function toggleSetting2(key){
+  APP_SETTINGS[key] = !APP_SETTINGS[key];
+  const el = document.querySelector(`[data-stog="${key}"]`);
+  if(el){ el.classList.toggle('on', APP_SETTINGS[key]); }
+}
+function setSettingVal(key, val){
+  APP_SETTINGS[key] = val;
   renderBPTab('settings');
 }
 function updHUD(){
@@ -2506,7 +2581,7 @@ function renderBPTab(tab) {
             <div style="font: bold 11px/1.3 'Courier New', mono; opacity:.75">${tool.desc}</div>
           </div>
           <div class="tool-card-qty-box">
-            <button class="tool-buy" onclick="buyTool('${tid}')" ${canBuy ? '' : 'disabled'}>${canBuy ? 'BUY' : 'LOCKED'}</button>
+            <button class="tool-buy" onclick="buyTool('${tid}')" ${canBuy ? '' : 'disabled'}>BUY</button>
           </div>
         </div>`;
     });
@@ -2593,23 +2668,61 @@ function renderBPTab(tab) {
     body.innerHTML = html;
 
   } else if (tab === 'settings') {
-    body.innerHTML = `<div class="bp-section">
-      <div class="bp-section-title"><span class="emoji">⚙️</span> <span>GAME SETTINGS</span></div>
-      <div class="bp-badge-list" style="gap:20px; padding:30px">
-        <div class="settings-row">
-          <span class="settings-label">🔊 Sound Effects</span>
-          <div style="flex:1"></div>
-          <button class="settings-toggle ${APP_SETTINGS.sfx ? 'on' : ''}" onclick="toggleSetting('sfx')">${APP_SETTINGS.sfx ? 'ON' : 'OFF'}</button>
+    body.innerHTML = `<div class="settings-page">
+      <!-- General Settings -->
+      <div class="settings-col">
+        <div class="settings-col-title">
+          <img src="gear.png" alt=""> <span>General Settings</span>
         </div>
-        <div class="settings-row">
-          <span class="settings-label">🎵 Background Music</span>
-          <div style="flex:1"></div>
-          <button class="settings-toggle ${APP_SETTINGS.music ? 'on' : ''}" onclick="toggleSetting('music')">${APP_SETTINGS.music ? 'ON' : 'OFF'}</button>
+        <div class="settings-panel">
+          <div class="s-row">
+            <span class="s-label">Game Volume</span>
+            <div class="s-slider-wrap">
+              <input type="range" class="s-slider" min="0" max="100" value="${APP_SETTINGS.gameVolume}"
+                oninput="APP_SETTINGS.gameVolume=+this.value; this.nextElementSibling.textContent=this.value">
+              <span class="s-slider-val">${APP_SETTINGS.gameVolume}</span>
+            </div>
+          </div>
+          <div class="s-row">
+            <span class="s-label">Notifications</span>
+            <button class="s-tog ${APP_SETTINGS.notifications?'on':''}" data-stog="notifications" onclick="toggleSetting2('notifications')"></button>
+          </div>
+          <div class="s-row">
+            <span class="s-label">Notifications Volume</span>
+            <div class="s-slider-wrap">
+              <input type="range" class="s-slider" min="0" max="100" value="${APP_SETTINGS.notificationsVolume}"
+                oninput="APP_SETTINGS.notificationsVolume=+this.value; this.nextElementSibling.textContent=this.value">
+              <span class="s-slider-val">${APP_SETTINGS.notificationsVolume}</span>
+            </div>
+          </div>
         </div>
-        <div class="settings-row">
-          <span class="settings-label">🌍 Language</span>
-          <div style="flex:1"></div>
-          <button class="tool-buy" style="width:110px" onclick="openLanguageSettings()">${P_lang === 'en' ? 'ENGLISH' : 'URDU'}</button>
+      </div>
+      <!-- Accessibility Settings -->
+      <div class="settings-col">
+        <div class="settings-col-title">
+          <span class="s-icon">ⓘ</span> <span>Accessibility Settings</span>
+        </div>
+        <div class="settings-panel">
+          <div class="s-row">
+            <span class="s-label">Text to Speech</span>
+            <button class="s-tog ${APP_SETTINGS.tts?'on':''}" data-stog="tts" onclick="toggleSetting2('tts')"></button>
+          </div>
+          <div class="s-row">
+            <span class="s-label">Text Size</span>
+            <div class="s-btn-group">
+              <button class="s-btn-opt ${APP_SETTINGS.textSize==='small'?'active':''}" onclick="setSettingVal('textSize','small')">Small</button>
+              <button class="s-btn-opt ${APP_SETTINGS.textSize==='medium'?'active':''}" onclick="setSettingVal('textSize','medium')">Medium</button>
+              <button class="s-btn-opt ${APP_SETTINGS.textSize==='large'?'active':''}" onclick="setSettingVal('textSize','large')">Large</button>
+            </div>
+          </div>
+          <div class="s-row">
+            <span class="s-label">Colorblind Mode</span>
+            <div class="s-btn-group">
+              <button class="s-btn-opt ${APP_SETTINGS.colorblind==='off'?'active':''}" onclick="setSettingVal('colorblind','off')">Off</button>
+              <button class="s-btn-opt ${APP_SETTINGS.colorblind==='deu'?'active':''}" onclick="setSettingVal('colorblind','deu')">Deu</button>
+              <button class="s-btn-opt ${APP_SETTINGS.colorblind==='tri'?'active':''}" onclick="setSettingVal('colorblind','tri')">TRI</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>`;
@@ -2619,6 +2732,25 @@ function renderBPTab(tab) {
 function updLB(){const ex=LB.find(e=>e.name===P.name);if(ex){ex.coins=Math.max(ex.coins,P.coins);ex.rank=P.rank;}else LB.push({name:P.name,coins:P.coins,rank:P.rank});LB.sort((a,b)=>b.coins-a.coins);}
 function showLB(){ openBP('leaderboard'); }
 function hideLB(){ closeBP(); }
+
+const evSignedUp = [false, false];
+function openEvents(){
+  document.getElementById('ev-ov').classList.remove('h');
+}
+function closeEvents(){
+  document.getElementById('ev-ov').classList.add('h');
+}
+function signUpEvent(idx, coins){
+  if(evSignedUp[idx]) return;
+  evSignedUp[idx] = true;
+  P.coins += coins;
+  updHUD();
+  notify('+' + coins + ' E-RUPEES EARNED!');
+  const btn = document.getElementById('ev-btn-' + idx);
+  btn.textContent = 'Signed Up!';
+  btn.classList.add('done');
+  btn.disabled = true;
+}
 
 /* ══════════════════════════════════════════════
    SMOG BUSTER MISSION LOGIC
