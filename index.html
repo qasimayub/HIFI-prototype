@@ -349,7 +349,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 
 #qz-next { background: #4dfb8b; border: 4px solid #113d15; padding: 12px 80px; font: bold 20px 'Courier New', mono; color: #113d15; cursor: pointer; box-shadow: 4px 4px 0 #113d15; transition: transform 0.1s, box-shadow 0.1s; margin-top: 20px; }
 #qz-next:active { transform: translate(4px, 4px); box-shadow: 0 0 0 #113d15; }
-#qz-next:disabled { display: none; }
+#qz-next:disabled { visibility: hidden; pointer-events: none; }
 
 .qz-timer-wrap { position: absolute; top: -60px; width: 100%; max-width: 400px; height: 10px; background: rgba(0,0,0,0.1); border-radius: 5px; overflow: hidden; }
 .qz-timer-bar { height: 100%; background: #e65100; width: 100%; transition: width 1s linear, background 0.3s; }
@@ -427,6 +427,24 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 .bp-section { display: flex; flex-direction: column; gap: 20px; }
 .bp-section-title { display: flex; align-items: center; gap: 15px; font: bold 22px 'Courier New', mono; color: #3d2314; }
 .bp-section-title img, .bp-section-title span.emoji { width: 32px; height: 32px; font-size: 28px; }
+.px-icon { position: relative; width: 32px; height: 32px; display: inline-block; flex: 0 0 32px; image-rendering: pixelated; color: #3d2314; }
+.px-icon::before, .px-icon::after { content: ''; position: absolute; box-sizing: border-box; }
+.px-paw::before { width: 8px; height: 8px; left: 12px; top: 5px; background: currentColor; box-shadow: -10px 5px 0 currentColor, 10px 5px 0 currentColor, -5px -5px 0 currentColor, 5px -5px 0 currentColor; }
+.px-paw::after { width: 16px; height: 12px; left: 8px; top: 18px; background: currentColor; box-shadow: 0 -3px 0 currentColor; }
+.px-badge::before { width: 22px; height: 24px; left: 5px; top: 4px; background: #f5c518; border: 4px solid currentColor; box-shadow: 4px 4px 0 rgba(61,35,20,.22); clip-path: polygon(0 0, 100% 0, 100% 66%, 50% 100%, 0 66%); }
+.px-badge::after { width: 8px; height: 8px; left: 12px; top: 11px; background: currentColor; box-shadow: 0 8px 0 currentColor; }
+.px-tree::before { width: 8px; height: 14px; left: 12px; top: 16px; background: #6a3e14; }
+.px-tree::after { width: 20px; height: 8px; left: 6px; top: 5px; background: #1b7a32; box-shadow: 4px 7px 0 #1b7a32, -4px 7px 0 #1b7a32, 0 14px 0 #1b7a32; }
+.px-bolt::before { width: 14px; height: 26px; left: 9px; top: 3px; background: #ffd700; border: 3px solid currentColor; clip-path: polygon(58% 0, 8% 48%, 42% 48%, 28% 100%, 92% 38%, 58% 38%); }
+.px-air::before { width: 20px; height: 6px; left: 4px; top: 8px; background: #87ceeb; box-shadow: 8px 8px 0 #87ceeb, 2px 16px 0 #87ceeb; border: 3px solid currentColor; border-left: none; }
+.px-recycle::before { width: 22px; height: 22px; left: 5px; top: 5px; border: 5px solid #00b864; box-shadow: inset 0 0 0 3px currentColor; }
+.px-medal::before { width: 18px; height: 18px; left: 7px; top: 10px; background: #f5c518; border: 4px solid currentColor; }
+.px-medal::after { width: 6px; height: 10px; left: 9px; top: 2px; background: #e82020; box-shadow: 8px 0 0 #0b6fa4; }
+.px-bee::before { width: 24px; height: 16px; left: 4px; top: 10px; background: repeating-linear-gradient(90deg, #ffd700 0 6px, currentColor 6px 10px); border: 3px solid currentColor; }
+.px-bee::after { width: 6px; height: 6px; left: 22px; top: 7px; background: #fdf4da; border: 2px solid currentColor; box-shadow: -8px 0 0 #fdf4da; }
+.px-mountain::before { width: 24px; height: 20px; left: 4px; top: 8px; background: #8fb9d9; border: 3px solid currentColor; clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.px-river::before { width: 24px; height: 6px; left: 4px; top: 8px; background: #3ab0d6; box-shadow: 0 8px 0 #3ab0d6, 0 16px 0 #3ab0d6; }
+.px-reef::before { width: 6px; height: 24px; left: 13px; top: 5px; background: #e86aa0; box-shadow: -8px 8px 0 #e86aa0, 8px 5px 0 #e86aa0; }
 
 .bp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 25px; background: rgba(61, 35, 20, 0.05); border: 4px dashed rgba(61, 35, 20, 0.3); border-radius: 8px; padding: 30px; }
 .bp-item { display: flex; flex-direction: column; align-items: center; gap: 12px; transition: transform 0.2s; position: relative; }
@@ -736,12 +754,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
   .qz-container {
     width: min(90vw, 760px);
     gap: 22px;
-    padding-top: 70px;
+    padding-top: 0;
   }
 
   #qz-ov {
     overflow-y: auto;
-    justify-content: flex-start;
+    justify-content: center;
     padding-bottom: calc(18px + var(--safe-bottom));
   }
 
@@ -768,7 +786,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
   }
 
   .qz-timer-wrap {
-    top: 44px;
+    top: -34px;
     max-width: min(360px, 70vw);
   }
 
@@ -778,17 +796,19 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
     left: auto;
     transform: none;
     max-width: 720px;
+    min-height: 64px;
     padding: 12px;
     font-size: 14px;
-    display: none;
+    display: block;
+    visibility: hidden;
   }
 
-  .qz-feedback-toast.show { display: block; }
+  .qz-feedback-toast.show { visibility: visible; }
 
   #lf-ov {
-    justify-content: flex-start;
+    justify-content: center;
     overflow-y: auto;
-    padding-top: calc(88px + var(--safe-top));
+    padding-top: calc(18px + var(--safe-top));
     padding-bottom: calc(24px + var(--safe-bottom));
   }
 
@@ -966,6 +986,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 }
 
 @media (max-height: 520px) {
+  #qz-ov,
+  #lf-ov {
+    justify-content: flex-start;
+  }
+
   .qz-container {
     padding-top: 52px;
     gap: 10px;
@@ -2239,6 +2264,31 @@ const ANIMAL_DATA = {
   dolphin: { name: 'Indus River Dolphin', icon: 'dolphin.svg', mission: 'dolphin', name_ur: 'دریائے سندھ کی ڈالفن' }
 };
 
+const ANIMAL_ALIASES = {
+  leapord: 'snow_leopard'
+};
+
+function canonicalAnimalId(aid) {
+  return ANIMAL_ALIASES[aid] || aid;
+}
+
+function hasCollectedAnimal(aid) {
+  const canonicalId = canonicalAnimalId(aid);
+  return P.animals.some(id => canonicalAnimalId(id) === canonicalId);
+}
+
+function getCollectedAnimalIds() {
+  const seen = new Set();
+  const ids = [];
+  P.animals.forEach(aid => {
+    const canonicalId = canonicalAnimalId(aid);
+    if (!ANIMAL_DATA[canonicalId] || seen.has(canonicalId)) return;
+    seen.add(canonicalId);
+    ids.push(canonicalId);
+  });
+  return ids;
+}
+
 const TOOL_DATA = {
   gloves: { name: 'Safety Gloves', icon: 'gloves.png', price: 35, desc: 'Handle waste safely.', name_ur: 'حفاظتی دستانے', desc_ur: 'محفوظ طریقے سے کچرا اٹھائیں۔' },
   hammer: { name: 'Hammer', icon: 'hammer.png', price: 45, desc: 'Repair small broken structures.', name_ur: 'ہتھوڑا', desc_ur: 'چھوٹی ٹوٹی چیزیں ٹھیک کریں۔' },
@@ -2262,6 +2312,23 @@ const BADGE_DATA = {
   river_protector: { name: 'River Protector', icon: '🐟', name_ur: 'دریا کا محافظ' }
 };
 
+const BADGE_PIXEL_ICONS = {
+  tree_saver: 'tree',
+  electricity_saver: 'bolt',
+  air_purifier: 'air',
+  recycling_master: 'recycle',
+  savior: 'medal',
+  grid_guardian: 'bolt',
+  pollinator: 'bee',
+  reef_protector: 'reef',
+  mountain_guardian: 'mountain',
+  river_protector: 'river'
+};
+
+function pxIcon(name, extraClass='') {
+  return `<span class="px-icon px-${name} ${extraClass}" aria-hidden="true"></span>`;
+}
+
 const RANKS=[{xp:0,n:'ECO ROOKIE',n_ur:'ماحولیاتی نئے'},{xp:300,n:'GREEN GUARDIAN',n_ur:'سبز محافظ'},{xp:700,n:'PLANET PROTECTOR',n_ur:'زمین کا محافظ'},{xp:1200,n:'EARTH HERO',n_ur:'زمین کا ہیرو'}];
 function getRank(xp){let r=RANKS[0];for(const k of RANKS)if(xp>=k.xp)r=k;return r;}
 
@@ -2279,7 +2346,7 @@ const LANG = {
     j_collected: 'COLLECTED ANIMALS', j_remaining: 'REMAINING ANIMALS', j_badges: 'YOUR BADGES',
     lb_pakistan: 'PAKISTAN', lb_lahore: 'LAHORE',
     s_general: 'General Settings', s_vol: 'Game Volume', s_notif: 'Notifications', s_notif_vol: 'Notifications Volume',
-    s_access: 'Accessibility', s_tts: 'Text to Speech', s_size: 'Text Size', s_small: 'Small', s_medium: 'Medium', s_large: 'Large', s_color: 'Color Mode', s_off: 'Off',
+    s_access: 'Accessibility Settings', s_tts: 'Text to Speech', s_size: 'Text Size', s_small: 'Small', s_medium: 'Medium', s_large: 'Large', s_color: 'Colorblind Mode', s_off: 'Off', s_deu: 'Deu', s_tri: 'TRI',
     mdo_unlock: 'Rewards', mdo_start: 'Start', mdo_locked_btn: 'Locked', mdo_tool_req: 'Tool needed:', mdo_buy_now: 'BUY', mdo_no_coins: 'LOW COINS',
     notify_explore: 'EXPLORE TO FIND MISSIONS!', notify_done: 'MISSION ALREADY DONE!', notify_buy_tool: 'BUY REQUIRED TOOL FIRST!',
     back_map: 'Back to Map', try_again: 'Try Again',
@@ -2324,7 +2391,7 @@ const LANG = {
     j_collected: 'جمع کیے گئے جانور', j_remaining: 'باقی جانور', j_badges: 'آپ کے بیج',
     lb_pakistan: 'پاکستان', lb_lahore: 'لاہور',
     s_general: 'عام ترتیبات', s_vol: 'گیم کی آواز', s_notif: 'اطلاعات', s_notif_vol: 'اطلاعات کی آواز',
-    s_access: 'رسائی کی ترتیبات', s_tts: 'تحریر سے آواز', s_size: 'حروف کا سائز', s_small: 'چھوٹا', s_medium: 'درمیانہ', s_large: 'بڑا', s_color: 'رنگ کا طریقہ', s_off: 'بند',
+    s_access: 'رسائی کی ترتیبات', s_tts: 'تحریر سے آواز', s_size: 'حروف کا سائز', s_small: 'چھوٹا', s_medium: 'درمیانہ', s_large: 'بڑا', s_color: 'رنگ کی پہچان کا طریقہ', s_off: 'بند', s_deu: 'دیو', s_tri: 'ٹرائی',
     mdo_unlock: 'انعامات', mdo_start: 'شروع کریں', mdo_locked_btn: 'بند ہے', mdo_tool_req: 'مشن کے لیے ضروری اوزار:', mdo_buy_now: 'خریدیں', mdo_no_coins: 'سکے کم ہیں',
     notify_explore: 'مشن تلاش کرنے کے لیے گھومیں!', notify_done: 'مشن پہلے ہی مکمل!', notify_buy_tool: 'پہلے ضروری اوزار خریدیں!',
     back_map: 'نقشے پر واپس', try_again: 'دوبارہ کوشش',
@@ -2427,6 +2494,96 @@ let APP_SETTINGS = { sfx: true, music: true, gameVolume: 85, notifications: fals
 let cam={x:0,y:0};
 let curM=null, mActive=false, running=false;
 const K={};
+
+let sfxCtx = null;
+let lastSfxAt = {};
+
+function getSfxCtx(){
+  const AudioCtor = window.AudioContext || window.webkitAudioContext;
+  if(!AudioCtor) return null;
+  if(!sfxCtx) sfxCtx = new AudioCtor();
+  if(sfxCtx.state === 'suspended') sfxCtx.resume().catch(()=>{});
+  return sfxCtx;
+}
+
+function sfxVol(mult=1){
+  return Math.min(0.45, Math.max(0, (APP_SETTINGS.gameVolume ?? 85) / 100 * mult));
+}
+
+function playTone(freq=440, dur=.12, type='sine', vol=.16, when=0, endFreq=null){
+  if(!APP_SETTINGS.sfx) return;
+  const volume = sfxVol(vol);
+  if(volume <= 0) return;
+  const ctx = getSfxCtx();
+  if(!ctx) return;
+  const start = ctx.currentTime + when;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, start);
+  if(endFreq) osc.frequency.exponentialRampToValueAtTime(Math.max(20, endFreq), start + dur);
+  gain.gain.setValueAtTime(0.0001, start);
+  gain.gain.exponentialRampToValueAtTime(Math.max(0.0001, volume), start + .012);
+  gain.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(start);
+  osc.stop(start + dur + .02);
+}
+
+function playNoise(dur=.12, vol=.12, when=0, filterFreq=900){
+  if(!APP_SETTINGS.sfx) return;
+  const volume = sfxVol(vol);
+  if(volume <= 0) return;
+  const ctx = getSfxCtx();
+  if(!ctx) return;
+  const start = ctx.currentTime + when;
+  const buffer = ctx.createBuffer(1, Math.max(1, Math.floor(ctx.sampleRate * dur)), ctx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for(let i=0; i<data.length; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / data.length);
+  const src = ctx.createBufferSource();
+  const filter = ctx.createBiquadFilter();
+  const gain = ctx.createGain();
+  src.buffer = buffer;
+  filter.type = 'bandpass';
+  filter.frequency.setValueAtTime(filterFreq, start);
+  gain.gain.setValueAtTime(volume, start);
+  gain.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+  src.connect(filter);
+  filter.connect(gain);
+  gain.connect(ctx.destination);
+  src.start(start);
+  src.stop(start + dur + .02);
+}
+
+function playSfx(name){
+  if(!APP_SETTINGS.sfx) return;
+  const now = performance.now();
+  const minGap = { tap: 45, flap: 90, rotate: 55, pickup: 70, hit: 120 }[name] || 0;
+  if(minGap && lastSfxAt[name] && now - lastSfxAt[name] < minGap) return;
+  lastSfxAt[name] = now;
+
+  if(name === 'tap') playTone(420, .045, 'square', .045, 0, 520);
+  else if(name === 'start') { playTone(330, .08, 'triangle', .08); playTone(495, .1, 'triangle', .09, .07); }
+  else if(name === 'select') { playTone(520, .06, 'sine', .07); playTone(660, .07, 'sine', .07, .045); }
+  else if(name === 'buy') { playTone(660, .08, 'triangle', .1); playTone(880, .12, 'triangle', .1, .08); }
+  else if(name === 'nope') { playTone(180, .16, 'sawtooth', .08, 0, 120); }
+  else if(name === 'correct') { playTone(520, .07, 'triangle', .11); playTone(760, .11, 'triangle', .12, .07); }
+  else if(name === 'wrong') { playTone(230, .09, 'square', .08); playTone(150, .14, 'square', .08, .075); }
+  else if(name === 'pickup') { playTone(740, .055, 'sine', .09); playTone(1040, .08, 'sine', .1, .045); }
+  else if(name === 'pop') { playNoise(.1, .11, 0, 1400); playTone(620, .08, 'triangle', .05); }
+  else if(name === 'hit') { playNoise(.14, .13, 0, 240); playTone(120, .18, 'sawtooth', .07); }
+  else if(name === 'flap') { playTone(360, .045, 'triangle', .045, 0, 520); }
+  else if(name === 'jump') { playTone(280, .07, 'triangle', .055, 0, 420); }
+  else if(name === 'rotate') { playTone(300, .055, 'square', .045, 0, 380); }
+  else if(name === 'success') { playTone(523, .09, 'triangle', .12); playTone(659, .09, 'triangle', .12, .08); playTone(784, .16, 'triangle', .13, .16); }
+  else if(name === 'fail') { playTone(300, .12, 'sawtooth', .08); playTone(220, .18, 'sawtooth', .08, .1); }
+}
+
+document.addEventListener('pointerdown', (e) => {
+  if(e.target.closest('button,.menu-btn,.map-hit,.map-back,.ls-opt,.bp-tab,.s-tog,.s-btn-opt,.settings-toggle')) playSfx('tap');
+}, {passive:true});
+
 window.addEventListener('keydown',e=>{K[e.key]=true;if(e.key==='e'||e.key==='E')tryStart();if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();});
 window.addEventListener('keyup',e=>K[e.key]=false);
 
@@ -2571,6 +2728,7 @@ function buyTool(tid){
   const tool = TOOL_DATA[tid];
   if(!tool) return;
   if(P.coins < tool.price){
+    playSfx('nope');
     notify('NEED '+(tool.price-P.coins)+' MORE COINS\nFOR '+tool.name.toUpperCase());
     return;
   }
@@ -2578,6 +2736,7 @@ function buyTool(tid){
   P.toolCounts[tid] = getToolQty(tid) + 1;
   syncTools();
   updHUD();
+  playSfx('buy');
   notify(tool.name.toUpperCase()+' BOUGHT!\n-'+tool.price+' Rs');
   renderBPTab('tools');
 }
@@ -2654,6 +2813,7 @@ GC.addEventListener('click', e => {
 });
 
 function showMDO(m) {
+  playSfx('select');
   curM = m;
   document.getElementById('mdo-title').textContent = (P_lang==='ur'&&m.title_ur) ? m.title_ur : m.title;
   document.getElementById('mdo-desc').textContent = ((P_lang==='ur'&&m.desc_ur) ? m.desc_ur : m.desc).replace(/\n/g,' ');
@@ -2740,9 +2900,11 @@ function closeMDO() {
 
 function startMFromMDO() {
   if(curM && curM.reqTools && curM.reqTools.some(tid => !hasTool(tid))){
+    playSfx('nope');
     notify(t('notify_buy_tool'));
     return;
   }
+  playSfx('start');
   document.getElementById('mdo').classList.add('h');
   document.getElementById('menu').classList.remove('h');
   document.getElementById('hud').classList.remove('h');
@@ -2774,6 +2936,7 @@ function openMissionFromFullMap(id){
   if(!m) return;
   closeFullMap();
   if(P.done.includes(m.id)){
+    playSfx('nope');
     notify(t('notify_done'));
     return;
   }
@@ -2995,7 +3158,8 @@ function closeM(coins,xp,ok){
       
       // Award Animal
       const aid = Object.keys(ANIMAL_DATA).find(k => ANIMAL_DATA[k].mission === completedMission.id);
-      if(aid && !P.animals.includes(aid)) P.animals.push(aid);
+      const canonicalAid = aid ? canonicalAnimalId(aid) : null;
+      if(canonicalAid && !hasCollectedAnimal(canonicalAid)) P.animals.push(canonicalAid);
 
       // Award Badge
       if(completedMission.badge) {
@@ -3010,6 +3174,7 @@ function closeM(coins,xp,ok){
 
       const nr=getRank(P.xp); if(nr.n!==P.rank)setTimeout(()=>notify('RANK UP!\n'+nr.n+'!'),1200);
       buildWorld();
+      playSfx('success');
     }
   } catch(err) {
     console.error('Mission close failed before UI restore:', err);
@@ -3035,6 +3200,7 @@ function renderQuiz(m){
     const fb=document.getElementById('fb');
     if(ch===q.a){sc++;document.getElementById('o'+ch).classList.add('ok');fb.style.color='#00d07a';fb.textContent='✓ CORRECT!  '+q.f;}
     else{document.getElementById('o'+ch).classList.add('no');document.getElementById('o'+q.a).classList.add('ok');fb.style.color='#d03030';fb.textContent='✗ '+q.f;}
+    playSfx(ch===q.a ? 'correct' : 'wrong');
     qi++;setTimeout(showQ,2200);
   };
   showQ();
@@ -3054,8 +3220,8 @@ function renderSort(){
     dragging.style.display='none';
     document.getElementById('bc-'+bin).textContent=+document.getElementById('bc-'+bin).textContent+1;
     tot++;
-    if(cb===bin){cor++;document.getElementById('sfb').style.color='#00d07a';document.getElementById('sfb').textContent='✓ CORRECT!  '+BC[bin];}
-    else{document.getElementById('sfb').style.color='#d03030';document.getElementById('sfb').textContent='✗ Should be '+cb.toUpperCase()+'!  '+BC[cb];}
+    if(cb===bin){cor++;playSfx('correct');document.getElementById('sfb').style.color='#00d07a';document.getElementById('sfb').textContent='✓ CORRECT!  '+BC[bin];}
+    else{playSfx('wrong');document.getElementById('sfb').style.color='#d03030';document.getElementById('sfb').textContent='✗ Should be '+cb.toUpperCase()+'!  '+BC[cb];}
     document.querySelectorAll('.bn').forEach(b=>b.classList.remove('dov'));
     dragging=null;
     if(ghost){ghost.remove();ghost=null;}
@@ -3064,6 +3230,7 @@ function renderSort(){
   document.querySelectorAll('.wi').forEach(el=>{
     el.addEventListener('pointerdown',e=>{
       e.preventDefault();
+      playSfx('pickup');
       dragging=el; el.setPointerCapture(e.pointerId);
       ghost=document.createElement('div');
       ghost.textContent=el.textContent;
@@ -3097,7 +3264,7 @@ function renderPipes(){
   let tl=50,slv=false,tid;const m=curM;
   function chk(){const vis=new Set(),q=[['2','0']];vis.add('2,0');while(q.length){const[rs,cs]=q.shift();const r=+rs,c=+cs;const p=(r===2&&(c===0||c===4))?'─':puz[r][c];if(!p)continue;for(const d of(PC[p]||[])){const[dr,dc,fd]=DR[d];const nr=r+dr,nc=c+dc;if(nr<0||nr>=G5||nc<0||nc>=G5)continue;const np=(nr===2&&(nc===0||nc===4))?'─':puz[nr][nc];if(!np)continue;if((PC[np]||[]).includes(fd)&&!vis.has(nr+','+nc)){vis.add(nr+','+nc);q.push([String(nr),String(nc)]);}}}return vis;}
   function rnd(){const co=chk();let h=`<div class="mt">⚙️ FIX THE FACTORY LEAK</div><div class="pt2" id="pt2">TIME: ${tl}s</div><div class="ms">CLICK PIPES TO ROTATE · CONNECT SOURCE TO DRAIN</div><div class="pg" style="grid-template-columns:repeat(${G5},52px)">`;for(let r=0;r<G5;r++)for(let c=0;c<G5;c++){const p=puz[r][c];const src=r===2&&c===0,tgt=r===2&&c===4,ink=co.has(r+','+c);let cl='pc';if(src)cl+=' sr';else if(tgt)cl+=' tg';if(ink)cl+=' cn2';h+=`<div class="${cl}" ${(!src&&!tgt&&p)?`onclick="rotP(${r},${c})"`:''}>${src?'🔴':tgt?'🟢':(p?IC[p]||p:'')}</div>`;}h+=`</div><div class="fb" id="pfb"></div>`;document.getElementById('mp').innerHTML=h;if(co.has('2,4')&&!slv){slv=true;clearInterval(tid);document.getElementById('pfb').style.color='#00d07a';document.getElementById('pfb').textContent='✓ LEAK SEALED!';const bon=Math.round(tl/50*30);setTimeout(()=>showDone(m,m.coins+bon,m.xp,'LEAK SEALED! TIME BONUS +'+bon+' Rs!'),1200);}}
-  window.rotP=function(r,c){if(slv)return;const p=puz[r][c];if(!p)return;puz[r][c]=CY[(CY.indexOf(p)+1)%CY.length];rnd();};
+  window.rotP=function(r,c){if(slv)return;const p=puz[r][c];if(!p)return;playSfx('rotate');puz[r][c]=CY[(CY.indexOf(p)+1)%CY.length];rnd();};
   rnd();
   tid=setInterval(()=>{if(slv){clearInterval(tid);return;}tl--;const e=document.getElementById('pt2');if(e){e.textContent='TIME: '+tl+'s';e.style.color=tl<15?'#d03030':'#e07820';}if(tl<=0){clearInterval(tid);if(!slv){const f=document.getElementById('pfb');if(f){f.style.color='#d03030';f.textContent='TIME\'S UP!';}setTimeout(()=>closeM(0,0,false),1600);}}},1000);
 }
@@ -3193,10 +3360,10 @@ function renderBPTab(tab) {
   } else if (tab === 'journal') {
     // Collected Animals
     let html = `<div class="bp-section">
-      <div class="bp-section-title"><span class="emoji">🐾</span> <span>COLLECTED ANIMALS</span></div>
+      <div class="bp-section-title">${pxIcon('paw')} <span>${t('j_collected')}</span></div>
       <div class="bp-grid">`;
     
-    P.animals.forEach(aid => {
+    getCollectedAnimalIds().forEach(aid => {
       const animal = ANIMAL_DATA[aid];
       html += `<div class="bp-item">
         <img src="${animal.icon}" alt="${animal.name}">
@@ -3207,11 +3374,11 @@ function renderBPTab(tab) {
 
     // Remaining Animals
     html += `<div class="bp-section">
-      <div class="bp-section-title"><span class="emoji">❓</span> <span>REMAINING ANIMALS</span></div>
+      <div class="bp-section-title">${pxIcon('paw')} <span>${t('j_remaining')}</span></div>
       <div class="bp-grid">`;
     
     Object.keys(ANIMAL_DATA).forEach(aid => {
-      if (!P.animals.includes(aid)) {
+      if (!ANIMAL_ALIASES[aid] && !hasCollectedAnimal(aid)) {
         const animal = ANIMAL_DATA[aid];
         html += `<div class="bp-item locked">
           <img src="${animal.icon}" alt="${animal.name}">
@@ -3223,14 +3390,15 @@ function renderBPTab(tab) {
 
     // Badges
     html += `<div class="bp-section">
-      <div class="bp-section-title"><span class="emoji">🏅</span> <span>YOUR BADGES</span></div>
+      <div class="bp-section-title">${pxIcon('badge')} <span>${t('j_badges')}</span></div>
       <div class="bp-badge-list">`;
     
     P.badges.forEach(bid => {
       const badge = BADGE_DATA[bid];
+      const badgeName = (P_lang === 'ur' && badge.name_ur) ? badge.name_ur : badge.name;
       html += `<div class="bp-badge-item">
-        <div class="bp-badge-icon">${badge.icon}</div>
-        <span>${badge.name}</span>
+        <div class="bp-badge-icon">${pxIcon(BADGE_PIXEL_ICONS[bid] || 'badge')}</div>
+        <span>${badgeName}</span>
       </div>`;
     });
     html += `</div></div>`;
@@ -3274,11 +3442,11 @@ function renderBPTab(tab) {
       <!-- General Settings -->
       <div class="settings-col">
         <div class="settings-col-title">
-          <img src="gear.png" alt=""> <span>General Settings</span>
+          <img src="gear.png" alt=""> <span>${t('s_general')}</span>
         </div>
         <div class="settings-panel">
           <div class="s-row">
-            <span class="s-label">Game Volume</span>
+            <span class="s-label">${t('s_vol')}</span>
             <div class="s-slider-wrap">
               <input type="range" class="s-slider" min="0" max="100" value="${APP_SETTINGS.gameVolume}"
                 oninput="APP_SETTINGS.gameVolume=+this.value; this.nextElementSibling.textContent=this.value">
@@ -3286,11 +3454,11 @@ function renderBPTab(tab) {
             </div>
           </div>
           <div class="s-row">
-            <span class="s-label">Notifications</span>
+            <span class="s-label">${t('s_notif')}</span>
             <button class="s-tog ${APP_SETTINGS.notifications?'on':''}" data-stog="notifications" onclick="toggleSetting2('notifications')"></button>
           </div>
           <div class="s-row">
-            <span class="s-label">Notifications Volume</span>
+            <span class="s-label">${t('s_notif_vol')}</span>
             <div class="s-slider-wrap">
               <input type="range" class="s-slider" min="0" max="100" value="${APP_SETTINGS.notificationsVolume}"
                 oninput="APP_SETTINGS.notificationsVolume=+this.value; this.nextElementSibling.textContent=this.value">
@@ -3302,27 +3470,27 @@ function renderBPTab(tab) {
       <!-- Accessibility Settings -->
       <div class="settings-col">
         <div class="settings-col-title">
-          <span class="s-icon">ⓘ</span> <span>Accessibility Settings</span>
+          <span class="s-icon">ⓘ</span> <span>${t('s_access')}</span>
         </div>
         <div class="settings-panel">
           <div class="s-row">
-            <span class="s-label">Text to Speech</span>
+            <span class="s-label">${t('s_tts')}</span>
             <button class="s-tog ${APP_SETTINGS.tts?'on':''}" data-stog="tts" onclick="toggleSetting2('tts')"></button>
           </div>
           <div class="s-row">
-            <span class="s-label">Text Size</span>
+            <span class="s-label">${t('s_size')}</span>
             <div class="s-btn-group">
-              <button class="s-btn-opt ${APP_SETTINGS.textSize==='small'?'active':''}" onclick="setSettingVal('textSize','small')">Small</button>
-              <button class="s-btn-opt ${APP_SETTINGS.textSize==='medium'?'active':''}" onclick="setSettingVal('textSize','medium')">Medium</button>
-              <button class="s-btn-opt ${APP_SETTINGS.textSize==='large'?'active':''}" onclick="setSettingVal('textSize','large')">Large</button>
+              <button class="s-btn-opt ${APP_SETTINGS.textSize==='small'?'active':''}" onclick="setSettingVal('textSize','small')">${t('s_small')}</button>
+              <button class="s-btn-opt ${APP_SETTINGS.textSize==='medium'?'active':''}" onclick="setSettingVal('textSize','medium')">${t('s_medium')}</button>
+              <button class="s-btn-opt ${APP_SETTINGS.textSize==='large'?'active':''}" onclick="setSettingVal('textSize','large')">${t('s_large')}</button>
             </div>
           </div>
           <div class="s-row">
-            <span class="s-label">Colorblind Mode</span>
+            <span class="s-label">${t('s_color')}</span>
             <div class="s-btn-group">
-              <button class="s-btn-opt ${APP_SETTINGS.colorblind==='off'?'active':''}" onclick="setSettingVal('colorblind','off')">Off</button>
-              <button class="s-btn-opt ${APP_SETTINGS.colorblind==='deu'?'active':''}" onclick="setSettingVal('colorblind','deu')">Deu</button>
-              <button class="s-btn-opt ${APP_SETTINGS.colorblind==='tri'?'active':''}" onclick="setSettingVal('colorblind','tri')">TRI</button>
+              <button class="s-btn-opt ${APP_SETTINGS.colorblind==='off'?'active':''}" onclick="setSettingVal('colorblind','off')">${t('s_off')}</button>
+              <button class="s-btn-opt ${APP_SETTINGS.colorblind==='deu'?'active':''}" onclick="setSettingVal('colorblind','deu')">${t('s_deu')}</button>
+              <button class="s-btn-opt ${APP_SETTINGS.colorblind==='tri'?'active':''}" onclick="setSettingVal('colorblind','tri')">${t('s_tri')}</button>
             </div>
           </div>
         </div>
@@ -3466,11 +3634,13 @@ function spawnSmog() {
       // Miss logic
       sbMisses++;
       sbScore = Math.max(0, sbScore - 5);
+      playSfx('wrong');
       updateSbHUD();
       
       if(sbMisses >= sbMaxMisses) {
         sbActive = false;
         setTimeout(() => {
+          playSfx('fail');
           document.getElementById('sb-fail').style.display = 'flex';
         }, 500);
       }
@@ -3486,6 +3656,7 @@ function spawnSmog() {
     smog.style.background = 'rgba(255,255,255,0.8)';
     smog.style.opacity = '0';
     smog.style.transform = 'scale(1.5)';
+    playSfx('pop');
     
     sbCollected++;
     sbScore = Math.min(300, sbScore + 10);
@@ -3496,6 +3667,7 @@ function spawnSmog() {
     if(sbCollected >= sbTarget) {
       sbActive = false;
       setTimeout(() => {
+        playSfx('success');
         document.getElementById('sb-success').style.display = 'flex';
       }, 500);
     }
@@ -3610,7 +3782,9 @@ function startRiverGameLoop(){
 }
 
 function moveRiverPlayer(lane){
-  rrLane = Math.max(0, Math.min(2, lane));
+  const nextLane = Math.max(0, Math.min(2, lane));
+  if(nextLane !== rrLane) playSfx('tap');
+  rrLane = nextLane;
   const player = document.getElementById('rr-player');
   if(player) player.style.left = ((rrLane + .5) / 3 * 100) + '%';
 }
@@ -3635,6 +3809,7 @@ function jumpRiverPlayer(){
   const player = document.getElementById('rr-player');
   rrJumping = true;
   rrJumpStart = performance.now();
+  playSfx('jump');
   if(player) player.classList.add('jump');
 }
 
@@ -3742,12 +3917,14 @@ function runRiverFrame(ts){
       rrObjects = rrObjects.filter(o => o !== obj);
       if(obj.clean){
         rrScore++;
+        playSfx('pickup');
         document.getElementById('rr-player').classList.add('rr-blast');
         setTimeout(()=>document.getElementById('rr-player').classList.remove('rr-blast'),260);
         updateRiverHUD();
         if(rrScore >= rrTarget){ rrActive = false; finishRiverGame(true); return; }
       } else {
         rrLives--;
+        playSfx('hit');
         updateRiverHUD();
         if(rrLives <= 0){ rrActive = false; finishRiverGame(false); return; }
       }
@@ -3761,6 +3938,7 @@ function runRiverFrame(ts){
 
 function finishRiverGame(success){
   rrActive = false;
+  playSfx(success ? 'success' : 'fail');
   rrJumping = false;
   setRiverJumpVisual(0);
   const successPlayer = document.getElementById('rr-player');
@@ -3845,6 +4023,7 @@ function handleBeeKey(e){
 function flapBee(){
   if(!bfActive) return;
   bfVy = -430;
+  playSfx('flap');
 }
 
 function setBeePos(){
@@ -3908,6 +4087,7 @@ function runBeeFrame(ts){
     if(!ob.flowerHit && rectsOverlap(bee, shrinkRect(ob.flower.getBoundingClientRect(), 8, 8))){
       ob.flowerHit = true;
       bfScore++;
+      playSfx('pickup');
       ob.flower.remove();
       updateBeeHUD();
       if(bfScore >= bfTarget){ finishBeeGame(true); return; }
@@ -3926,6 +4106,7 @@ function runBeeFrame(ts){
 function damageBee(ob){
   if(!bfActive) return;
   bfLives--;
+  playSfx('hit');
   updateBeeHUD();
   if(ob){
     ob.top.remove(); ob.bottom.remove(); if(ob.flower.isConnected) ob.flower.remove();
@@ -3938,6 +4119,7 @@ function damageBee(ob){
 
 function finishBeeGame(success){
   bfActive = false;
+  playSfx(success ? 'success' : 'fail');
   bfTimers.forEach(clearTimeout);
   bfTimers = [];
   window.removeEventListener('keydown', handleBeeKey);
@@ -4008,10 +4190,12 @@ function startDolphinGame(m){
     
     el.onclick = () => {
       if(idx === dgCurIndex) {
+        playSfx('correct');
         el.style.display = 'none';
         dgCurIndex++;
         nextDolphinPrompt();
       } else {
+        playSfx('wrong');
         el.style.opacity = 1;
         setTimeout(()=>el.style.opacity = itm.o, 300);
       }
@@ -4026,6 +4210,7 @@ function nextDolphinPrompt() {
   if (dgCurIndex >= dgItems.length) {
     document.getElementById('dg-prompt').style.display = 'none';
     document.getElementById('dg-success').style.display = 'flex';
+    playSfx('success');
     playDolphinSound();
   } else {
     document.getElementById('dg-prompt').style.display = 'block';
@@ -4199,6 +4384,7 @@ function startGlassPipes() {
       if(!window.fcGP_solv) {
         window.fcGP_solv = true;
         setTimeout(()=>{
+          playSfx('success');
           document.getElementById('fc-pipes').style.display = 'none';
           document.getElementById('fc-ov').style.display = 'flex';
           fcSetScene(8);
@@ -4218,6 +4404,7 @@ function startGlassPipes() {
     else if(p === '┐') nextP = '┘';
     else if(p === '┘') nextP = '└';
     window.fcGP[r][c] = nextP;
+    playSfx('rotate');
     fcGPRender();
   };
 
@@ -4293,6 +4480,7 @@ function initLFDrag(el, it) {
   
   el.addEventListener('pointerdown', e => {
     e.preventDefault();
+    playSfx('pickup');
     el.setPointerCapture(e.pointerId);
     startX = e.clientX; startY = e.clientY;
     
@@ -4330,6 +4518,7 @@ function initLFDrag(el, it) {
       
       if (targetBin === correctBin) {
         lfItemsSorted++;
+        playSfx('correct');
         el.remove();
         const fact = (P_lang === 'ur' && it.fact_ur) ? it.fact_ur : it.fact;
         showLFFeedback(t('lf_correct') + ' ' + fact, '#1b5e20');
@@ -4345,6 +4534,7 @@ function initLFDrag(el, it) {
           setTimeout(finishLandfillGame, 800);
         }
       } else {
+        playSfx('wrong');
         const fact = (P_lang === 'ur' && it.fact_ur) ? it.fact_ur : it.fact;
         showLFFeedback(t('lf_wrong') + ' ' + fact, '#b71c1c');
         el.style.opacity = '1';
@@ -4369,6 +4559,7 @@ function showLFFeedback(msg, color) {
 }
 
 function finishLandfillGame() {
+  playSfx('success');
   document.getElementById('lf-success').style.display = 'flex';
 }
 
@@ -4386,9 +4577,10 @@ let qzCurM = null, qzIdx = 0, qzScore = 0, qzTimer = null, qzTimeLeft = 15;
 let qzMaxCoins = 0, qzMaxXp = 0;
 
 function playDolphinSound() {
+  if (!APP_SETTINGS.sfx) return;
   const snd = document.getElementById('dolphin-snd');
   if (!snd) return;
-  snd.volume = (APP_SETTINGS.gameVolume || 85) / 100;
+  snd.volume = (APP_SETTINGS.gameVolume ?? 85) / 100;
   snd.currentTime = 0;
   snd.play().catch(e => console.log('Audio play failed:', e));
 }
@@ -4478,11 +4670,13 @@ function ansQz(idx) {
   
   if (idx === q.a) {
     qzScore++;
+    playSfx('correct');
     if (idx !== -1) options[idx].classList.add('correct');
     toast.textContent = (isUr ? 'درست! ' : 'Correct! ') + (isUr ? (q.f_ur||q.f) : q.f);
     toast.style.background = '#4dfb8b';
     toast.style.color = '#113d15';
   } else {
+    playSfx(idx === -1 ? 'nope' : 'wrong');
     if (idx !== -1) options[idx].classList.add('wrong');
     options[q.a].classList.add('correct');
     let prefix = '';
@@ -4510,6 +4704,7 @@ function qzNext() {
 function finishQuizGame() {
   document.getElementById('qz-success').style.display = 'flex';
   const ratio = qzScore / qzCurM.qs.length;
+  playSfx(ratio >= 0.7 ? 'success' : 'fail');
   document.getElementById('qz-result-title').textContent = ratio >= 0.7 ? 'Mission Successful!' : 'Mission Ended';
   document.getElementById('qz-result-text').textContent = `You got ${qzScore} out of ${qzCurM.qs.length} questions correct. ` + (ratio >= 0.7 ? 'The environment is grateful!' : 'Study more to save the planet!');
   
