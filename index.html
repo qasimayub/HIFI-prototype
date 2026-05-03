@@ -528,6 +528,463 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 .fr-avatar { width: 44px; height: 44px; border: 3px dashed #3d2314; border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #fff9e6; }
 .fr-avatar img { width: 28px; height: 28px; opacity: 0.8; image-rendering: auto; }
 .fr-name { font: bold 16px/1 'Courier New', mono; color: #3d2314; }
+
+/* ── RESPONSIVE SAFETY NET FOR TABLETS ── */
+:root {
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+}
+
+.ov,
+#sb-intro,
+#sb-success,
+#sb-fail,
+#dg-success,
+#qz-intro,
+#qz-success,
+#bf-intro,
+#bf-success,
+#bf-fail,
+#rr-intro,
+#rr-success,
+#rr-fail,
+#lf-intro,
+#lf-success {
+  padding: calc(18px + var(--safe-top)) calc(18px + var(--safe-right)) calc(18px + var(--safe-bottom)) calc(18px + var(--safe-left));
+}
+
+.mdo-card,
+.mp,
+.lb,
+.dg-card,
+.fc-dialog,
+.ev-card,
+.fr-card {
+  max-height: calc(100vh - 36px - var(--safe-top) - var(--safe-bottom));
+  max-height: calc(100dvh - 36px - var(--safe-top) - var(--safe-bottom));
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.dg-card,
+.fc-dialog,
+.ev-card,
+.fr-card,
+.mdo-card {
+  overflow-wrap: anywhere;
+}
+
+#bp-ov {
+  padding: 0;
+}
+
+@media (max-width: 1100px), (max-height: 820px) {
+  #hud,
+  #sb-hud,
+  #dg-hud,
+  #fc-hud,
+  #qz-hud,
+  #rr-hud,
+  #bf-hud,
+  #lf-hud,
+  #fc-hud-gp {
+    top: calc(10px + var(--safe-top)) !important;
+    right: calc(10px + var(--safe-right)) !important;
+    gap: 8px !important;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    max-width: calc(100vw - 92px - var(--safe-left) - var(--safe-right));
+  }
+
+  .stat-pill,
+  #sb-hud .stat-pill,
+  #dg-hud .stat-pill,
+  #fc-hud .stat-pill,
+  #qz-hud .stat-pill,
+  #rr-hud .stat-pill,
+  #bf-hud .stat-pill,
+  #lf-hud .stat-pill,
+  #fc-hud-gp .stat-pill {
+    min-width: 132px !important;
+    height: 38px !important;
+    border-radius: 19px;
+  }
+
+  .stat-pill img,
+  #sb-hud .stat-pill img,
+  #dg-hud .stat-pill img,
+  #fc-hud .stat-pill img,
+  #qz-hud .stat-pill img,
+  #rr-hud .stat-pill img,
+  #bf-hud .stat-pill img,
+  #lf-hud .stat-pill img,
+  #fc-hud-gp .stat-pill img {
+    width: 26px !important;
+    height: 26px !important;
+    margin-left: 8px;
+  }
+
+  .stat-pill .value {
+    font-size: 12px;
+    padding-right: 24px;
+    letter-spacing: 0;
+  }
+
+  #menu {
+    top: calc(10px + var(--safe-top));
+    left: calc(10px + var(--safe-left));
+    gap: 10px;
+  }
+
+  .menu-btn,
+  #sb-back,
+  #dg-back,
+  #fc-back,
+  #qz-back,
+  #rr-back,
+  #bf-back,
+  #lf-back,
+  #fc-back-gp {
+    width: 48px !important;
+    height: 48px !important;
+  }
+
+  .menu-btn img { width: 30px; height: 30px; }
+
+  #mm {
+    left: calc(10px + var(--safe-left));
+    bottom: calc(10px + var(--safe-bottom));
+  }
+
+  #joystick {
+    width: 104px;
+    height: 104px;
+    right: calc(22px + var(--safe-right));
+    bottom: calc(22px + var(--safe-bottom));
+  }
+
+  #stick {
+    width: 52px;
+    height: 52px;
+    top: 26px;
+    left: 26px;
+  }
+
+  .mdo-card {
+    width: min(420px, calc(100vw - 32px));
+    padding: 28px 24px;
+  }
+
+  .dg-card {
+    width: min(400px, calc(100vw - 32px));
+    min-width: 0;
+    padding: 24px;
+  }
+
+  .dg-title { font-size: 18px; line-height: 1.2; }
+  .dg-text { font-size: 13px; margin-bottom: 22px; }
+
+  .fc-dialog {
+    width: min(540px, calc(100vw - 32px)) !important;
+    padding: 24px !important;
+  }
+
+  #sb-score-board,
+  #rr-board,
+  #bf-board {
+    top: calc(70px + var(--safe-top));
+    min-width: 0;
+    width: min(460px, calc(100vw - 32px));
+    padding: 8px 14px;
+    font-size: 14px;
+    white-space: normal;
+  }
+
+  #dg-prompt {
+    top: calc(68px + var(--safe-top));
+    max-width: min(260px, calc(100vw - 120px));
+    padding: 10px 18px;
+  }
+
+  #dg-prompt-text {
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  #dg-prompt-img { height: 46px; max-width: 82px; }
+
+  #dg-dolphin-swimming {
+    width: min(300px, 36vw) !important;
+    right: 4% !important;
+  }
+
+  #dg-success {
+    gap: 24px !important;
+    padding: calc(24px + var(--safe-top)) calc(24px + var(--safe-right)) calc(24px + var(--safe-bottom)) calc(24px + var(--safe-left)) !important;
+    overflow-y: auto;
+  }
+
+  #dg-success > img {
+    max-width: 44vw;
+    max-height: 64vh !important;
+    max-height: 64dvh !important;
+    min-width: 0;
+  }
+
+  .qz-container {
+    width: min(90vw, 760px);
+    gap: 22px;
+    padding-top: 70px;
+  }
+
+  #qz-ov {
+    overflow-y: auto;
+    justify-content: flex-start;
+    padding-bottom: calc(18px + var(--safe-bottom));
+  }
+
+  .qz-question {
+    font-size: 21px;
+    line-height: 1.3;
+  }
+
+  .qz-grid {
+    gap: 16px;
+    max-width: 720px;
+  }
+
+  .qz-option {
+    min-height: 78px;
+    padding: 18px 14px;
+    font-size: 15px;
+  }
+
+  #qz-next {
+    margin-top: 4px;
+    padding: 10px 54px;
+    font-size: 17px;
+  }
+
+  .qz-timer-wrap {
+    top: 44px;
+    max-width: min(360px, 70vw);
+  }
+
+  .qz-feedback-toast {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    max-width: 720px;
+    padding: 12px;
+    font-size: 14px;
+    display: none;
+  }
+
+  .qz-feedback-toast.show { display: block; }
+
+  #lf-ov {
+    justify-content: flex-start;
+    overflow-y: auto;
+    padding-top: calc(88px + var(--safe-top));
+    padding-bottom: calc(24px + var(--safe-bottom));
+  }
+
+  .lf-container {
+    gap: 22px;
+    width: min(92vw, 820px);
+  }
+
+  .lf-item-box { padding: 18px; }
+  .lf-bins-row { gap: 24px; margin-top: 10px; }
+  .lf-bin-shape { width: 126px; height: 136px; }
+  .lf-bin-lid { width: 108px; left: 3px; }
+  .lf-bin-lid-handle { left: 31px; }
+  .lf-bin-label { font-size: 17px; }
+  .lf-feedback {
+    max-width: calc(100vw - 36px);
+    white-space: normal;
+    text-align: center;
+  }
+
+  .bp-header {
+    height: auto;
+    min-height: 70px;
+    padding: 10px 18px;
+    gap: 14px;
+  }
+
+  .bp-tabs {
+    justify-content: flex-start;
+    gap: 10px;
+    overflow-x: auto;
+    height: auto;
+  }
+
+  .bp-tab {
+    flex: 0 0 auto;
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .bp-tab span { font-size: 15px; }
+  .bp-tab img { width: 26px; height: 26px; }
+  .bp-body { padding: 24px; gap: 28px; }
+  .tools-layout,
+  .settings-page,
+  .bp-lb-grid { grid-template-columns: 1fr; gap: 20px; }
+
+  .map-title {
+    top: calc(26px + var(--safe-top));
+    font-size: 24px;
+  }
+
+  .map-back {
+    top: calc(18px + var(--safe-top));
+    left: calc(18px + var(--safe-left));
+    width: 48px;
+    height: 48px;
+  }
+
+  .map-layout {
+    inset: calc(82px + var(--safe-top)) calc(18px + var(--safe-right)) calc(18px + var(--safe-bottom)) calc(18px + var(--safe-left));
+  }
+}
+
+@media (max-width: 760px), (max-height: 620px) {
+  .ss-row {
+    flex-direction: column-reverse;
+    gap: 18px;
+    margin-bottom: 0;
+  }
+
+  .ss-logo-text {
+    font-size: 26px;
+    margin-bottom: 20px;
+  }
+
+  .ss-right img { width: 120px; }
+
+  .ls-header {
+    flex-direction: column;
+    margin-bottom: 26px;
+    text-align: center;
+  }
+
+  .ls-title {
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 22px;
+  }
+
+  .ls-title span { font-size: 26px; }
+
+  .qo,
+  .qz-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+
+  .qz-container {
+    padding-top: 74px;
+    gap: 14px;
+  }
+
+  .qz-question { font-size: 18px; }
+  .qz-option { min-height: 58px; font-size: 14px; padding: 14px 12px; }
+
+  #qz-next {
+    width: min(280px, 80vw);
+    padding: 10px 18px;
+  }
+
+  #dg-success {
+    flex-direction: column !important;
+    justify-content: center !important;
+    gap: 16px !important;
+  }
+
+  #dg-success > img {
+    max-width: min(320px, 82vw);
+    max-height: 34vh !important;
+    max-height: 34dvh !important;
+  }
+
+  .dg-card-tail,
+  .dg-card-tail-inner { display: none; }
+
+  .lf-bins-row {
+    gap: 14px;
+    align-items: flex-end;
+  }
+
+  .lf-bin-shape {
+    width: 92px;
+    height: 106px;
+    border-width: 4px;
+  }
+
+  .lf-bin-lid {
+    width: 78px;
+    height: 16px;
+    border-width: 4px;
+    top: -20px;
+  }
+
+  .lf-bin-lid-handle {
+    width: 30px;
+    height: 8px;
+    border-width: 4px;
+    top: -12px;
+    left: 22px;
+  }
+
+  .lf-bin-logo { width: 42px; height: 42px; }
+  .lf-bin-label { font-size: 12px; }
+  .lf-item-icon { font-size: 32px; }
+  .lf-item-label { font-size: 10px; }
+
+  .gp-grid {
+    margin-top: 52px;
+  }
+
+  .ev-card,
+  .fr-card {
+    padding: 28px 22px;
+  }
+
+  .ev-row {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .ev-signup {
+    width: 100%;
+  }
+}
+
+@media (max-height: 520px) {
+  .qz-container {
+    padding-top: 52px;
+    gap: 10px;
+  }
+
+  .qz-timer-wrap { top: 36px; }
+  .qz-question { font-size: 16px; }
+  .qz-option { min-height: 48px; padding: 10px; }
+  .qz-feedback-toast { font-size: 12px; padding: 8px; }
+
+  .fc-dialog,
+  .dg-card,
+  .mdo-card {
+    padding: 18px !important;
+  }
+
+  .dg-title { margin-bottom: 12px; }
+  .dg-text { margin-bottom: 16px; }
+}
 </style>
 </head>
 <body>
@@ -1169,7 +1626,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
     <div id="stick"></div>
   </div>
 </div>
-
+<audio id="dolphin-snd" src="dolphin.m4a" preload="auto"></audio>
 <script>
 'use strict';
 /* ══════════════════════════════════════════════
@@ -3526,6 +3983,7 @@ function startDolphinGame(m){
   
   document.getElementById('dg-ov').style.display = 'block';
   document.getElementById('dg-success').style.display = 'none';
+  stopDolphinSound();
   
   document.getElementById('dg-hc').textContent = '+' + dgMaxCoins;
   document.getElementById('dg-hr').textContent = '+' + dgMaxXp + ' XP';
@@ -3568,6 +4026,7 @@ function nextDolphinPrompt() {
   if (dgCurIndex >= dgItems.length) {
     document.getElementById('dg-prompt').style.display = 'none';
     document.getElementById('dg-success').style.display = 'flex';
+    playDolphinSound();
   } else {
     document.getElementById('dg-prompt').style.display = 'block';
     document.getElementById('dg-prompt-img').src = dgItems[dgCurIndex].src;
@@ -3575,6 +4034,7 @@ function nextDolphinPrompt() {
 }
 
 function closeDolphinGame(success){
+  stopDolphinSound();
   document.getElementById('dg-ov').style.display = 'none';
   closeM(success ? dgMaxCoins : 0, success ? dgMaxXp : 0, success);
 }
@@ -3925,6 +4385,21 @@ function closeLandfillGame(success) {
 let qzCurM = null, qzIdx = 0, qzScore = 0, qzTimer = null, qzTimeLeft = 15;
 let qzMaxCoins = 0, qzMaxXp = 0;
 
+function playDolphinSound() {
+  const snd = document.getElementById('dolphin-snd');
+  if (!snd) return;
+  snd.volume = (APP_SETTINGS.gameVolume || 85) / 100;
+  snd.currentTime = 0;
+  snd.play().catch(e => console.log('Audio play failed:', e));
+}
+
+function stopDolphinSound() {
+  const snd = document.getElementById('dolphin-snd');
+  if (!snd) return;
+  snd.pause();
+  snd.currentTime = 0;
+}
+
 function startQuizGame(m) {
   qzCurM = m; qzIdx = 0; qzScore = 0;
   qzMaxCoins = m.coins; qzMaxXp = m.xp;
@@ -4037,6 +4512,11 @@ function finishQuizGame() {
   const ratio = qzScore / qzCurM.qs.length;
   document.getElementById('qz-result-title').textContent = ratio >= 0.7 ? 'Mission Successful!' : 'Mission Ended';
   document.getElementById('qz-result-text').textContent = `You got ${qzScore} out of ${qzCurM.qs.length} questions correct. ` + (ratio >= 0.7 ? 'The environment is grateful!' : 'Study more to save the planet!');
+  
+  if (qzCurM.id === 'dolphin' && ratio >= 0.7) {
+    playDolphinSound();
+    notify(P_lang === 'ur' ? 'ڈالفن کی آواز بج رہی ہے...' : 'Dolphin sound playing...');
+  }
 }
 
 function completeQuizGame() {
@@ -4044,6 +4524,7 @@ function completeQuizGame() {
 }
 
 function closeQuizGame(success) {
+  stopDolphinSound();
   clearInterval(qzTimer);
   document.getElementById('qz-ov').style.display = 'none';
   const finalCoins = Math.floor(qzMaxCoins * (qzScore / qzCurM.qs.length));
