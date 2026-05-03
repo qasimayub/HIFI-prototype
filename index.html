@@ -519,31 +519,31 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
   <div id="menu" class="h">
     <div class="menu-btn" title="Backpack" onclick="openBP()"><img src="backpack.svg" alt="Backpack"></div>
     <div class="menu-btn" title="Real World Events" onclick="openEvents()"><img src="world.svg" alt="World"></div>
-    <div class="menu-btn" title="Missions" onclick="notify('EXPLORE TO FIND MISSIONS!')"><img src="group.svg" alt="Group"></div>
-    <div class="menu-btn" title="Language" onclick="notify('LANGUAGE SETTINGS COMING SOON!')"><span class="text-icon">ار</span></div>
+    <div class="menu-btn" title="Missions" onclick="notify(t('notify_explore'))"><img src="group.svg" alt="Group"></div>
+    <div class="menu-btn" title="Language" onclick="switchLang()"><span class="text-icon">ار</span></div>
   </div>
 
   <!-- Real World Events Overlay -->
   <div class="ov h" id="ev-ov" onclick="closeEvents()">
     <div class="ev-card" onclick="event.stopPropagation()">
       <button class="ev-close" onclick="closeEvents()">✕</button>
-      <div class="ev-title">Events Around You</div>
-      <div class="ev-subtitle">Sign up for the environment events<br>around you and get free E-Rupees.</div>
+      <div class="ev-title" data-t="ev_title">Events Around You</div>
+      <div class="ev-subtitle" data-t="ev_subtitle">Join environment events and earn free E-Rupees.</div>
       <div class="ev-row">
         <div class="ev-icon">🌳</div>
         <div class="ev-info">
-          <div class="ev-name">Plantation Drive</div>
+          <div class="ev-name" data-t="ev_plantation">Plantation Drive</div>
           <div class="ev-reward"><img src="coin.svg" alt="coin"> +200</div>
         </div>
-        <button class="ev-signup" id="ev-btn-0" onclick="signUpEvent(0, 200)">Sign Up</button>
+        <button class="ev-signup" id="ev-btn-0" onclick="signUpEvent(0, 200)" data-t="ev_signup">Sign Up</button>
       </div>
       <div class="ev-row">
         <div class="ev-icon">🏖️</div>
         <div class="ev-info">
-          <div class="ev-name">Beach Cleaning Drive</div>
+          <div class="ev-name" data-t="ev_beach">Beach Cleaning Drive</div>
           <div class="ev-reward"><img src="coin.svg" alt="coin"> +500</div>
         </div>
-        <button class="ev-signup" id="ev-btn-1" onclick="signUpEvent(1, 500)">Sign Up</button>
+        <button class="ev-signup" id="ev-btn-1" onclick="signUpEvent(1, 500)" data-t="ev_signup">Sign Up</button>
       </div>
     </div>
   </div>
@@ -561,24 +561,24 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
     </div>
     <div id="hn" style="display:none"></div>
   </div>
-  <div id="ctrl">WASD · MOVE &nbsp; E · MISSION</div>
+  <div id="ctrl" data-t="ctrl">Move: WASD &nbsp; Action: E</div>
   <div id="mm" class="h" title="Open Map" onclick="openFullMap()"><canvas id="mc" width="100" height="74"></canvas></div>
   <div id="ntf"></div>
   <div id="map-ov" onclick="closeFullMap()">
     <button class="map-back" onclick="event.stopPropagation(); closeFullMap()" aria-label="Back">
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#5a3e1b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     </button>
-    <div class="map-title">Map</div>
+    <div class="map-title" data-t="map_title">Map</div>
     <div class="map-layout" onclick="event.stopPropagation()">
       <div class="map-board" id="full-map-board">
         <canvas id="full-map-canvas" width="1600" height="1200" aria-label="World map"></canvas>
       </div>
       <div class="map-key">
-        <div class="map-key-title">Key</div>
-        <div class="map-key-row"><canvas class="map-key-icon" data-state="rescue" width="58" height="58"></canvas><span>Rescue Animals</span></div>
-        <div class="map-key-row"><canvas class="map-key-icon" data-state="open" width="58" height="58"></canvas><span>Missions</span></div>
-        <div class="map-key-row"><canvas class="map-key-icon" data-state="locked" width="58" height="58"></canvas><span>Locked Missions</span></div>
-        <div class="map-key-row"><canvas class="map-key-icon" data-state="timed" width="58" height="58"></canvas><span>Limited Time Missions</span></div>
+        <div class="map-key-title" data-t="map_key">Key</div>
+        <div class="map-key-row"><canvas class="map-key-icon" data-state="rescue" width="58" height="58"></canvas><span data-t="map_rescue">Rescue Animals</span></div>
+        <div class="map-key-row"><canvas class="map-key-icon" data-state="open" width="58" height="58"></canvas><span data-t="map_missions">Missions</span></div>
+        <div class="map-key-row"><canvas class="map-key-icon" data-state="locked" width="58" height="58"></canvas><span data-t="map_locked">Locked Missions</span></div>
+        <div class="map-key-row"><canvas class="map-key-icon" data-state="timed" width="58" height="58"></canvas><span data-t="map_timed">Limited Time Missions</span></div>
       </div>
     </div>
   </div>
@@ -589,7 +589,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
       <div class="mdo-title" id="mdo-title">Mission Title</div>
       <div class="mdo-desc" id="mdo-desc">Mission Description</div>
       
-      <div class="mdo-unlock-lbl">Unlock</div>
+      <div class="mdo-unlock-lbl" data-t="mdo_unlock">Rewards</div>
       <div class="mdo-unlock-item">
         <img src="coin.svg" class="mdo-icon" alt="coin"> 
         <span id="mdo-coins"></span>
@@ -678,30 +678,30 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
     <div id="sb-smog-container"></div>
     <div id="sb-intro" style="position: absolute; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; background: rgba(135,206,235,0.95);">
       <div class="fc-dialog" style="padding:30px; border:4px solid #3d2314; background:#fdf4da; text-align:center; max-width:500px;">
-        <div class="lg-title" style="color:#e82020; font-size:24px; margin-bottom:15px;">TOXIC SMOG ALERT!</div>
+        <div class="lg-title" style="color:#e82020; font-size:24px; margin-bottom:15px;" data-t="smog_title">SMOG ALERT!</div>
         <div class="sm-text" style="margin-bottom:20px; line-height:1.5;">
-          The factory chimneys are releasing dark, toxic smog into the air.<br><br>
-          <b style="color:#e82020">Breathing this polluted air causes asthma and harms our lungs!</b><br><br>
-          Pop the smog clouds before they spread!<br>
-          <span style="color:#008050">+10 Score for each pop</span><br>
-          <span style="color:#e82020">-5 Score & 1 Strike if you miss one</span><br>
-          <span style="font-size: 12px; color: #555;">(3 strikes = Game Over)</span>
+          <span data-t="smog_text1">Factory smoke is making the air dirty.</span><br><br>
+          <b style="color:#e82020" data-t="smog_text2">Dirty air is bad for your lungs!</b><br><br>
+          <span data-t="smog_text3">Pop the smog clouds before they spread!</span><br>
+          <span style="color:#008050" data-t="smog_score_hint">+10 per pop</span><br>
+          <span style="color:#e82020" data-t="smog_miss_hint">-5 &amp; 1 strike if you miss</span><br>
+          <span style="font-size: 12px; color: #555;" data-t="smog_over">(3 strikes = Game Over)</span>
         </div>
-        <button class="fc-btn" onclick="startSmogGameLoop()">&#9654; PURIFY AIR</button>
+        <button class="fc-btn" onclick="startSmogGameLoop()" data-t="smog_start">PURIFY AIR</button>
       </div>
     </div>
     <div id="sb-success">
       <div class="dg-card">
-        <div class="dg-title">Sky Cleared!</div>
-        <div class="dg-text" style="text-align:center;">You saved the town from toxic smog! The air is fresh again.</div>
-        <button class="dg-btn" onclick="closeSmogGame(true)">Back to Map</button>
+        <div class="dg-title" data-t="smog_success_title">Sky Cleared!</div>
+        <div class="dg-text" style="text-align:center;" data-t="smog_success_text">You cleaned the air! The town is safe.</div>
+        <button class="dg-btn" onclick="closeSmogGame(true)" data-t="back_map">Back to Map</button>
       </div>
     </div>
     <div id="sb-fail" style="position: absolute; inset: 0; background: rgba(135,206,235,0.9); z-index: 210; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 20px;">
       <div class="dg-card" style="border-color:#e82020;">
-        <div class="dg-title" style="color:#e82020;">Too Much Smog!</div>
-        <div class="dg-text" style="text-align:center;">The town was overwhelmed by the toxic air. We must try harder!</div>
-        <button class="fc-btn red" onclick="closeSmogGame(false)">Try Again</button>
+        <div class="dg-title" style="color:#e82020;" data-t="smog_fail_title">Too Much Smog!</div>
+        <div class="dg-text" style="text-align:center;" data-t="smog_fail_text">Too much smog! Try again.</div>
+        <button class="fc-btn red" onclick="closeSmogGame(false)" data-t="try_again">Try Again</button>
       </div>
     </div>
   </div>
@@ -719,7 +719,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
     </div>
     
     <div id="dg-prompt">
-      <div id="dg-prompt-text">Find and tap on:</div>
+      <div id="dg-prompt-text" data-t="dg_prompt">Find and tap on:</div>
       <img id="dg-prompt-img" src="" alt="item">
     </div>
 
@@ -739,9 +739,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
     <div id="dg-success" style="position: absolute; inset: 0; background: #3584a7; z-index: 210; display: none; align-items: center; justify-content: center; flex-direction: row; gap: 40px; padding: 40px;">
       <div class="dg-card" style="z-index:10; flex-shrink: 0;">
         <div class="dg-card-tail"></div><div class="dg-card-tail-inner"></div>
-        <div class="dg-title">Mission Successful</div>
-        <div class="dg-text">Thank you so much. Now I can go back to my family. You are an amazing human being.</div>
-        <button class="dg-btn" onclick="closeDolphinGame(true)">Back to Map</button>
+        <div class="dg-title" data-t="dg_success_title">Mission Successful</div>
+        <div class="dg-text" data-t="dg_success_text">Thank you! I can go back to my family now.</div>
+        <button class="dg-btn" onclick="closeDolphinGame(true)" data-t="back_map">Back to Map</button>
       </div>
       <img src="dolphin.png" style="z-index:10; max-height: 80%; width: auto; object-fit: contain; flex-shrink: 1;">
     </div>
@@ -937,7 +937,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
       <div class="gp-cloud" style="width:120px; height:50px; top:40%; left:40%"></div>
     </div>
     
-    <div style="z-index:20; font:bold 24px/1 'Courier New',mono; background:#fdf4da; border:4px solid #3d2314; padding:15px 30px; margin-top:30px; box-shadow:4px 4px 0 #3d2314;position:relative;">CONNECT THE PIPES</div>
+    <div style="z-index:20; font:bold 24px/1 'Courier New',mono; background:#fdf4da; border:4px solid #3d2314; padding:15px 30px; margin-top:30px; box-shadow:4px 4px 0 #3d2314;position:relative;" data-t="gp_title">CONNECT THE PIPES</div>
     
     <div class="gp-hill"></div>
     <div class="gp-grid" id="gp-grid"></div>
@@ -968,7 +968,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
       <div class="qz-grid" id="qz-grid">
         <!-- Options injected here -->
       </div>
-      <button id="qz-next" onclick="qzNext()">Next</button>
+      <button id="qz-next" onclick="qzNext()" data-t="qz_next">Next</button>
       <div class="qz-feedback-toast" id="qz-toast"></div>
     </div>
 
@@ -979,7 +979,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
         <div class="sm-text" id="qz-intro-text" style="margin-bottom:20px; line-height:1.5;">
           Test your knowledge to save the environment!
         </div>
-        <button class="fc-btn" onclick="startQuizLogic()">&#9654; START QUIZ</button>
+        <button class="fc-btn" id="qz-start-btn" onclick="startQuizLogic()" data-t="qz_start">START QUIZ</button>
       </div>
     </div>
 
@@ -988,7 +988,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
       <div class="dg-card">
         <div class="dg-title" id="qz-result-title">Quiz Complete!</div>
         <div class="dg-text" id="qz-result-text" style="text-align:center;">You've finished the quiz. Great job!</div>
-        <button class="dg-btn" onclick="completeQuizGame()">Back to Map</button>
+        <button class="dg-btn" onclick="completeQuizGame()" data-t="back_map">Back to Map</button>
       </div>
     </div>
   </div>
@@ -1028,27 +1028,27 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
     </div>
     <div id="bf-intro">
       <div class="fc-dialog" style="padding:30px; border:4px solid #3d2314; background:#fdf4da; text-align:center; max-width:540px;">
-        <div class="lg-title" style="color:#e09030; font-size:24px; margin-bottom:15px;">BEE FLIGHT!</div>
+        <div class="lg-title" style="color:#e09030; font-size:24px; margin-bottom:15px;" data-t="bee_title">BEE FLIGHT!</div>
         <div class="sm-text" style="margin-bottom:22px; line-height:1.5;">
-          Bees carry pollen between flowers so fruit, crops, and forests can grow.<br><br>
-          <b style="color:#e82020">Pesticide clouds can poison pollinators and weaken ecosystems.</b><br><br>
-          Tap, click, Space, or swipe up to flap. Fly through gaps and collect flowers.
+          <span data-t="bee_text1">Bees carry pollen from flower to flower so plants can grow.</span><br><br>
+          <b style="color:#e82020" data-t="bee_text2">Pesticide clouds can kill bees and harm nature.</b><br><br>
+          <span data-t="bee_text3">Tap or press Space to fly. Go through gaps and collect flowers.</span>
         </div>
-        <button class="fc-btn" onclick="startBeeGameLoop()">&#9654; START FLIGHT</button>
+        <button class="fc-btn" onclick="startBeeGameLoop()" data-t="bee_start">START FLIGHT</button>
       </div>
     </div>
     <div id="bf-success">
       <div class="dg-card">
-        <div class="dg-title">Hive Fed!</div>
-        <div class="dg-text" style="text-align:center;">You carried enough pollen home and kept the garden alive.</div>
-        <button class="dg-btn" onclick="closeBeeGame(true)">Back to Map</button>
+        <div class="dg-title" data-t="bee_success_title">Hive Fed!</div>
+        <div class="dg-text" style="text-align:center;" data-t="bee_success_text">You brought enough pollen home! The garden is safe.</div>
+        <button class="dg-btn" onclick="closeBeeGame(true)" data-t="back_map">Back to Map</button>
       </div>
     </div>
     <div id="bf-fail">
       <div class="dg-card" style="border-color:#e82020;">
-        <div class="dg-title" style="color:#e82020;">Flight Failed!</div>
-        <div class="dg-text" style="text-align:center;">The pesticide clouds overwhelmed the bee. Try a cleaner flight path.</div>
-        <button class="fc-btn red" onclick="closeBeeGame(false)">Try Again</button>
+        <div class="dg-title" style="color:#e82020;" data-t="bee_fail_title">Flight Failed!</div>
+        <div class="dg-text" style="text-align:center;" data-t="bee_fail_text">Too many pesticide clouds! Try a different path.</div>
+        <button class="fc-btn red" onclick="closeBeeGame(false)" data-t="try_again">Try Again</button>
       </div>
     </div>
   </div>
@@ -1081,27 +1081,27 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
     </div>
     <div id="rr-intro">
       <div class="fc-dialog" style="padding:30px; border:4px solid #3d2314; background:#fdf4da; text-align:center; max-width:540px;">
-        <div class="lg-title" style="color:#0b6fa4; font-size:24px; margin-bottom:15px;">ENERGY RUSH!</div>
+        <div class="lg-title" style="color:#0b6fa4; font-size:24px; margin-bottom:15px;" data-t="rr_title">ENERGY RUSH!</div>
         <div class="sm-text" style="margin-bottom:22px; line-height:1.5;">
-          The town is upgrading away from coal power, but dirty fossil-fuel blocks are still flooding the grid.<br><br>
-          <b style="color:#e82020">Coal power creates smog and heats the climate.</b><br><br>
-          Switch lanes with arrow keys or swipe left/right. Jump with Space, Up, W, or swipe up. Collect leaves, solar panels, and water drops. Jump over coal and smoke.
+          <span data-t="rr_text1">The town needs clean energy. Collect clean energy and dodge coal.</span><br><br>
+          <b style="color:#e82020" data-t="rr_text2">Coal makes bad smoke and warms the Earth.</b><br><br>
+          <span data-t="rr_text3">Arrow keys to change lanes. Space to jump. Collect clean energy. Dodge coal.</span>
         </div>
-        <button class="fc-btn" onclick="startRiverGameLoop()">&#9654; START RUN</button>
+        <button class="fc-btn" onclick="startRiverGameLoop()" data-t="rr_start">START RUN</button>
       </div>
     </div>
     <div id="rr-success">
       <div class="dg-card">
-        <div class="dg-title">Grid Upgraded!</div>
-        <div class="dg-text" style="text-align:center;">You powered the town with clean energy and kept coal sludge out of the grid.</div>
-        <button class="dg-btn" onclick="closeRiverGame(true)">Back to Map</button>
+        <div class="dg-title" data-t="rr_success_title">Grid Upgraded!</div>
+        <div class="dg-text" style="text-align:center;" data-t="rr_success_text">You powered the town with clean energy!</div>
+        <button class="dg-btn" onclick="closeRiverGame(true)" data-t="back_map">Back to Map</button>
       </div>
     </div>
     <div id="rr-fail">
       <div class="dg-card" style="border-color:#e82020;">
-        <div class="dg-title" style="color:#e82020;">Grid Overloaded!</div>
-        <div class="dg-text" style="text-align:center;">Too much coal sludge hit the system. Dodge faster and grab clean power.</div>
-        <button class="fc-btn red" onclick="closeRiverGame(false)">Try Again</button>
+        <div class="dg-title" style="color:#e82020;" data-t="rr_fail_title">Grid Overloaded!</div>
+        <div class="dg-text" style="text-align:center;" data-t="rr_fail_text">Too much coal! Be faster next time.</div>
+        <button class="fc-btn red" onclick="closeRiverGame(false)" data-t="try_again">Try Again</button>
       </div>
     </div>
   </div>
@@ -1127,7 +1127,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
     <div class="lf-container">
       <div class="lf-item-box">
         <div class="lf-feedback" id="lf-feedback"></div>
-        <div class="lf-instruction">Drag the items to the correct bins:</div>
+        <div class="lf-instruction" data-t="lf_drag">Drag items to the correct bins:</div>
         <div class="lf-items-row" id="lf-items-row">
           <!-- Items will be injected here -->
         </div>
@@ -1140,16 +1140,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
             <svg class="lf-bin-logo" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L4.5 15h3V22h9v-7h3L12 2zm1 18h-2v-4h2v4zm0-6h-2V7h2v7z"/></svg>
             <div style="font:bold 12px 'Courier New',mono; color:white; margin-top:10px;" id="lf-count-recycle">0</div>
           </div>
-          <div class="lf-bin-label">Recycle</div>
+          <div class="lf-bin-label" data-t="lf_recycle">Recycle</div>
         </div>
-        
+
         <div class="lf-bin dangerous" data-bin="dangerous" id="bin-dangerous">
           <div class="lf-bin-shape">
             <div class="lf-bin-lid"><div class="lf-bin-lid-handle"></div></div>
             <svg class="lf-bin-logo" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a5 5 0 0 0-5 5v2a3 3 0 0 0-3 3v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a3 3 0 0 0-3-3V7a5 5 0 0 0-5-5zm3 7H9V7a3 3 0 0 1 6 0v2z"/></svg>
             <div style="font:bold 12px 'Courier New',mono; color:white; margin-top:10px;" id="lf-count-dangerous">0</div>
           </div>
-          <div class="lf-bin-label">Dangerous</div>
+          <div class="lf-bin-label" data-t="lf_dangerous">Dangerous</div>
         </div>
 
         <div class="lf-bin general" data-bin="general" id="bin-general">
@@ -1158,7 +1158,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
             <svg class="lf-bin-logo" viewBox="0 0 24 24" fill="currentColor"><path d="M19 4h-3V2h-8v2h-3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM9 18l-4-4 1.41-1.41L9 15.17l7.59-7.59L18 9l-9 9z"/></svg>
             <div style="font:bold 12px 'Courier New',mono; color:white; margin-top:10px;" id="lf-count-general">0</div>
           </div>
-          <div class="lf-bin-label">General</div>
+          <div class="lf-bin-label" data-t="lf_general">General</div>
         </div>
       </div>
     </div>
@@ -1166,22 +1166,22 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
     <!-- Intro Modal -->
     <div id="lf-intro" style="position: absolute; inset: 0; z-index: 300; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.85);">
       <div class="fc-dialog" style="padding:30px; border:4px solid #3d2314; background:#fdf4da; text-align:center; max-width:500px;">
-        <div class="lg-title" style="color:#e65100; font-size:24px; margin-bottom:15px;">WASTE SORTING MISSION</div>
+        <div class="lg-title" style="color:#e65100; font-size:24px; margin-bottom:15px;" data-t="lf_title">WASTE SORTING MISSION</div>
         <div class="sm-text" style="margin-bottom:20px; line-height:1.5;">
-          The landfill is overflowing with unsorted waste!<br><br>
-          <b style="color:#b71c1c">Hazardous waste like batteries can poison the soil and water.</b><br><br>
-          Sort the items into the correct bins to earn points and save the environment.<br>
+          <span data-t="lf_text1">The landfill is full! Help sort the trash.</span><br><br>
+          <b style="color:#b71c1c" data-t="lf_text2">Dangerous waste like batteries can poison the land.</b><br><br>
+          <span data-t="lf_text3">Sort each item into the right bin to earn points.</span>
         </div>
-        <button class="fc-btn" onclick="startLandfillLogic()">&#9654; START SORTING</button>
+        <button class="fc-btn" onclick="startLandfillLogic()" data-t="lf_start">START SORTING</button>
       </div>
     </div>
 
     <!-- Success Modal -->
     <div id="lf-success" style="position: absolute; inset: 0; z-index: 300; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.85);">
       <div class="dg-card">
-        <div class="dg-title">Landfill Cleaned!</div>
-        <div class="dg-text" style="text-align:center;">Great job! You've properly categorized the waste. The environment is much safer now.</div>
-        <button class="dg-btn" onclick="completeLandfillGame()">Back to Map</button>
+        <div class="dg-title" data-t="lf_success_title">Landfill Cleaned!</div>
+        <div class="dg-text" style="text-align:center;" data-t="lf_success_text">Well done! You sorted all the waste correctly.</div>
+        <button class="dg-btn" onclick="completeLandfillGame()" data-t="back_map">Back to Map</button>
       </div>
     </div>
   </div>
@@ -1755,81 +1755,242 @@ let selC=0;
 ══════════════════════════════════════════════ */
 const MISSIONS=[
   {id:'smog',title:'SMOG BUSTER',desc:'Pop the toxic smog clouds\nbefore they pollute the town!',
+   title_ur:'دھواں صاف', desc_ur:'دھویں کے بادلوں کو\nپھوڑیں!',
    icon:'💨',tx:950,ty:650,tw:80,th:80,type:'smog',coins:300,xp:150,color:'#888888'},
   {id:'polarbear',title:'POLAR BEAR RESCUE',desc:'Melting ice!\nAnswer to save it.',
+   title_ur:'برفانی ریچھ کو بچائیں', desc_ur:'برف پگھل رہی ہے!\nجواب دے کر بچائیں۔',
    icon:'❄️',tx:220,ty:175,tw:80,th:80,type:'quiz',coins:60,xp:120,color:'#90c8f0',
    animal:'Polar Bear',qs:[
-    {q:'What mainly causes polar ice to melt?',opts:['Climate change','More rain','Wind','Earthquakes'],a:0,f:'Rising CO2 from burning fuels warms the planet and melts polar ice.'},
-    {q:'What do polar bears mainly eat?',opts:['Fish','Seals','Penguins','Berries'],a:1,f:'Polar bears wait at breathing holes in sea ice to catch seals.'},
-    {q:'How can you help polar bears?',opts:['Save electricity','Eat more meat','Use plastic bags','Drive more'],a:0,f:'Every bit of energy saved reduces CO2 and slows ice melt!'},
-    {q:'Arctic sea ice lost since 1979?',opts:['10%','20%','Over 40%','5%'],a:2,f:'The Arctic has lost over 40% of summer sea ice — a crisis for wildlife.'},
+    {q:'What mainly causes polar ice to melt?',opts:['Climate change','More rain','Wind','Earthquakes'],a:0,f:'Rising CO2 from burning fuels warms the planet and melts polar ice.',
+     q_ur:'قطبی برف کیوں پگھل رہی ہے؟',opts_ur:['موسمیاتی تبدیلی','زیادہ بارش','ہوا','زلزلے'],f_ur:'CO2 سے زمین گرم ہوتی ہے اور قطبی برف پگھلتی ہے۔'},
+    {q:'What do polar bears mainly eat?',opts:['Fish','Seals','Penguins','Berries'],a:1,f:'Polar bears wait at breathing holes in sea ice to catch seals.',
+     q_ur:'برفانی ریچھ کیا کھاتا ہے؟',opts_ur:['مچھلی','سیل','پینگوئن','بیریاں'],f_ur:'برفانی ریچھ برف کے سوراخوں پر سیل کا انتظار کرتا ہے۔'},
+    {q:'How can you help polar bears?',opts:['Save electricity','Eat more meat','Use plastic bags','Drive more'],a:0,f:'Every bit of energy saved reduces CO2 and slows ice melt!',
+     q_ur:'برفانی ریچھ کی مدد کیسے کریں؟',opts_ur:['بجلی بچائیں','زیادہ گوشت کھائیں','پلاسٹک استعمال کریں','زیادہ گاڑی چلائیں'],f_ur:'بجلی بچانے سے CO2 کم ہوتی ہے اور برف پگھلنا رکتا ہے!'},
+    {q:'Arctic sea ice lost since 1979?',opts:['10%','20%','Over 40%','5%'],a:2,f:'The Arctic has lost over 40% of summer sea ice — a crisis for wildlife.',
+     q_ur:'1979 سے قطبی برف کتنی کم ہوئی؟',opts_ur:['10%','20%','40% سے زیادہ','5%'],f_ur:'موسمیاتی بحران کی وجہ سے 40% سے زیادہ گرمیوں کی برف ختم ہو گئی ہے۔'},
   ]},
   {id:'dolphin',title:'DOLPHIN RESCUE',desc:'Tangled in plastic!\nAnswer to free it.',
+   title_ur:'ڈالفن کو بچائیں', desc_ur:'پلاسٹک میں پھنسا!\nجواب دے کر چھڑائیں۔',
    icon:'🐬',tx:585,ty:720,tw:80,th:50,type:'quiz',coins:50,xp:100,color:'#60b0e0',
    animal:'Dolphin', reqTools:['magnifier'], qs:[
-    {q:'Plastic bottles entering ocean per minute?',opts:['100','1,000','1 million+','10'],a:2,f:'Over 1 million plastic bottles bought every minute — many end in the ocean.'},
-    {q:'What to do with old plastic bags?',opts:['Burn them','Reuse or recycle','Bury them','Leave outside'],a:1,f:'Reusing and recycling plastic keeps it out of our oceans.'},
-    {q:'How do dolphins communicate?',opts:['Sign language','Clicks & whistles','Colour changes','Smell'],a:1,f:'Dolphins have unique whistles like names — they are incredibly intelligent!'},
-    {q:'Biggest threat to dolphins today?',opts:['Sharks','Ocean noise','Plastic pollution','Jellyfish'],a:2,f:'Plastic entangles and poisons hundreds of thousands of marine animals every year.'},
+    {q:'Plastic bottles entering ocean per minute?',opts:['100','1,000','1 million+','10'],a:2,f:'Over 1 million plastic bottles bought every minute — many end in the ocean.',
+     q_ur:'ہر منٹ سمندر میں کتنی پلاسٹک بوتلیں جاتی ہیں؟',opts_ur:['100','1,000','10 لاکھ سے زیادہ','10'],f_ur:'ہر منٹ 10 لاکھ سے زیادہ پلاسٹک بوتلیں خریدی جاتی ہیں، کئی سمندر میں پہنچتی ہیں۔'},
+    {q:'What to do with old plastic bags?',opts:['Burn them','Reuse or recycle','Bury them','Leave outside'],a:1,f:'Reusing and recycling plastic keeps it out of our oceans.',
+     q_ur:'پرانے پلاسٹک بیگ کا کیا کریں؟',opts_ur:['جلائیں','دوبارہ استعمال یا ری سائیکل','زمین میں دبائیں','باہر چھوڑ دیں'],f_ur:'پلاسٹک کو دوبارہ استعمال اور ری سائیکل کرنے سے سمندر محفوظ رہتا ہے۔'},
+    {q:'How do dolphins communicate?',opts:['Sign language','Clicks & whistles','Colour changes','Smell'],a:1,f:'Dolphins have unique whistles like names — they are incredibly intelligent!',
+     q_ur:'ڈالفن کیسے بات کرتی ہے؟',opts_ur:['اشاروں سے','آوازوں سے','رنگ بدل کر','سونگھ کر'],f_ur:'ڈالفن کی اپنی خاص سیٹی ہوتی ہے جیسے نام — یہ بہت ذہین ہوتی ہے!'},
+    {q:'Biggest threat to dolphins today?',opts:['Sharks','Ocean noise','Plastic pollution','Jellyfish'],a:2,f:'Plastic entangles and poisons hundreds of thousands of marine animals every year.',
+     q_ur:'ڈالفن کو سب سے بڑا خطرہ کیا ہے؟',opts_ur:['شارک','سمندری آواز','پلاسٹک آلودگی','جیلی فش'],f_ur:'پلاسٹک ہر سال لاکھوں سمندری جانوروں کو نقصان پہنچاتی ہے۔'},
   ]},
   {id:'energy',title:'ENERGY RUSH',desc:'Dodge coal sludge\nand collect clean power!',
+   title_ur:'توانائی دوڑ', desc_ur:'کوئلے سے بچیں\nاور صاف توانائی جمع کریں!',
    icon:'⚡',tx:820,ty:610,tw:130,th:120,type:'runner',coins:75,xp:150,color:'#ffd700'},
   {id:'bee',title:'BEE FLIGHT',desc:'Flap through pesticide clouds\nand collect pollen!',
+   title_ur:'مکھی کی پرواز', desc_ur:'کیڑے مار بادلوں سے گزریں\nاور گرد جمع کریں!',
    icon:'🐝',tx:470,ty:520,tw:90,th:90,type:'flappy',coins:60,xp:120,color:'#e09030'},
   {id:'landfill',title:'CLEAN THE LANDFILL',desc:'Sort the waste\ninto correct bins!',
+   title_ur:'لینڈ فل صاف کریں', desc_ur:'کچرا صحیح ڈبوں میں\nچھانٹیں!',
    icon:'🗑️',tx:1300,ty:1050,tw:180,th:200,type:'sorting',coins:70,xp:140,color:'#b09050'},
   {id:'factory',title:'FIX THE FACTORY LEAK',desc:'Connect pipes to\nseal the toxic leak!',
+   title_ur:'کارخانے کا اخراج بند کریں', desc_ur:'پائپ جوڑیں\nاور زہریلے اخراج کو بند کریں!',
    icon:'⚙️',tx:1270,ty:705,tw:160,th:150,type:'pipes',coins:80,xp:160,color:'#a0a888',
    reqTools:['tester']},
   {id:'forest',title:'SAVE THE FOREST',desc:'Deforestation crisis!\nLearn why forests matter.',
+   title_ur:'جنگل بچائیں', desc_ur:'جنگل کٹ رہے ہیں!\nجنگلوں کی اہمیت جانیں۔',
    icon:'🌲',tx:620,ty:250,tw:60,th:44,type:'quiz',coins:55,xp:110,color:'#40b050',
    animal:'Forest', reqTools:['sledge'], qs:[
-    {q:'Forests cover what % of Earth\'s land?',opts:['10%','31%','60%','5%'],a:1,f:'Forests cover 31% of Earth\'s land — but we lose 15 billion trees per year!'},
-    {q:'Trees cut down every year?',opts:['1 million','50 million','15 billion+','100,000'],a:2,f:'Humans cut approximately 15 billion trees per year — a massive crisis.'},
-    {q:'Best way to help forests?',opts:['Plant more trees','Use more paper','Remove old trees','Ignore it'],a:0,f:'Planting trees absorbs CO2 and restores habitats for thousands of species.'},
-    {q:'What absorbs CO2 from the atmosphere?',opts:['Cars','Trees & plants','Buildings','Clouds'],a:1,f:'Trees and plants are nature\'s best tool for absorbing harmful CO2.'},
+    {q:'Forests cover what % of Earth\'s land?',opts:['10%','31%','60%','5%'],a:1,f:'Forests cover 31% of Earth\'s land — but we lose 15 billion trees per year!',
+     q_ur:'جنگل زمین کے کتنے حصے پر ہیں؟',opts_ur:['10%','31%','60%','5%'],f_ur:'جنگل زمین کا 31% ڈھکتے ہیں لیکن ہر سال 15 ارب درخت کاٹے جاتے ہیں!'},
+    {q:'Trees cut down every year?',opts:['1 million','50 million','15 billion+','100,000'],a:2,f:'Humans cut approximately 15 billion trees per year — a massive crisis.',
+     q_ur:'ہر سال کتنے درخت کاٹے جاتے ہیں؟',opts_ur:['10 لاکھ','5 کروڑ','15 ارب سے زیادہ','ایک لاکھ'],f_ur:'انسان ہر سال تقریباً 15 ارب درخت کاٹتے ہیں — یہ بہت بڑا بحران ہے۔'},
+    {q:'Best way to help forests?',opts:['Plant more trees','Use more paper','Remove old trees','Ignore it'],a:0,f:'Planting trees absorbs CO2 and restores habitats for thousands of species.',
+     q_ur:'جنگل بچانے کا بہترین طریقہ؟',opts_ur:['زیادہ درخت لگائیں','زیادہ کاغذ استعمال کریں','پرانے درخت ہٹائیں','نظرانداز کریں'],f_ur:'درخت لگانے سے CO2 جذب ہوتی ہے اور ہزاروں جانوروں کا گھر بنتا ہے۔'},
+    {q:'What absorbs CO2 from the atmosphere?',opts:['Cars','Trees & plants','Buildings','Clouds'],a:1,f:'Trees and plants are nature\'s best tool for absorbing harmful CO2.',
+     q_ur:'CO2 کون جذب کرتا ہے؟',opts_ur:['گاڑیاں','درخت اور پودے','عمارتیں','بادل'],f_ur:'درخت اور پودے فطرت کا بہترین ذریعہ ہیں CO2 جذب کرنے کا۔'},
   ]},
   {id:'coral',title:'SAVE THE CORAL REEF',desc:'Coral reefs dying!\nLearn to protect them.',
+   title_ur:'مرجان کی چٹان بچائیں', desc_ur:'مرجان مر رہے ہیں!\nانھیں بچانا سیکھیں۔',
    icon:'🪸',tx:1200,ty:180,tw:200,th:200,type:'quiz',coins:65,xp:130,color:'#e09070',
    animal:'Coral Reef', badge: 'Reef Protector', reqTools:['scissors'], qs:[
-    {q:'What causes coral bleaching?',opts:['Cold water','Warmer ocean temps','More fish','High tides'],a:1,f:'Warmer seas stress corals — they expel the algae that feed them.'},
-    {q:'Reefs support what % of ocean species?',opts:['5%','10%','25%+','1%'],a:2,f:'Reefs cover <1% of the ocean floor yet support 25%+ of marine species!'},
-    {q:'Chemicals that damage coral reefs?',opts:['Saltwater','Sunscreen & fertilisers','Rainwater','Fish waste'],a:1,f:'Chemical sunscreens and agricultural runoff are major threats to coral.'},
-    {q:'How can YOU help coral reefs?',opts:['Eat more fish','Reduce plastic use','Heat the ocean','Nothing'],a:1,f:'Reducing plastic, reef-safe sunscreen, and cutting CO2 all protect reefs.'},
+    {q:'What causes coral bleaching?',opts:['Cold water','Warmer ocean temps','More fish','High tides'],a:1,f:'Warmer seas stress corals — they expel the algae that feed them.',
+     q_ur:'مرجان کا رنگ کیوں جاتا ہے؟',opts_ur:['ٹھنڈا پانی','گرم سمندر','زیادہ مچھلی','بڑی لہریں'],f_ur:'گرم پانی مرجان کو نقصان پہنچاتا ہے — وہ اپنا کھانا کھو دیتے ہیں۔'},
+    {q:'Reefs support what % of ocean species?',opts:['5%','10%','25%+','1%'],a:2,f:'Reefs cover <1% of the ocean floor yet support 25%+ of marine species!',
+     q_ur:'مرجان کی چٹانیں سمندری جانوروں کا کتنا حصہ پالتی ہیں؟',opts_ur:['5%','10%','25% سے زیادہ','1%'],f_ur:'مرجان سمندر کا 1% سے کم حصہ ہیں لیکن 25%+ سمندری جانوروں کا گھر ہیں!'},
+    {q:'Chemicals that damage coral reefs?',opts:['Saltwater','Sunscreen & fertilisers','Rainwater','Fish waste'],a:1,f:'Chemical sunscreens and agricultural runoff are major threats to coral.',
+     q_ur:'مرجان کو نقصان پہنچانے والے کیمیکل؟',opts_ur:['نمکین پانی','سن کریم اور کھاد','بارش','مچھلی کا فضلہ'],f_ur:'کیمیائی سن کریم اور کھیتی کی کھاد مرجان کو بہت نقصان پہنچاتے ہیں۔'},
+    {q:'How can YOU help coral reefs?',opts:['Eat more fish','Reduce plastic use','Heat the ocean','Nothing'],a:1,f:'Reducing plastic, reef-safe sunscreen, and cutting CO2 all protect reefs.',
+     q_ur:'آپ مرجان کی چٹان کی مدد کیسے کر سکتے ہیں؟',opts_ur:['زیادہ مچھلی کھائیں','پلاسٹک کم استعمال کریں','سمندر گرم کریں','کچھ نہیں'],f_ur:'پلاسٹک کم کرنا، محفوظ سن کریم، اور CO2 کم کرنا مرجان بچاتا ہے۔'},
   ]},
 ];
 
 const ANIMAL_DATA = {
-  markhor: { name: 'Markhor', icon: 'markhor.svg', mission: 'forest' },
-  leapord: { name: 'Snow Leopard', icon: 'leapord.svg', mission: 'smog' },
-  pangolin: { name: 'Pangolin', icon: 'pangolin.svg', mission: 'landfill' },
-  polar_bear: { name: 'Polar Bear', icon: 'bear.svg', mission: 'polarbear' },
-  dolphin: { name: 'Indus River Dolphin', icon: 'dolphin.svg', mission: 'dolphin' }
+  markhor: { name: 'Markhor', icon: 'markhor.svg', mission: 'forest', name_ur: 'مارخور' },
+  leapord: { name: 'Snow Leopard', icon: 'leapord.svg', mission: 'smog', name_ur: 'برفانی چیتا' },
+  pangolin: { name: 'Pangolin', icon: 'pangolin.svg', mission: 'landfill', name_ur: 'پینگولن' },
+  polar_bear: { name: 'Polar Bear', icon: 'bear.svg', mission: 'polarbear', name_ur: 'برفانی ریچھ' },
+  dolphin: { name: 'Indus River Dolphin', icon: 'dolphin.svg', mission: 'dolphin', name_ur: 'دریائے سندھ کی ڈالفن' }
 };
 
 const TOOL_DATA = {
-  gloves: { name: 'Safety Gloves', icon: 'gloves.png', price: 35, desc: 'Handle waste safely.' },
-  hammer: { name: 'Hammer', icon: 'hammer.png', price: 45, desc: 'Repair small broken structures.' },
-  magnifier: { name: 'Magnifier', icon: 'magnifier.png', price: 120, desc: 'Find hidden river plastic.' },
-  tester: { name: 'Water Tester', icon: 'tester.png', price: 180, desc: 'Measure factory water pollution.' },
-  scissors: { name: 'Scissors', icon: 'scissors.png', price: 75, desc: 'Cut nets and tangled plastic.' },
-  aidkit: { name: 'Aid Kit', icon: 'aidkit.png', price: 95, desc: 'Help injured wildlife.' },
-  sledge: { name: 'Sledge Hammer', icon: 'sledge.png', price: 140, desc: 'Break heavy debris.' }
+  gloves: { name: 'Safety Gloves', icon: 'gloves.png', price: 35, desc: 'Handle waste safely.', name_ur: 'حفاظتی دستانے', desc_ur: 'محفوظ طریقے سے کچرا اٹھائیں۔' },
+  hammer: { name: 'Hammer', icon: 'hammer.png', price: 45, desc: 'Repair small broken structures.', name_ur: 'ہتھوڑا', desc_ur: 'چھوٹی ٹوٹی چیزیں ٹھیک کریں۔' },
+  magnifier: { name: 'Magnifier', icon: 'magnifier.png', price: 120, desc: 'Find hidden river plastic.', name_ur: 'عدسہ', desc_ur: 'دریا میں چھپا پلاسٹک ڈھونڈیں۔' },
+  tester: { name: 'Water Tester', icon: 'tester.png', price: 180, desc: 'Measure factory water pollution.', name_ur: 'پانی جانچنے کا آلہ', desc_ur: 'کارخانے کے پانی کی آلودگی ناپیں۔' },
+  scissors: { name: 'Scissors', icon: 'scissors.png', price: 75, desc: 'Cut nets and tangled plastic.', name_ur: 'قینچی', desc_ur: 'جالے اور الجھا پلاسٹک کاٹیں۔' },
+  aidkit: { name: 'Aid Kit', icon: 'aidkit.png', price: 95, desc: 'Help injured wildlife.', name_ur: 'طبی کٹ', desc_ur: 'زخمی جانوروں کی مدد کریں۔' },
+  sledge: { name: 'Sledge Hammer', icon: 'sledge.png', price: 140, desc: 'Break heavy debris.', name_ur: 'بھاری ہتھوڑا', desc_ur: 'بھاری ملبہ توڑیں۔' }
 };
 
 const BADGE_DATA = {
-  tree_saver: { name: 'Tree Saver', icon: '🌳' },
-  electricity_saver: { name: 'Electricity Saver', icon: '⚡' },
-  air_purifier: { name: 'Air Purifier', icon: '💨' },
-  recycling_master: { name: 'Recycling Master', icon: '♻️' },
-  savior: { name: 'Savior', icon: '🎖️' },
-  grid_guardian: { name: 'Grid Guardian', icon: '⚡' },
-  pollinator: { name: 'Pollinator Protector', icon: '🐝' },
-  reef_protector: { name: 'Reef Protector', icon: '🪸' }
+  tree_saver: { name: 'Tree Saver', icon: '🌳', name_ur: 'درخت بچانے والا' },
+  electricity_saver: { name: 'Electricity Saver', icon: '⚡', name_ur: 'بجلی بچانے والا' },
+  air_purifier: { name: 'Air Purifier', icon: '💨', name_ur: 'ہوا صاف کرنے والا' },
+  recycling_master: { name: 'Recycling Master', icon: '♻️', name_ur: 'ری سائیکل ماہر' },
+  savior: { name: 'Savior', icon: '🎖️', name_ur: 'نجات دہندہ' },
+  grid_guardian: { name: 'Grid Guardian', icon: '⚡', name_ur: 'گرڈ محافظ' },
+  pollinator: { name: 'Pollinator Protector', icon: '🐝', name_ur: 'پولینیٹر محافظ' },
+  reef_protector: { name: 'Reef Protector', icon: '🪸', name_ur: 'مرجان محافظ' }
 };
 
-const RANKS=[{xp:0,n:'ECO ROOKIE'},{xp:300,n:'GREEN GUARDIAN'},{xp:700,n:'PLANET PROTECTOR'},{xp:1200,n:'EARTH HERO'}];
+const RANKS=[{xp:0,n:'ECO ROOKIE',n_ur:'ماحولیاتی نئے'},{xp:300,n:'GREEN GUARDIAN',n_ur:'سبز محافظ'},{xp:700,n:'PLANET PROTECTOR',n_ur:'زمین کا محافظ'},{xp:1200,n:'EARTH HERO',n_ur:'زمین کا ہیرو'}];
 function getRank(xp){let r=RANKS[0];for(const k of RANKS)if(xp>=k.xp)r=k;return r;}
+
+/* ══════════════════════════════════════════════
+   LANGUAGE SYSTEM
+══════════════════════════════════════════════ */
+const LANG = {
+  en: {
+    ctrl: 'Move: WASD &nbsp; Action: E',
+    level: 'Level',
+    map_title: 'Map', map_key: 'Key', map_rescue: 'Rescue Animals', map_missions: 'Missions', map_locked: 'Locked Missions', map_timed: 'Timed Missions',
+    ev_title: 'Events Around You', ev_subtitle: 'Join environment events and earn free E-Rupees.', ev_plantation: 'Plantation Drive', ev_beach: 'Beach Cleaning Drive', ev_signup: 'Sign Up', ev_signedup: 'Signed Up!',
+    tab_tools: 'Tools', tab_journal: 'Journal', tab_lb: 'Leaderboard', tab_settings: 'Settings',
+    tools_yours: 'Your Tools', tools_shop: 'Tool Shop', tools_empty: 'No tools yet.', tools_buy: 'BUY',
+    j_collected: 'COLLECTED ANIMALS', j_remaining: 'REMAINING ANIMALS', j_badges: 'YOUR BADGES',
+    lb_pakistan: 'PAKISTAN', lb_lahore: 'LAHORE',
+    s_general: 'General Settings', s_vol: 'Game Volume', s_notif: 'Notifications', s_notif_vol: 'Notifications Volume',
+    s_access: 'Accessibility', s_tts: 'Text to Speech', s_size: 'Text Size', s_small: 'Small', s_medium: 'Medium', s_large: 'Large', s_color: 'Color Mode', s_off: 'Off',
+    mdo_unlock: 'Rewards', mdo_start: 'Start', mdo_locked_btn: 'Locked', mdo_tool_req: 'Tool needed:', mdo_buy_now: 'BUY', mdo_no_coins: 'LOW COINS',
+    notify_explore: 'EXPLORE TO FIND MISSIONS!', notify_done: 'MISSION ALREADY DONE!', notify_buy_tool: 'BUY REQUIRED TOOL FIRST!',
+    back_map: 'Back to Map', try_again: 'Try Again',
+    smog_title: 'SMOG ALERT!', smog_text1: 'Factory smoke is making the air dirty.', smog_text2: 'Dirty air is bad for your lungs!', smog_text3: 'Pop the smog clouds before they spread!',
+    smog_score_hint: '+10 per pop', smog_miss_hint: '-5 & 1 strike if you miss', smog_over: '(3 strikes = Game Over)', smog_start: 'PURIFY AIR',
+    smog_success_title: 'Sky Cleared!', smog_success_text: 'You cleaned the air! The town is safe.',
+    smog_fail_title: 'Too Much Smog!', smog_fail_text: 'Too much smog! Try again.',
+    smog_score_lbl: 'Score:', smog_miss_lbl: 'Missed:',
+    dg_prompt: 'Find and tap on:', dg_success_title: 'Mission Successful', dg_success_text: 'Thank you! I can go back to my family now.',
+    fc_s1_text: 'The water is dirty and fish are dying!', fc_s1_task: 'Check the river pollution', fc_s1_btn: 'TEST WATER',
+    fc_s2_what: 'What is TDS?', fc_s2_text: 'TDS shows how clean water is. High TDS from factories makes fish sick!', fc_s2_task: 'Find the TDS of Water', fc_s2_btn: 'MEASURE TDS',
+    fc_s3_title: 'WATER TEST REPORT', fc_s3_danger: 'DANGEROUS', fc_s3_safe: 'SAFE', fc_s3_level: 'TDS Level (ppm)', fc_s3_text: 'We must find where this problem is coming from.', fc_s3_warn: 'Water is very dangerous', fc_s3_btn: 'FIND THE SOURCE',
+    fc_s4_text1: 'TDS is highest here! This is the source.', fc_s4_text2: 'The factory is putting dirty water into the river.', fc_s4_btn: "LET'S FIX THIS",
+    fc_s5_title: 'CHOOSE YOUR ACTION', fc_s5_warn: 'Remember:', fc_s5_rem: 'Big problems need big solutions.',
+    fc_s5_opt1: 'SHUT DOWN FACTORY', fc_s5_opt1d: 'Stop pollution right away',
+    fc_s5_opt2: 'INSTALL TREATMENT PLANT', fc_s5_opt2d: 'Clean water + keep jobs',
+    fc_s6_title: 'Mission Failed!', fc_s6_text: "You stopped the pollution but workers lost their jobs!",
+    fc_s8_title: 'Mission Successful', fc_s8_text: 'You stopped the pollution and saved the workers\' jobs!',
+    gp_title: 'CONNECT THE PIPES',
+    bee_title: 'BEE FLIGHT!', bee_text1: 'Bees carry pollen from flower to flower so plants can grow.', bee_text2: 'Pesticide clouds can kill bees and harm nature.', bee_text3: 'Tap or press Space to fly. Go through gaps and collect flowers.', bee_start: 'START FLIGHT',
+    bee_board_pollen: 'Pollen:', bee_board_hive: 'Hive:',
+    bee_success_title: 'Hive Fed!', bee_success_text: 'You brought enough pollen home! The garden is safe.',
+    bee_fail_title: 'Flight Failed!', bee_fail_text: 'Too many pesticide clouds! Try a different path.',
+    rr_title: 'ENERGY RUSH!', rr_text1: 'The town needs clean energy. Collect clean energy and dodge coal.', rr_text2: 'Coal makes bad smoke and warms the Earth.', rr_text3: 'Arrow keys to change lanes. Space to jump. Collect clean energy. Dodge coal.', rr_start: 'START RUN',
+    rr_board_power: 'Clean Power:', rr_board_grid: 'Grid:', rr_board_time: 'Time:',
+    rr_success_title: 'Grid Upgraded!', rr_success_text: 'You powered the town with clean energy!',
+    rr_fail_title: 'Grid Overloaded!', rr_fail_text: 'Too much coal! Be faster next time.',
+    lf_title: 'WASTE SORTING MISSION', lf_text1: 'The landfill is full! Help sort the trash.', lf_text2: 'Dangerous waste like batteries can poison the land.', lf_text3: 'Sort each item into the right bin to earn points.', lf_start: 'START SORTING',
+    lf_drag: 'Drag items to the correct bins:', lf_recycle: 'Recycle', lf_dangerous: 'Dangerous', lf_general: 'General',
+    lf_success_title: 'Landfill Cleaned!', lf_success_text: 'Well done! You sorted all the waste correctly.',
+    qz_title: 'QUIZ MISSION', qz_text: 'Answer questions to help save nature!', qz_start: 'START QUIZ', qz_next: 'Next', qz_loading: 'Loading...', qz_success: 'Mission Successful!', qz_end: 'Mission Ended', qz_good: 'The environment is grateful!', qz_bad: 'Study more to save the planet!', qz_rescue: 'Rescue Mission!',
+    badge_eco: 'Eco Hero', badge_air: 'Air Purifier', badge_recycle: 'Recycling Master', badge_savior: 'Savior', badge_grid: 'Grid Guardian', badge_bee: 'Pollinator Protector', badge_tree: 'Tree Lover', badge_ice: 'Ice Guardian', badge_ocean: 'Ocean Friend', badge_reef: 'Reef Protector',
+  },
+  ur: {
+    ctrl: 'چلیں: WASD &nbsp; مشن: E',
+    level: 'درجہ',
+    map_title: 'نقشہ', map_key: 'علامات', map_rescue: 'جانور بچائیں', map_missions: 'مشن', map_locked: 'بند مشن', map_timed: 'وقت محدود مشن',
+    ev_title: 'آپ کے آس پاس کے ایونٹ', ev_subtitle: 'ماحولیاتی ایونٹ میں شامل ہوں اور ای-روپے پائیں۔', ev_plantation: 'درخت لگانے کی مہم', ev_beach: 'ساحل صفائی مہم', ev_signup: 'شامل ہوں', ev_signedup: 'شامل ہو گئے!',
+    tab_tools: 'اوزار', tab_journal: 'ڈائری', tab_lb: 'اسکور بورڈ', tab_settings: 'ترتیبات',
+    tools_yours: 'آپ کے اوزار', tools_shop: 'اوزار کی دکان', tools_empty: 'ابھی کوئی اوزار نہیں۔', tools_buy: 'خریدیں',
+    j_collected: 'جمع کیے گئے جانور', j_remaining: 'باقی جانور', j_badges: 'آپ کے بیج',
+    lb_pakistan: 'پاکستان', lb_lahore: 'لاہور',
+    s_general: 'عام ترتیبات', s_vol: 'گیم کی آواز', s_notif: 'اطلاعات', s_notif_vol: 'اطلاعات کی آواز',
+    s_access: 'رسائی کی ترتیبات', s_tts: 'تحریر سے آواز', s_size: 'حروف کا سائز', s_small: 'چھوٹا', s_medium: 'درمیانہ', s_large: 'بڑا', s_color: 'رنگ کا طریقہ', s_off: 'بند',
+    mdo_unlock: 'انعامات', mdo_start: 'شروع کریں', mdo_locked_btn: 'بند ہے', mdo_tool_req: 'مشن کے لیے ضروری اوزار:', mdo_buy_now: 'خریدیں', mdo_no_coins: 'سکے کم ہیں',
+    notify_explore: 'مشن تلاش کرنے کے لیے گھومیں!', notify_done: 'مشن پہلے ہی مکمل!', notify_buy_tool: 'پہلے ضروری اوزار خریدیں!',
+    back_map: 'نقشے پر واپس', try_again: 'دوبارہ کوشش',
+    smog_title: 'دھویں کا خطرہ!', smog_text1: 'کارخانے کا دھواں ہوا کو گندا کر رہا ہے۔', smog_text2: 'گندی ہوا پھیپھڑوں کے لیے خطرناک ہے!', smog_text3: 'دھویں کے بادلوں کو پھوڑیں!',
+    smog_score_hint: 'ہر بار +10 نمبر', smog_miss_hint: 'چھوڑنے پر -5 نمبر و 1 غلطی', smog_over: '(3 غلطیاں = گیم ختم)', smog_start: 'ہوا صاف کریں',
+    smog_success_title: 'آسمان صاف!', smog_success_text: 'آپ نے ہوا صاف کر دی! شہر محفوظ ہے۔',
+    smog_fail_title: 'بہت زیادہ دھواں!', smog_fail_text: 'بہت دھواں! دوبارہ کوشش کریں۔',
+    smog_score_lbl: 'نمبر:', smog_miss_lbl: 'غلطی:',
+    dg_prompt: 'ڈھونڈیں اور چھوئیں:', dg_success_title: 'مشن کامیاب', dg_success_text: 'شکریہ! اب میں گھر جا سکتا ہوں۔',
+    fc_s1_text: 'پانی گندا ہو گیا اور مچھلیاں مر رہی ہیں!', fc_s1_task: 'دریا کی آلودگی جانچیں', fc_s1_btn: 'پانی جانچیں',
+    fc_s2_what: 'TDS کیا ہے؟', fc_s2_text: 'TDS پانی کی صفائی بتاتا ہے۔ زیادہ TDS مچھلیوں کو بیمار کرتا ہے!', fc_s2_task: 'پانی کا TDS ناپیں', fc_s2_btn: 'TDS ناپیں',
+    fc_s3_title: 'پانی کی رپورٹ', fc_s3_danger: 'خطرناک', fc_s3_safe: 'محفوظ', fc_s3_level: 'TDS سطح (ppm)', fc_s3_text: 'ہمیں گندگی کا ذریعہ ڈھونڈنا ہے۔', fc_s3_warn: 'پانی بہت خطرناک ہے', fc_s3_btn: 'ذریعہ ڈھونڈیں',
+    fc_s4_text1: 'یہاں TDS سب سے زیادہ ہے! یہی ذریعہ ہے۔', fc_s4_text2: 'کارخانہ گندا پانی دریا میں ڈال رہا ہے۔', fc_s4_btn: 'ٹھیک کریں',
+    fc_s5_title: 'اپنا فیصلہ کریں', fc_s5_warn: 'یاد رکھیں:', fc_s5_rem: 'بڑے مسائل کا حل بڑی کوشش سے ہوتا ہے۔',
+    fc_s5_opt1: 'کارخانہ بند کریں', fc_s5_opt1d: 'فوری آلودگی روکیں',
+    fc_s5_opt2: 'پانی صاف کرنے کا پلانٹ', fc_s5_opt2d: 'صاف پانی + نوکریاں بچیں',
+    fc_s6_title: 'مشن ناکام!', fc_s6_text: 'آپ نے آلودگی روکی لیکن سب کی نوکریاں چلی گئیں!',
+    fc_s8_title: 'مشن کامیاب', fc_s8_text: 'آپ نے آلودگی روکی اور نوکریاں بھی بچا لیں!',
+    gp_title: 'پائپ جوڑیں',
+    bee_title: 'مکھی کی پرواز!', bee_text1: 'مکھیاں پھولوں میں گرد لے جاتی ہیں تاکہ پودے اگ سکیں۔', bee_text2: 'کیڑے مار بادل مکھیوں کو نقصان پہنچاتے ہیں۔', bee_text3: 'اڑنے کے لیے چھوئیں یا Space دبائیں۔ پھولوں سے گزریں اور جمع کریں۔', bee_start: 'پرواز شروع',
+    bee_board_pollen: 'گرد:', bee_board_hive: 'چھتہ:',
+    bee_success_title: 'چھتہ بھر گیا!', bee_success_text: 'آپ نے کافی گرد گھر پہنچائی! باغ محفوظ ہے۔',
+    bee_fail_title: 'پرواز ناکام!', bee_fail_text: 'بہت زیادہ دوا کے بادل! دوسرا راستہ آزمائیں۔',
+    rr_title: 'توانائی دوڑ!', rr_text1: 'شہر کو صاف توانائی چاہیے۔ صاف توانائی جمع کریں اور کوئلے سے بچیں۔', rr_text2: 'کوئلہ گندا دھواں بناتا ہے اور زمین کو گرم کرتا ہے۔', rr_text3: 'تیر والی بٹنوں سے راستہ بدلیں۔ Space سے کودیں۔ صاف توانائی جمع کریں۔', rr_start: 'دوڑ شروع',
+    rr_board_power: 'صاف توانائی:', rr_board_grid: 'گرڈ:', rr_board_time: 'وقت:',
+    rr_success_title: 'گرڈ ٹھیک ہو گیا!', rr_success_text: 'آپ نے شہر کو صاف توانائی دی!',
+    rr_fail_title: 'گرڈ بھر گیا!', rr_fail_text: 'بہت زیادہ کوئلہ! اگلی بار تیز چلیں۔',
+    lf_title: 'کچرا چھانٹنے کا مشن', lf_text1: 'کچرے کا ڈھیر بھر گیا! چھانٹنے میں مدد کریں۔', lf_text2: 'بیٹریاں جیسا خطرناک کچرا زمین کو زہرآلود کرتا ہے۔', lf_text3: 'ہر چیز کو صحیح ڈبے میں ڈالیں اور نمبر کمائیں۔', lf_start: 'چھانٹنا شروع',
+    lf_drag: 'چیزوں کو صحیح ڈبے میں ڈھکیلیں:', lf_recycle: 'ری سائیکل', lf_dangerous: 'خطرناک', lf_general: 'عام',
+    lf_success_title: 'لینڈ فل صاف!', lf_success_text: 'شاباش! آپ نے سب کچرا صحیح طریقے سے چھانٹا۔',
+    qz_title: 'سوال جواب مشن', qz_text: 'فطرت بچانے کے لیے سوالوں کے جواب دیں!', qz_start: 'مشن شروع', qz_next: 'اگلا', qz_loading: 'لوڈ ہو رہا ہے...', qz_success: 'مشن کامیاب!', qz_end: 'مشن ختم', qz_good: 'فطرت آپ کی شکرگزار ہے!', qz_bad: 'مزید پڑھیں اور دوبارہ کوشش کریں!', qz_rescue: 'بچانے کا مشن!',
+    badge_eco: 'ماحول دوست', badge_air: 'ہوا صاف کرنے والا', badge_recycle: 'ری سائیکل ماہر', badge_savior: 'نجات دہندہ', badge_grid: 'گرڈ محافظ', badge_bee: 'پولینیٹر محافظ', badge_tree: 'درخت دوست', badge_ice: 'برف محافظ', badge_ocean: 'سمندر کا دوست', badge_reef: 'مرجان محافظ',
+  }
+};
+function t(key) { return (LANG[P_lang] || LANG.en)[key] || LANG.en[key] || key; }
+
+function switchLang() {
+  P_lang = P_lang === 'en' ? 'ur' : 'en';
+  applyLang();
+}
+
+function applyLang() {
+  const isUr = P_lang === 'ur';
+  document.body.classList.toggle('ur', isUr);
+  // Update all data-t elements
+  document.querySelectorAll('[data-t]').forEach(el => {
+    const key = el.dataset.t;
+    el.innerHTML = t(key);
+    if(isUr) { el.dir = 'rtl'; } else { el.dir = ''; }
+  });
+  // Update dynamic boards
+  const sbBoard = document.getElementById('sb-score-board');
+  if(sbBoard) sbBoard.innerHTML = `${t('smog_score_lbl')} <span id="sb-score">0</span>/300 &nbsp; ${t('smog_miss_lbl')} <span id="sb-misses" style="color:#e82020">0</span>/3`;
+  const bfBoard = document.getElementById('bf-board');
+  if(bfBoard) bfBoard.innerHTML = `${t('bee_board_pollen')} <span id="bf-score">0</span>/18 &nbsp; ${t('bee_board_hive')} <span id="bf-lives">3</span>/3`;
+  const rrBoard = document.getElementById('rr-board');
+  if(rrBoard) rrBoard.innerHTML = `${t('rr_board_power')} <span id="rr-score">0</span>/30 &nbsp; ${t('rr_board_grid')} <span id="rr-flood">3</span>/3 &nbsp; ${t('rr_board_time')} <span id="rr-time">45</span>s`;
+  // Update HUD level text
+  const hrEl = document.getElementById('hr');
+  if(hrEl) { const lvl = Math.floor(P.xp/100)+1; hrEl.textContent = t('level') + ' ' + lvl; }
+  // Re-render open BP tab
+  const bpOv = document.getElementById('bp-ov');
+  if(bpOv && !bpOv.classList.contains('h')) {
+    const activeTab = document.querySelector('.bp-tab.active');
+    if(activeTab) renderBPTab(activeTab.id.replace('tab-',''));
+  }
+  // Update backpack tab labels
+  const tabLabels = {tools:'tab_tools',journal:'tab_journal',leaderboard:'tab_lb',settings:'tab_settings'};
+  Object.entries(tabLabels).forEach(([tab,key]) => {
+    const el = document.querySelector(`#tab-${tab} span`);
+    if(el) { el.textContent = t(key); if(isUr) el.dir='rtl'; }
+  });
+  // Update events overlay if visible
+  const evSignupBtns = document.querySelectorAll('.ev-signup:not(.done)');
+  evSignupBtns.forEach(btn => { btn.textContent = t('ev_signup'); });
+}
 let LB=[{name:'HAMZA',coins:280,rank:'GREEN GUARDIAN'},{name:'AMNA',coins:210,rank:'ECO ROOKIE'},{name:'BILAL',coins:155,rank:'ECO ROOKIE'}];
 
 /* ══════════════════════════════════════════════
@@ -1912,6 +2073,7 @@ function setLang(l) {
   document.getElementById('lc-tx').textContent = l==='en' ? 'Continue' : 'آگے بڑھیں';
   document.getElementById('lc-tx').style.fontFamily = l==='en' ? "'Courier New',mono" : "sans-serif";
   document.getElementById('lc-tx').style.fontSize = l==='en' ? "16px" : "20px";
+  applyLang();
 }
 
 function proceed() {
@@ -1922,7 +2084,7 @@ function proceed() {
   document.getElementById('menu').classList.remove('h');
   document.getElementById('mm').classList.remove('h');
   document.getElementById('joystick').classList.remove('h');
-  running=true; updHUD(); notify(P_lang==='en' ? 'WELCOME '+n+'!\nEXPLORE THE WORLD!' : 'خوش آمدید '+n+'!\nدنیا کو دریافت کریں!');
+  running=true; updHUD(); applyLang(); notify(P_lang==='en' ? 'WELCOME '+n+'!\nEXPLORE THE WORLD!' : 'خوش آمدید '+n+'!\nدنیا کو دریافت کریں!');
   requestAnimationFrame(loop);
 }
 
@@ -1956,8 +2118,8 @@ function updHUD(){
   document.getElementById('hc-fill').style.width=Math.min(100,(P.coins/maxCoins)*100)+'%';
   
   const lvl=Math.floor(P.xp/100)+1;
-  const rk=getRank(P.xp); P.rank=rk.n; 
-  document.getElementById('hr').textContent='Level '+(lvl);
+  const rk=getRank(P.xp); P.rank=(P_lang==='ur'&&rk.n_ur)?rk.n_ur:rk.n;
+  document.getElementById('hr').textContent=t('level')+' '+(lvl);
   const nx=RANKS.find(r=>r.xp>P.xp),prv=rk.xp,nxp=nx?nx.xp:prv+600;
   document.getElementById('hx').style.width=Math.min(100,((P.xp-prv)/(nxp-prv))*100)+'%';
 }
@@ -2073,30 +2235,30 @@ GC.addEventListener('click', e => {
 
 function showMDO(m) {
   curM = m;
-  document.getElementById('mdo-title').textContent = m.title;
-  document.getElementById('mdo-desc').textContent = m.desc.replace(/\n/g,' ');
+  document.getElementById('mdo-title').textContent = (P_lang==='ur'&&m.title_ur) ? m.title_ur : m.title;
+  document.getElementById('mdo-desc').textContent = ((P_lang==='ur'&&m.desc_ur) ? m.desc_ur : m.desc).replace(/\n/g,' ');
   document.getElementById('mdo-coins').textContent = '+'+m.coins;
   const br = '#3d2314';
   const sv = (p) => `<div style="display:flex;align-items:center;justify-content:center;width:26px;height:26px"><svg width="24" height="24" viewBox="0 0 16 16"><path fill="${br}" d="${p}"/></svg></div>`;
-  let bIcon = sv('M7 1h2v4h2v4h-2v6H7v-6H5V5h2V1z'), bText = 'Eco Hero';
+  let bIcon = sv('M7 1h2v4h2v4h-2v6H7v-6H5V5h2V1z'), bText = t('badge_eco');
   if(m.id==='smog'){
-    bIcon=sv('M12 2A10 10 0 1 0 22 12A10 10 0 0 0 12 2z'); bText='Air Purifier';
+    bIcon=sv('M12 2A10 10 0 1 0 22 12A10 10 0 0 0 12 2z'); bText=t('badge_air');
   } else if(m.id==='landfill'){
-    bIcon=sv('M6 2h4v2h2v2h-2v2H6V6H4V4h2V2zm-3 8h2v-2h2v4H3v-2zm10 0h-2v4H9v-2h4v-2z'); bText='Recycling Master';
+    bIcon=sv('M6 2h4v2h2v2h-2v2H6V6H4V4h2V2zm-3 8h2v-2h2v4H3v-2zm10 0h-2v4H9v-2h4v-2z'); bText=t('badge_recycle');
   } else if(m.id==='factory'){
-    bIcon=sv('M6 1h4v2h2v2h2v4h-2v4h-2v2H6v-2H4V9H2V5h2V3h2V1z'); bText='Savior';
+    bIcon=sv('M6 1h4v2h2v2h2v4h-2v4h-2v2H6v-2H4V9H2V5h2V3h2V1z'); bText=t('badge_savior');
   } else if(m.id==='energy'){
-    bIcon=sv('M9 1 3 9h4l-1 6 7-9H9l0-5z'); bText='Grid Guardian';
+    bIcon=sv('M9 1 3 9h4l-1 6 7-9H9l0-5z'); bText=t('badge_grid');
   } else if(m.id==='bee'){
-    bIcon=sv('M3 8h3l2-3h4l2 3h3v5h-3l-2 3H8l-2-3H3V8z'); bText='Pollinator Protector';
+    bIcon=sv('M3 8h3l2-3h4l2 3h3v5h-3l-2 3H8l-2-3H3V8z'); bText=t('badge_bee');
   } else if(m.id==='forest'){
-    bIcon=sv('M7 1h2v4h2v4h-2v6H7v-6H5V5h2V1z'); bText='Tree Lover';
+    bIcon=sv('M7 1h2v4h2v4h-2v6H7v-6H5V5h2V1z'); bText=t('badge_tree');
   } else if(m.id==='polarbear'){
-    bIcon=sv('M3 3h2v2H3V3zm4 0h2v2H7V3zm3 2h2v2h-2V5zm-8 0h2v2H2V5zm2 5h6v3H4v-3z'); bText='Ice Guardian';
+    bIcon=sv('M3 3h2v2H3V3zm4 0h2v2H7V3zm3 2h2v2h-2V5zm-8 0h2v2H2V5zm2 5h6v3H4v-3z'); bText=t('badge_ice');
   } else if(m.id==='dolphin'){
-    bIcon=sv('M7 2h2v2h2v2h2v2h-2v3H3V9h2V6h2V4z'); bText='Ocean Friend';
+    bIcon=sv('M7 2h2v2h2v2h2v2h-2v3H3V9h2V6h2V4z'); bText=t('badge_ocean');
   } else if(m.id==='coral'){
-    bIcon=sv('M6 2h4v2h2v6H4V4h2V2z'); bText='Reef Protector';
+    bIcon=sv('M6 2h4v2h2v6H4V4h2V2z'); bText=t('badge_reef');
   }
   
   document.getElementById('mdo-badge-item').innerHTML = `${bIcon} <span id="mdo-badge" style="margin-left:10px">${bText}</span>`;
@@ -2113,18 +2275,19 @@ function showMDO(m) {
   const lockBox = document.getElementById('mdo-tool-lock');
   if(!hasTools) {
     lockBox.style.display = 'block';
-    lockBox.innerHTML = `<div>Tool required to unlock this mission:</div>` + missingTools.map(tid => {
+    lockBox.innerHTML = `<div>${t('mdo_tool_req')}</div>` + missingTools.map(tid => {
       const tool = TOOL_DATA[tid] || { name: tid, icon: 'wrench.png', price: 0 };
+      const toolName = (P_lang==='ur'&&tool.name_ur) ? tool.name_ur : tool.name;
       const canBuy = P.coins >= tool.price;
       return `<div class="mdo-tool-row">
-        <img src="${tool.icon}" alt="${tool.name}">
+        <img src="${tool.icon}" alt="${toolName}">
         <div class="mdo-tool-copy">
-          <div>${tool.name}</div>
+          <div>${toolName}</div>
           <div style="display:flex;align-items:center;gap:5px;font-size:11px;margin-top:2px">
             <img src="coin.svg" alt="coin" style="width:14px;height:14px"> ${tool.price}
           </div>
         </div>
-        <button class="mdo-buy" onclick="buyToolFromMission('${tid}')" ${canBuy ? '' : 'disabled'}>${canBuy ? 'BUY NOW' : 'NO COINS'}</button>
+        <button class="mdo-buy" onclick="buyToolFromMission('${tid}')" ${canBuy ? '' : 'disabled'}>${canBuy ? t('mdo_buy_now') : t('mdo_no_coins')}</button>
       </div>`;
     }).join('');
   } else {
@@ -2137,12 +2300,12 @@ function showMDO(m) {
     startBtn.disabled = true;
     startBtn.style.opacity = 0.5;
     startBtn.style.cursor = 'not-allowed';
-    startBtn.textContent = "Locked";
+    startBtn.textContent = t('mdo_locked_btn');
   } else {
     startBtn.disabled = false;
     startBtn.style.opacity = 1;
     startBtn.style.cursor = 'pointer';
-    startBtn.textContent = "Start";
+    startBtn.textContent = t('mdo_start');
   }
 
   document.getElementById('mdo').classList.remove('h');
@@ -2157,7 +2320,7 @@ function closeMDO() {
 
 function startMFromMDO() {
   if(curM && curM.reqTools && curM.reqTools.some(tid => !hasTool(tid))){
-    notify('BUY REQUIRED TOOL FIRST!');
+    notify(t('notify_buy_tool'));
     return;
   }
   document.getElementById('mdo').classList.add('h');
@@ -2191,7 +2354,7 @@ function openMissionFromFullMap(id){
   if(!m) return;
   closeFullMap();
   if(P.done.includes(m.id)){
-    notify('MISSION ALREADY COMPLETE!');
+    notify(t('notify_done'));
     return;
   }
   showMDO(m);
@@ -2545,17 +2708,19 @@ function renderBPTab(tab) {
   if (tab === 'tools') {
     let html = `<div class="tools-layout">
       <div class="tools-col">
-        <div class="tools-col-title">Your Tools</div>`;
-    
+        <div class="tools-col-title">${t('tools_yours')}</div>`;
+
     Object.keys(TOOL_DATA).forEach(tid => {
       const tool = TOOL_DATA[tid];
       const qty = getToolQty(tid);
+      const toolName = (P_lang==='ur'&&tool.name_ur) ? tool.name_ur : tool.name;
+      const toolDesc = (P_lang==='ur'&&tool.desc_ur) ? tool.desc_ur : tool.desc;
       if (qty > 0) {
         html += `<div class="tool-card">
           <div class="tool-card-icon"><img src="${tool.icon}"></div>
           <div class="tool-card-info">
-            <div class="tool-card-name">${tool.name}</div>
-            <div style="font: bold 11px/1.3 'Courier New', mono; opacity:.85">${tool.desc}</div>
+            <div class="tool-card-name">${toolName}</div>
+            <div style="font: bold 11px/1.3 'Courier New', mono; opacity:.85">${toolDesc}</div>
           </div>
           <div class="tool-card-qty-box">
             <div class="tool-qty-pill">${qty}</div>
@@ -2564,24 +2729,26 @@ function renderBPTab(tab) {
       }
     });
     if(!Object.keys(TOOL_DATA).some(tid => getToolQty(tid) > 0)){
-      html += `<div class="bp-item-name" style="text-align:left">No tools yet.</div>`;
+      html += `<div class="bp-item-name" style="text-align:left">${t('tools_empty')}</div>`;
     }
     html += `</div>
       <div class="tools-col">
-        <div class="tools-col-title">Tool Shop</div>`;
-    
+        <div class="tools-col-title">${t('tools_shop')}</div>`;
+
     Object.keys(TOOL_DATA).forEach(tid => {
       const tool = TOOL_DATA[tid];
+      const toolName = (P_lang==='ur'&&tool.name_ur) ? tool.name_ur : tool.name;
+      const toolDesc = (P_lang==='ur'&&tool.desc_ur) ? tool.desc_ur : tool.desc;
       const canBuy = P.coins >= tool.price;
       html += `<div class="tool-card shop">
           <div class="tool-card-icon"><img src="${tool.icon}"></div>
           <div class="tool-card-info">
-            <div class="tool-card-name">${tool.name}</div>
+            <div class="tool-card-name">${toolName}</div>
             <div class="tool-card-price"><img src="coin.svg" style="width:16px;height:16px;filter:grayscale(1)"> ${tool.price}</div>
-            <div style="font: bold 11px/1.3 'Courier New', mono; opacity:.75">${tool.desc}</div>
+            <div style="font: bold 11px/1.3 'Courier New', mono; opacity:.75">${toolDesc}</div>
           </div>
           <div class="tool-card-qty-box">
-            <button class="tool-buy" onclick="buyTool('${tid}')" ${canBuy ? '' : 'disabled'}>BUY</button>
+            <button class="tool-buy" onclick="buyTool('${tid}')" ${canBuy ? '' : 'disabled'}>${t('tools_buy')}</button>
           </div>
         </div>`;
     });
@@ -2745,9 +2912,10 @@ function signUpEvent(idx, coins){
   evSignedUp[idx] = true;
   P.coins += coins;
   updHUD();
-  notify('+' + coins + ' E-RUPEES EARNED!');
+  notify('+' + coins + ' ' + t('ev_signedup'));
   const btn = document.getElementById('ev-btn-' + idx);
-  btn.textContent = 'Signed Up!';
+  btn.textContent = t('ev_signedup');
+  btn.removeAttribute('data-t');
   btn.classList.add('done');
   btn.disabled = true;
 }
