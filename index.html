@@ -384,6 +384,26 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 #rr-intro { position:absolute; inset:0; z-index:300; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.82); }
 #rr-success,#rr-fail { position:absolute; inset:0; z-index:300; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.78); }
 
+/* ── BEE FLIGHT OVERLAY ── */
+#bf-ov { position:fixed; inset:0; z-index:200; overflow:hidden; display:none; background:linear-gradient(#8ed7ff 0 58%, #8ccf5a 58% 100%); font-family:'Courier New',mono; }
+#bf-hud { position:absolute; top:15px; right:15px; display:flex; gap:15px; z-index:205; pointer-events:none; }
+#bf-back { position:absolute; top:15px; left:15px; width:56px; height:56px; background:#fff9e6; border-radius:50%; box-shadow:0 4px 8px rgba(0,0,0,.2); display:flex; align-items:center; justify-content:center; cursor:pointer; border:2px solid #5a3e1b; z-index:205; }
+#bf-field { position:absolute; inset:0; overflow:hidden; touch-action:none; }
+.bf-cloud { position:absolute; width:150px; height:52px; border-radius:50px; background:rgba(255,255,255,.72); top:18%; }
+.bf-cloud.c2 { width:220px; top:30%; right:10%; }
+#bf-bee { position:absolute; width:58px; height:46px; left:22%; top:45%; z-index:30; transform:translate(-50%,-50%) rotate(0deg); }
+#bf-bee svg { width:100%; height:100%; display:block; filter:drop-shadow(2px 4px 0 rgba(61,35,20,.22)); }
+.bf-wall { position:absolute; width:86px; left:100%; z-index:20; background:#705338; border:4px solid #3d2314; box-shadow:4px 0 0 rgba(61,35,20,.2); }
+.bf-wall.top { top:0; border-radius:0 0 10px 10px; }
+.bf-wall.bottom { bottom:0; border-radius:10px 10px 0 0; }
+.bf-wall::after { content:'☠'; position:absolute; left:50%; transform:translateX(-50%); color:#fdf4da; font:900 22px/1 'Courier New',mono; }
+.bf-wall.top::after { bottom:10px; }
+.bf-wall.bottom::after { top:10px; }
+.bf-flower { position:absolute; width:54px; height:54px; border-radius:50%; background:#ffd700; border:4px solid #3d2314; display:flex; align-items:center; justify-content:center; font-size:28px; z-index:22; transform:translate(-50%,-50%); box-shadow:3px 3px 0 rgba(61,35,20,.24); }
+#bf-board { position:absolute; top:25px; left:50%; transform:translateX(-50%); background:#fdf4da; border:4px solid #3d2314; border-radius:8px; box-shadow:0 5px 0 rgba(0,0,0,.22); padding:10px 24px; z-index:205; font:900 17px/1.2 'Courier New',mono; color:#3d2314; display:none; text-align:center; min-width:310px; }
+#bf-intro { position:absolute; inset:0; z-index:300; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.82); }
+#bf-success,#bf-fail { position:absolute; inset:0; z-index:300; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.78); }
+
 /* ── BACKPACK FULL-SCREEN PAGE ── */
 #bp-ov { background: #fdf4da; z-index: 300; display: none; flex-direction: column; overflow: hidden; }
 #bp-ov:not(.h) { display: flex; }
@@ -903,6 +923,66 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
         <div class="dg-title" id="qz-result-title">Quiz Complete!</div>
         <div class="dg-text" id="qz-result-text" style="text-align:center;">You've finished the quiz. Great job!</div>
         <button class="dg-btn" onclick="completeQuizGame()">Back to Map</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bee Flight Overlay -->
+  <div id="bf-ov">
+    <div id="bf-back" onclick="closeBeeGame(false)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#5a3e1b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+    </div>
+    <div id="bf-hud">
+      <div class="stat-pill xp" style="min-width:180px; height:42px">
+        <div class="progress-fill" style="width:100%;background:#00bfff"></div>
+        <img src="star.svg" alt="star" style="width:28px;height:28px">
+        <div class="value" id="bf-hr">+0 XP</div>
+      </div>
+      <div class="stat-pill coin" style="min-width:180px; height:42px">
+        <div class="progress-fill" style="width:100%;background:#ffd700"></div>
+        <img src="coin.svg" alt="coin" style="width:28px;height:28px">
+        <div class="value" id="bf-hc">+0</div>
+      </div>
+    </div>
+    <div id="bf-board">Pollen: <span id="bf-score">0</span>/18 &nbsp; Hive: <span id="bf-lives">3</span>/3</div>
+    <div id="bf-field">
+      <div class="bf-cloud" style="left:12%"></div>
+      <div class="bf-cloud c2"></div>
+      <div id="bf-bee">
+        <svg viewBox="0 0 80 56" aria-hidden="true">
+          <ellipse cx="42" cy="29" rx="24" ry="16" fill="#ffd43b" stroke="#3d2314" stroke-width="4"/>
+          <path stroke="#3d2314" stroke-width="5" d="M31 15v29M45 13v32M58 18v23"/>
+          <circle cx="18" cy="27" r="12" fill="#fdf4da" stroke="#3d2314" stroke-width="4"/>
+          <circle cx="15" cy="25" r="2.5" fill="#3d2314"/>
+          <ellipse cx="39" cy="12" rx="12" ry="8" fill="rgba(255,255,255,.8)" stroke="#3d2314" stroke-width="3"/>
+          <ellipse cx="55" cy="11" rx="12" ry="8" fill="rgba(255,255,255,.8)" stroke="#3d2314" stroke-width="3"/>
+          <path fill="#3d2314" d="m68 29 9-5-2 10z"/>
+        </svg>
+      </div>
+    </div>
+    <div id="bf-intro">
+      <div class="fc-dialog" style="padding:30px; border:4px solid #3d2314; background:#fdf4da; text-align:center; max-width:540px;">
+        <div class="lg-title" style="color:#e09030; font-size:24px; margin-bottom:15px;">BEE FLIGHT!</div>
+        <div class="sm-text" style="margin-bottom:22px; line-height:1.5;">
+          Bees carry pollen between flowers so fruit, crops, and forests can grow.<br><br>
+          <b style="color:#e82020">Pesticide clouds can poison pollinators and weaken ecosystems.</b><br><br>
+          Tap, click, Space, or swipe up to flap. Fly through gaps and collect flowers.
+        </div>
+        <button class="fc-btn" onclick="startBeeGameLoop()">&#9654; START FLIGHT</button>
+      </div>
+    </div>
+    <div id="bf-success">
+      <div class="dg-card">
+        <div class="dg-title">Hive Fed!</div>
+        <div class="dg-text" style="text-align:center;">You carried enough pollen home and kept the garden alive.</div>
+        <button class="dg-btn" onclick="closeBeeGame(true)">Back to Map</button>
+      </div>
+    </div>
+    <div id="bf-fail">
+      <div class="dg-card" style="border-color:#e82020;">
+        <div class="dg-title" style="color:#e82020;">Flight Failed!</div>
+        <div class="dg-text" style="text-align:center;">The pesticide clouds overwhelmed the bee. Try a cleaner flight path.</div>
+        <button class="fc-btn red" onclick="closeBeeGame(false)">Try Again</button>
       </div>
     </div>
   </div>
@@ -1628,6 +1708,8 @@ const MISSIONS=[
   ]},
   {id:'energy',title:'ENERGY RUSH',desc:'Dodge coal sludge\nand collect clean power!',
    icon:'⚡',tx:820,ty:610,tw:130,th:120,type:'runner',coins:75,xp:150,color:'#ffd700'},
+  {id:'bee',title:'BEE FLIGHT',desc:'Flap through pesticide clouds\nand collect pollen!',
+   icon:'🐝',tx:470,ty:520,tw:90,th:90,type:'flappy',coins:60,xp:120,color:'#e09030'},
   {id:'landfill',title:'CLEAN THE LANDFILL',desc:'Sort the waste\ninto correct bins!',
    icon:'🗑️',tx:1300,ty:1050,tw:180,th:200,type:'sorting',coins:70,xp:140,color:'#b09050'},
   {id:'factory',title:'FIX THE FACTORY LEAK',desc:'Connect pipes to\nseal the toxic leak!',
@@ -1676,6 +1758,7 @@ const BADGE_DATA = {
   recycling_master: { name: 'Recycling Master', icon: '♻️' },
   savior: { name: 'Savior', icon: '🎖️' },
   grid_guardian: { name: 'Grid Guardian', icon: '⚡' },
+  pollinator: { name: 'Pollinator Protector', icon: '🐝' },
   reef_protector: { name: 'Reef Protector', icon: '🪸' }
 };
 
@@ -1929,6 +2012,8 @@ function showMDO(m) {
     bIcon=sv('M6 1h4v2h2v2h2v4h-2v4h-2v2H6v-2H4V9H2V5h2V3h2V1z'); bText='Savior';
   } else if(m.id==='energy'){
     bIcon=sv('M9 1 3 9h4l-1 6 7-9H9l0-5z'); bText='Grid Guardian';
+  } else if(m.id==='bee'){
+    bIcon=sv('M3 8h3l2-3h4l2 3h3v5h-3l-2 3H8l-2-3H3V8z'); bText='Pollinator Protector';
   } else if(m.id==='forest'){
     bIcon=sv('M7 1h2v4h2v4h-2v6H7v-6H5V5h2V1z'); bText='Tree Lover';
   } else if(m.id==='polarbear'){
@@ -2178,6 +2263,8 @@ function startM(){
     startSmogGame(m);
   } else if(m.id === 'energy'){
     startRiverGame(m);
+  } else if(m.id === 'bee'){
+    startBeeGame(m);
   } else if(m.id === 'landfill'){
     startLandfillGame(m);
   } else if(m.type === 'quiz'){
@@ -2191,7 +2278,7 @@ function startM(){
 }
 
 function restoreWorldUI(){
-  ['sb-ov','dg-ov','fc-ov','fc-pipes','rr-ov','lf-ov','qz-ov'].forEach(id=>{
+  ['sb-ov','dg-ov','fc-ov','fc-pipes','rr-ov','bf-ov','lf-ov','qz-ov'].forEach(id=>{
     const el=document.getElementById(id);
     if(el) el.style.display='none';
   });
@@ -2226,7 +2313,7 @@ function isOverlayVisible(id){
 
 function reconcileWorldChrome(){
   if(!running) return;
-  const blockingIds=['ss','lang','mdo','mo','bp-ov','map-ov','sb-ov','dg-ov','fc-ov','fc-pipes','rr-ov','lf-ov','qz-ov'];
+  const blockingIds=['ss','lang','mdo','mo','bp-ov','map-ov','sb-ov','dg-ov','fc-ov','fc-pipes','rr-ov','bf-ov','lf-ov','qz-ov'];
   if(blockingIds.some(isOverlayVisible)) return;
   const menu=document.getElementById('menu');
   const hud=document.getElementById('hud');
@@ -2256,7 +2343,7 @@ function closeM(coins,xp,ok){
         if(bid && !P.badges.includes(bid)) P.badges.push(bid);
       } else {
         // Default mission-to-badge mapping from showMDO logic if no specific badge set
-        const m2b = {smog:'air_purifier', landfill:'recycling_master', factory:'savior', energy:'grid_guardian', forest:'tree_saver', polarbear:'savior', dolphin:'savior'};
+        const m2b = {smog:'air_purifier', landfill:'recycling_master', factory:'savior', energy:'grid_guardian', bee:'pollinator', forest:'tree_saver', polarbear:'savior', dolphin:'savior'};
         const bid = m2b[completedMission.id];
         if(bid && !P.badges.includes(bid)) P.badges.push(bid);
       }
@@ -2967,6 +3054,173 @@ function closeRiverGame(success){
   document.getElementById('rr-ov').style.display = 'none';
   const ratio = Math.min(1, rrScore / rrTarget);
   closeM(success ? Math.floor(rrMaxCoins * ratio) : 0, success ? Math.floor(rrMaxXp * ratio) : 0, success);
+}
+
+/* ══════════════════════════════════════════════
+   BEE FLIGHT MISSION LOGIC
+══════════════════════════════════════════════ */
+let bfScore = 0, bfLives = 3, bfY = 0, bfVy = 0, bfActive = false, bfLastFrame = 0;
+let bfMaxCoins = 0, bfMaxXp = 0, bfTarget = 18, bfObstacles = [], bfTimers = [];
+
+function updateBeeHUD(){
+  const ratio = Math.min(1, bfScore / bfTarget);
+  document.getElementById('bf-score').textContent = bfScore;
+  document.getElementById('bf-lives').textContent = bfLives;
+  document.getElementById('bf-hc').textContent = '+' + Math.floor(bfMaxCoins * ratio);
+  document.getElementById('bf-hr').textContent = '+' + Math.floor(bfMaxXp * ratio) + ' XP';
+}
+
+function startBeeGame(m){
+  bfScore = 0; bfLives = 3; bfVy = 0; bfActive = false; bfLastFrame = 0; bfObstacles = [];
+  bfMaxCoins = m.coins; bfMaxXp = m.xp;
+  const field = document.getElementById('bf-field');
+  field.querySelectorAll('.bf-wall,.bf-flower').forEach(el => el.remove());
+  document.getElementById('mdo').classList.add('h');
+  document.getElementById('menu').classList.add('h');
+  document.getElementById('hud').classList.add('h');
+  document.getElementById('joystick').classList.add('h');
+  document.getElementById('bf-ov').style.display = 'block';
+  document.getElementById('bf-intro').style.display = 'flex';
+  document.getElementById('bf-success').style.display = 'none';
+  document.getElementById('bf-fail').style.display = 'none';
+  document.getElementById('bf-board').style.display = 'none';
+  bfY = window.innerHeight * .45;
+  setBeePos();
+  updateBeeHUD();
+}
+
+function startBeeGameLoop(){
+  document.getElementById('bf-intro').style.display = 'none';
+  document.getElementById('bf-board').style.display = 'block';
+  bfActive = true;
+  window.addEventListener('keydown', handleBeeKey);
+  document.getElementById('bf-field').onpointerdown = flapBee;
+  spawnBeeObstacleLoop();
+  requestAnimationFrame(runBeeFrame);
+}
+
+function handleBeeKey(e){
+  if(!bfActive) return;
+  if(e.key === ' ' || e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
+    e.preventDefault();
+    flapBee();
+  }
+}
+
+function flapBee(){
+  if(!bfActive) return;
+  bfVy = -430;
+}
+
+function setBeePos(){
+  const bee = document.getElementById('bf-bee');
+  bee.style.top = bfY + 'px';
+  bee.style.transform = `translate(-50%,-50%) rotate(${Math.max(-24, Math.min(28, bfVy / 18))}deg)`;
+}
+
+function spawnBeeObstacleLoop(){
+  if(!bfActive) return;
+  spawnBeeObstacle();
+  const progress = Math.min(1, bfScore / bfTarget);
+  bfTimers.push(setTimeout(spawnBeeObstacleLoop, 1250 - progress * 330));
+}
+
+function spawnBeeObstacle(){
+  const field = document.getElementById('bf-field');
+  const h = window.innerHeight;
+  const gap = Math.max(180, 250 - Math.min(1, bfScore / bfTarget) * 55);
+  const center = 160 + Math.random() * (h - 330);
+  const topH = Math.max(40, center - gap / 2);
+  const bottomTop = center + gap / 2;
+  const top = document.createElement('div');
+  const bottom = document.createElement('div');
+  const flower = document.createElement('div');
+  top.className = 'bf-wall top';
+  bottom.className = 'bf-wall bottom';
+  flower.className = 'bf-flower';
+  flower.textContent = '✿';
+  top.style.height = topH + 'px';
+  bottom.style.top = bottomTop + 'px';
+  bottom.style.height = (h - bottomTop) + 'px';
+  flower.style.left = 'calc(100% + 43px)';
+  flower.style.top = center + 'px';
+  field.appendChild(top); field.appendChild(bottom); field.appendChild(flower);
+  bfObstacles.push({x: window.innerWidth + 80, top, bottom, flower, flowerHit:false, scored:false});
+}
+
+function beeRect(){
+  return shrinkRect(document.getElementById('bf-bee').getBoundingClientRect(), 9, 8);
+}
+
+function runBeeFrame(ts){
+  if(!bfActive) return;
+  const dt = bfLastFrame ? Math.min(42, ts - bfLastFrame) / 1000 : .016;
+  bfLastFrame = ts;
+  bfVy += 1120 * dt;
+  bfY += bfVy * dt;
+  setBeePos();
+  const bee = beeRect();
+  if(bfY < 20 || bfY > window.innerHeight - 24) {
+    damageBee();
+  }
+  const progress = Math.min(1, bfScore / bfTarget);
+  const speed = 285 + progress * 110;
+  for(const ob of [...bfObstacles]){
+    ob.x -= speed * dt;
+    ob.top.style.left = ob.x + 'px';
+    ob.bottom.style.left = ob.x + 'px';
+    ob.flower.style.left = (ob.x + 43) + 'px';
+    if(!ob.flowerHit && rectsOverlap(bee, shrinkRect(ob.flower.getBoundingClientRect(), 8, 8))){
+      ob.flowerHit = true;
+      bfScore++;
+      ob.flower.remove();
+      updateBeeHUD();
+      if(bfScore >= bfTarget){ finishBeeGame(true); return; }
+    }
+    if(rectsOverlap(bee, shrinkRect(ob.top.getBoundingClientRect(), 8, 0)) || rectsOverlap(bee, shrinkRect(ob.bottom.getBoundingClientRect(), 8, 0))){
+      damageBee(ob);
+    }
+    if(ob.x < -120){
+      ob.top.remove(); ob.bottom.remove(); if(ob.flower.isConnected) ob.flower.remove();
+      bfObstacles = bfObstacles.filter(o => o !== ob);
+    }
+  }
+  requestAnimationFrame(runBeeFrame);
+}
+
+function damageBee(ob){
+  if(!bfActive) return;
+  bfLives--;
+  updateBeeHUD();
+  if(ob){
+    ob.top.remove(); ob.bottom.remove(); if(ob.flower.isConnected) ob.flower.remove();
+    bfObstacles = bfObstacles.filter(o => o !== ob);
+  }
+  bfY = Math.max(80, Math.min(window.innerHeight - 100, bfY));
+  bfVy = -250;
+  if(bfLives <= 0) finishBeeGame(false);
+}
+
+function finishBeeGame(success){
+  bfActive = false;
+  bfTimers.forEach(clearTimeout);
+  bfTimers = [];
+  window.removeEventListener('keydown', handleBeeKey);
+  document.getElementById('bf-field').onpointerdown = null;
+  document.getElementById(success ? 'bf-success' : 'bf-fail').style.display = 'flex';
+}
+
+function closeBeeGame(success){
+  bfActive = false;
+  bfTimers.forEach(clearTimeout);
+  bfTimers = [];
+  window.removeEventListener('keydown', handleBeeKey);
+  document.getElementById('bf-field').onpointerdown = null;
+  bfObstacles.forEach(ob => { ob.top.remove(); ob.bottom.remove(); if(ob.flower.isConnected) ob.flower.remove(); });
+  bfObstacles = [];
+  document.getElementById('bf-ov').style.display = 'none';
+  const ratio = Math.min(1, bfScore / bfTarget);
+  closeM(success ? Math.floor(bfMaxCoins * ratio) : 0, success ? Math.floor(bfMaxXp * ratio) : 0, success);
 }
 
 /* ══════════════════════════════════════════════
