@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Enviromon — Save the Planet</title>
+<title>Enviromon</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:none}
@@ -3021,7 +3021,7 @@ function renderFullMap(){
     const btn=document.createElement('button');
     btn.className='map-hit';
     btn.type='button';
-    const mTitle = (isUr && m.title_ur) ? m.title_ur : m.title;
+    const mTitle = (P_lang === 'ur' && m.title_ur) ? m.title_ur : m.title;
     btn.title=mTitle;
     btn.style.left=(x/WW*100)+'%';
     btn.style.top=(y/WH*100)+'%';
