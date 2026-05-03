@@ -183,9 +183,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
 }
 
 /* ── VIRTUAL JOYSTICK ── */
-#joystick{position:fixed;bottom:40px;right:40px;width:120px;height:120px;background:rgba(200,200,200,.3);border-radius:50%;z-index:50;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;backdrop-filter:blur(2px)}
+#joystick{position:fixed;bottom:40px;right:40px;width:120px;height:120px;background:rgba(200,200,200,.3);border-radius:50%;z-index:50;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;backdrop-filter:blur(2px);transition:opacity .15s ease}
 #stick{position:absolute;top:30px;left:30px;width:60px;height:60px;background:rgba(220,220,220,0.8);border-radius:50%;pointer-events:none;transition:transform 0.1s ease-out;}
 #joystick.active #stick{transition:none;}
+#joystick.floating{opacity:.78}
 
 /* ── SMOG BUSTER OVERLAY ── */
 #sb-ov { position: fixed; inset: 0; background: linear-gradient(to bottom, #87CEEB, #e0f6ff); z-index: 200; overflow: hidden; display: none; }
@@ -2590,14 +2591,74 @@ window.addEventListener('keyup',e=>K[e.key]=false);
 // Virtual Joystick touch controls
 let joyActive = false, joyDX = 0, joyDY = 0;
 let joyRect = null;
+let joyPointerId = null;
 window.addEventListener('DOMContentLoaded', () => {
   const joyEl = document.getElementById('joystick');
   const stickEl = document.getElementById('stick');
+  const defaultJoyPos = {
+    left: joyEl.style.left,
+    top: joyEl.style.top,
+    right: joyEl.style.right,
+    bottom: joyEl.style.bottom
+  };
+
+  function isFloatingJoyAllowed(e) {
+    if(!running || mActive) return false;
+    if(e.button !== undefined && e.button !== 0) return false;
+    if(joyEl.classList.contains('h') || getComputedStyle(joyEl).display === 'none') return false;
+    if(e.target.closest('#joystick,button,.menu-btn,#menu,#hud,#mm,#ntf,#map-ov,.ov,#mdo,#bp-ov,#fr-ov')) return false;
+    return true;
+  }
+
+  function positionJoyAt(x, y) {
+    const size = joyEl.offsetWidth || 120;
+    const margin = 8;
+    const left = Math.max(margin, Math.min(window.innerWidth - size - margin, x - size / 2));
+    const top = Math.max(margin, Math.min(window.innerHeight - size - margin, y - size / 2));
+    joyEl.style.left = left + 'px';
+    joyEl.style.top = top + 'px';
+    joyEl.style.right = 'auto';
+    joyEl.style.bottom = 'auto';
+    joyRect = joyEl.getBoundingClientRect();
+  }
+
+  function startJoy(e, floating=false) {
+    joyActive = true;
+    joyPointerId = e.pointerId;
+    if(floating) {
+      positionJoyAt(e.clientX, e.clientY);
+      joyEl.classList.add('floating');
+    } else {
+      joyRect = joyEl.getBoundingClientRect();
+      joyEl.classList.remove('floating');
+    }
+    joyEl.classList.add('active');
+    joyDX = 0;
+    joyDY = 0;
+    stickEl.style.transform = `translate(0px, 0px)`;
+  }
+
+  function stopJoy() {
+    joyActive = false;
+    joyPointerId = null;
+    joyDX = 0;
+    joyDY = 0;
+    joyEl.classList.remove('active', 'floating');
+    stickEl.style.transform = `translate(0px, 0px)`;
+    if(!joyEl.classList.contains('h')) {
+      joyEl.style.left = defaultJoyPos.left;
+      joyEl.style.top = defaultJoyPos.top;
+      joyEl.style.right = defaultJoyPos.right;
+      joyEl.style.bottom = defaultJoyPos.bottom;
+    }
+  }
+
   function handleJoy(e) {
     if(!joyActive) return;
+    if(joyPointerId !== null && e.pointerId !== undefined && e.pointerId !== joyPointerId) return;
     e.preventDefault();
-    const cx = e.touches ? e.touches[0].clientX : e.clientX;
-    const cy = e.touches ? e.touches[0].clientY : e.clientY;
+    const cx = e.clientX;
+    const cy = e.clientY;
     let dx = cx - (joyRect.left + joyRect.width/2);
     let dy = cy - (joyRect.top + joyRect.height/2);
     const maxR = joyRect.width/2;
@@ -2607,17 +2668,18 @@ window.addEventListener('DOMContentLoaded', () => {
     stickEl.style.transform = `translate(${dx}px, ${dy}px)`;
   }
   joyEl.addEventListener('pointerdown', (e) => {
-    joyActive = true; joyRect = joyEl.getBoundingClientRect();
-    joyEl.classList.add('active'); handleJoy(e);
+    e.stopPropagation();
+    startJoy(e, false);
   });
+  window.addEventListener('pointerdown', (e) => {
+    if(isFloatingJoyAllowed(e)) startJoy(e, true);
+  }, {passive:false});
   window.addEventListener('pointermove', handleJoy, {passive:false});
-  window.addEventListener('pointerup', () => {
-    joyActive = false; joyDX = 0; joyDY = 0;
-    joyEl.classList.remove('active'); stickEl.style.transform = `translate(0px, 0px)`;
+  window.addEventListener('pointerup', (e) => {
+    if(joyPointerId === null || e.pointerId === joyPointerId) stopJoy();
   });
-  window.addEventListener('pointercancel', () => {
-    joyActive = false; joyDX = 0; joyDY = 0;
-    joyEl.classList.remove('active'); stickEl.style.transform = `translate(0px, 0px)`;
+  window.addEventListener('pointercancel', (e) => {
+    if(joyPointerId === null || e.pointerId === joyPointerId) stopJoy();
   });
 });
 
