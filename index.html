@@ -1270,14 +1270,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
       </div>
     </div>
 
-    <div id="dg-success" style="position: absolute; inset: 0; background: #3584a7; z-index: 210; display: none; align-items: center; justify-content: center; flex-direction: row; gap: 40px; padding: 40px;">
-      <div class="dg-card" style="z-index:10; flex-shrink: 0;">
+    <div id="dg-success" style="position: absolute; inset: 0; background: #3584a7; z-index: 210; display: none; align-items: center; justify-content: center; flex-wrap: wrap; gap: 40px; padding: 40px; overflow-y: auto;">
+      <div class="dg-card" style="z-index:10; max-width: 100%;">
         <div class="dg-card-tail"></div><div class="dg-card-tail-inner"></div>
         <div class="dg-title" data-t="dg_success_title">Mission Successful</div>
         <div class="dg-text" data-t="dg_success_text">Thank you! I can go back to my family now.</div>
         <button class="dg-btn" onclick="closeDolphinGame(true)" data-t="back_map">Back to Map</button>
       </div>
-      <img src="dolphin.png" style="z-index:10; max-height: 80%; width: auto; object-fit: contain; flex-shrink: 1;">
+      <img src="dolphin.png" style="z-index:10; max-height: 60vh; max-width: 100%; width: auto; object-fit: contain;">
     </div>
   </div>
 
