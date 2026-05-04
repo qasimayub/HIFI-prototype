@@ -1011,6 +1011,40 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;touch-action:no
   .dg-title { margin-bottom: 12px; }
   .dg-text { margin-bottom: 16px; }
 }
+
+  /* Hand Animations */
+  .hand-guide {
+    position: absolute;
+    font-size: 40px;
+    z-index: 999;
+    pointer-events: none;
+    user-select: none;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+  }
+  @keyframes hand-tap {
+    0%, 100% { transform: scale(1) translate(-50%, -50%); }
+    50% { transform: scale(0.8) translate(-50%, -50%); }
+  }
+  @keyframes hand-swipe-left {
+    0%, 100% { transform: translate(-50%, -50%); opacity: 0; }
+    20%, 80% { opacity: 1; }
+    80% { transform: translate(calc(-50% - 60px), -50%); }
+  }
+  @keyframes hand-swipe-right {
+    0%, 100% { transform: translate(-50%, -50%); opacity: 0; }
+    20%, 80% { opacity: 1; }
+    80% { transform: translate(calc(-50% + 60px), -50%); }
+  }
+  @keyframes hand-swipe-up {
+    0%, 100% { transform: translate(-50%, -50%); opacity: 0; }
+    20%, 80% { opacity: 1; }
+    80% { transform: translate(-50%, calc(-50% - 60px)); }
+  }
+  @keyframes hand-drag {
+    0%, 100% { transform: translate(-50%, -50%); opacity: 0; }
+    20%, 80% { opacity: 1; }
+    80% { transform: translate(-50%, calc(-50% + 60px)); }
+  }
 </style>
 </head>
 <body>
@@ -2857,7 +2891,7 @@ function updateCam(){
 /* ══════════════════════════════════════════════
    MISSION CLICK HANDLER
 ══════════════════════════════════════════════ */
-GC.addEventListener('click', e => {
+GC.addEventListener('pointerdown', e => {
   if (mActive || !document.getElementById('mdo').classList.contains('h')) return;
   const rect = GC.getBoundingClientRect();
   const clickX = (e.clientX - rect.left) / (rect.width/VW) + cam.x;
@@ -2868,6 +2902,7 @@ GC.addEventListener('click', e => {
     const px = m.tx + m.tw/2;
     const py = m.ty;
     if(Math.hypot(clickX - px, clickY - py) < 50) {
+      e.stopPropagation();
       showMDO(m);
       break;
     }
@@ -3823,11 +3858,51 @@ function startRiverGame(m){
   updateRiverHUD();
 }
 
+window.rrTutorialStep = 0;
+window.rrTutorialTimer = null;
+
+function progressRiverTutorial() {
+  if (!rrActive) return;
+  clearTimeout(window.rrTutorialTimer);
+  
+  const field = document.getElementById('rr-field');
+  let hand = document.getElementById('rr-hand-guide');
+  
+  if (window.rrTutorialStep > 2) {
+    if (hand) hand.remove();
+    spawnRiverObjectLoop();
+    return;
+  }
+  
+  if (!hand) {
+    hand = document.createElement('div');
+    hand.id = 'rr-hand-guide';
+    hand.className = 'hand-guide';
+    hand.innerHTML = '<svg viewBox="0 0 50 50" width="60" height="60" style="filter: drop-shadow(0 3px 5px rgba(0,0,0,0.3)); transform: rotate(-15deg);"><path fill="rgba(255, 255, 255, 0.65)" stroke="rgba(0,0,0,0.5)" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="M16 22C16 20.343 14.657 19 13 19C11.343 19 10 20.343 10 22V32C10 40.284 16.716 47 25 47C33.284 47 40 40.284 40 32V25C40 23.343 38.657 22 37 22C35.343 22 34 23.343 34 25V23C34 21.343 32.657 20 31 20C29.343 20 28 21.343 28 23V21C28 19.343 26.657 18 25 18C23.343 18 22 19.343 22 21V6C22 4.343 20.657 3 19 3C17.343 3 16 4.343 16 6V31V22V22Z"/></svg>';
+    hand.style.left = '50%';
+    hand.style.top = '60%';
+    field.appendChild(hand);
+  }
+  
+  if (window.rrTutorialStep === 0) hand.style.animation = 'hand-swipe-left 1.5s infinite';
+  else if (window.rrTutorialStep === 1) hand.style.animation = 'hand-swipe-right 1.5s infinite';
+  else if (window.rrTutorialStep === 2) hand.style.animation = 'hand-swipe-up 1.5s infinite';
+  
+  window.rrTutorialTimer = setTimeout(() => {
+    window.rrTutorialStep++;
+    progressRiverTutorial();
+  }, 5000);
+}
+
 function startRiverGameLoop(){
   document.getElementById('rr-intro').style.display = 'none';
   document.getElementById('rr-board').style.display = 'block';
   document.getElementById('rr-waterbar').style.display = 'block';
   rrActive = true;
+  
+  window.rrTutorialStep = 0;
+  progressRiverTutorial();
+
   window.addEventListener('keydown', handleRiverKey);
   const tick = setInterval(() => {
     if(!rrActive) return;
@@ -3839,13 +3914,21 @@ function startRiverGameLoop(){
     }
   }, 1000);
   rrTimers.push(tick);
-  spawnRiverObjectLoop();
+  
+
+
   requestAnimationFrame(runRiverFrame);
 }
 
 function moveRiverPlayer(lane){
   const nextLane = Math.max(0, Math.min(2, lane));
-  if(nextLane !== rrLane) playSfx('tap');
+  if(nextLane !== rrLane) {
+    playSfx('tap');
+    if (window.rrTutorialStep < 2) {
+      window.rrTutorialStep++;
+      progressRiverTutorial();
+    }
+  }
   rrLane = nextLane;
   const player = document.getElementById('rr-player');
   if(player) player.style.left = ((rrLane + .5) / 3 * 100) + '%';
@@ -3868,6 +3951,10 @@ function handleRiverKey(e){
 
 function jumpRiverPlayer(){
   if(!rrActive || rrJumping) return;
+  if (window.rrTutorialStep === 2) {
+    window.rrTutorialStep++;
+    progressRiverTutorial();
+  }
   const player = document.getElementById('rr-player');
   rrJumping = true;
   rrJumpStart = performance.now();
@@ -4016,6 +4103,7 @@ function finishRiverGame(success){
 
 function closeRiverGame(success){
   rrActive = false;
+  clearTimeout(window.rrTutorialTimer);
   rrJumping = false;
   setRiverJumpVisual(0);
   const closePlayer = document.getElementById('rr-player');
@@ -4064,14 +4152,24 @@ function startBeeGame(m){
   updateBeeHUD();
 }
 
+let bfWaitingForTap = false;
 function startBeeGameLoop(){
   document.getElementById('bf-intro').style.display = 'none';
   document.getElementById('bf-board').style.display = 'block';
   bfActive = true;
+  bfWaitingForTap = true;
+  
+  const hand = document.createElement('div');
+  hand.id = 'bf-hand-guide';
+  hand.className = 'hand-guide';
+  hand.innerHTML = '<svg viewBox="0 0 50 50" width="60" height="60" style="filter: drop-shadow(0 3px 5px rgba(0,0,0,0.3)); transform: rotate(-15deg);"><path fill="rgba(255, 255, 255, 0.65)" stroke="rgba(0,0,0,0.5)" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="M16 22C16 20.343 14.657 19 13 19C11.343 19 10 20.343 10 22V32C10 40.284 16.716 47 25 47C33.284 47 40 40.284 40 32V25C40 23.343 38.657 22 37 22C35.343 22 34 23.343 34 25V23C34 21.343 32.657 20 31 20C29.343 20 28 21.343 28 23V21C28 19.343 26.657 18 25 18C23.343 18 22 19.343 22 21V6C22 4.343 20.657 3 19 3C17.343 3 16 4.343 16 6V31V22V22Z"/></svg>';
+  hand.style.left = '50%';
+  hand.style.top = '50%';
+  hand.style.animation = 'hand-tap 1s infinite';
+  document.getElementById('bf-field').appendChild(hand);
+
   window.addEventListener('keydown', handleBeeKey);
   document.getElementById('bf-field').onpointerdown = flapBee;
-  spawnBeeObstacleLoop();
-  requestAnimationFrame(runBeeFrame);
 }
 
 function handleBeeKey(e){
@@ -4084,6 +4182,13 @@ function handleBeeKey(e){
 
 function flapBee(){
   if(!bfActive) return;
+  if(bfWaitingForTap) {
+    bfWaitingForTap = false;
+    const hand = document.getElementById('bf-hand-guide');
+    if(hand) hand.remove();
+    spawnBeeObstacleLoop();
+    requestAnimationFrame(runBeeFrame);
+  }
   bfVy = -430;
   playSfx('flap');
 }
@@ -4382,7 +4487,9 @@ function startGlassPipes() {
   const path = [[0,0,'│'],[1,0,'└'],[1,1,'─'],[1,2,'─'],[1,3,'┐'],[2,3,'│'],[3,3,'└'],[3,4,'─'],[3,5,'┐'],[4,5,'└'],[4,6,'┐']];
   for (let pt of path) puz[pt[0]][pt[1]] = pt[2];
   
-  window.fcGP = puz.map(row => row.map(p => {
+  window.fcWaitingForTap = true;
+  window.fcGP = puz.map((row, r) => row.map((p, c) => {
+    if (r === 0 && c === 0) return '─';
     if (p === '─' || p === '│') return Math.random() < 0.5 ? '─' : '│';
     const corners = ['└', '┌', '┐', '┘'];
     if (corners.includes(p)) return corners[Math.floor(Math.random() * 4)];
@@ -4433,6 +4540,7 @@ function startGlassPipes() {
         let extra = '';
         if(isSource) extra += `<div class="gp-source-pipe"></div>`;
         if(isDrain) extra += `<div class="gp-drain-pipe"></div>`;
+        if(isSource && window.fcWaitingForTap) extra += `<div id="fc-hand-guide" class="hand-guide" style="animation: hand-tap 1s infinite; left: 50%; top: 50%; transform: translate(-50%, -50%);"><svg viewBox="0 0 50 50" width="60" height="60" style="filter: drop-shadow(0 3px 5px rgba(0,0,0,0.3)); transform: rotate(-15deg);"><path fill="rgba(255, 255, 255, 0.65)" stroke="rgba(0,0,0,0.5)" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="M16 22C16 20.343 14.657 19 13 19C11.343 19 10 20.343 10 22V32C10 40.284 16.716 47 25 47C33.284 47 40 40.284 40 32V25C40 23.343 38.657 22 37 22C35.343 22 34 23.343 34 25V23C34 21.343 32.657 20 31 20C29.343 20 28 21.343 28 23V21C28 19.343 26.657 18 25 18C23.343 18 22 19.343 22 21V6C22 4.343 20.657 3 19 3C17.343 3 16 4.343 16 6V31V22V22Z"/></svg></div>`;
         
         html += `<div class="${cls}" onclick="rotGP(${r},${c})">
            <div class="gp-pipe gp-p-${t}${t==='C'?'-NE':'-E'}" style="transform:rotate(${rot}deg)">${inner}</div>
@@ -4457,6 +4565,7 @@ function startGlassPipes() {
 
   window.rotGP = function(r,c) {
     if(window.fcGP_solv) return;
+    if(window.fcWaitingForTap) window.fcWaitingForTap = false;
     const p = window.fcGP[r][c];
     let nextP = p;
     if(p === '─') nextP = '│';
@@ -4525,7 +4634,7 @@ function startLandfillLogic() {
 function renderLandfillItems() {
   const row = document.getElementById('lf-items-row');
   row.innerHTML = '';
-  LF_ITEMS.forEach(it => {
+  LF_ITEMS.forEach((it, idx) => {
     const el = document.createElement('div');
     el.className = 'lf-item';
     el.id = 'lf-item-' + it.id;
@@ -4533,15 +4642,32 @@ function renderLandfillItems() {
     const itemName = (P_lang === 'ur' && it.name_ur) ? it.name_ur : it.name;
     el.innerHTML = `<div class="lf-item-icon">${it.icon}</div><div class="lf-item-label">${itemName}</div>`;
     row.appendChild(el);
-    initLFDrag(el, it);
+    initLFDrag(el, it, idx === 0);
   });
 }
 
-function initLFDrag(el, it) {
+function initLFDrag(el, it, isFirst=false) {
   let ghost = null, startX, startY;
   
+  if(isFirst) {
+    const hand = document.createElement('div');
+    hand.id = 'lf-hand-guide';
+    hand.className = 'hand-guide';
+    hand.innerHTML = '<svg viewBox="0 0 50 50" width="60" height="60" style="filter: drop-shadow(0 3px 5px rgba(0,0,0,0.3)); transform: rotate(-15deg);"><path fill="rgba(255, 255, 255, 0.65)" stroke="rgba(0,0,0,0.5)" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="M16 22C16 20.343 14.657 19 13 19C11.343 19 10 20.343 10 22V32C10 40.284 16.716 47 25 47C33.284 47 40 40.284 40 32V25C40 23.343 38.657 22 37 22C35.343 22 34 23.343 34 25V23C34 21.343 32.657 20 31 20C29.343 20 28 21.343 28 23V21C28 19.343 26.657 18 25 18C23.343 18 22 19.343 22 21V6C22 4.343 20.657 3 19 3C17.343 3 16 4.343 16 6V31V22V22Z"/></svg>';
+    hand.style.left = '50%';
+    hand.style.top = '50%';
+    hand.style.transform = 'translate(-50%, -50%)';
+    hand.style.animation = 'hand-drag 1.5s infinite';
+    el.appendChild(hand);
+    el.style.position = 'relative';
+  }
+
   el.addEventListener('pointerdown', e => {
     e.preventDefault();
+    if(isFirst) {
+      const hand = document.getElementById('lf-hand-guide');
+      if(hand) hand.remove();
+    }
     playSfx('pickup');
     el.setPointerCapture(e.pointerId);
     startX = e.clientX; startY = e.clientY;
